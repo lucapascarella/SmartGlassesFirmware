@@ -48,45 +48,66 @@ extern "C" {
     // Section: Type Definitions
     // *****************************************************************************
     // *****************************************************************************
-
     // *****************************************************************************
 
-    /* Application states
+#define MCP9800_BASE_ADDR                       (0x48)
+//#define MCP9800_BASE_ADDR                       (0x90)
 
-      Summary:
-        Application states enumeration
+    // register addresses
 
-      Description:
-        This enumeration defines the valid application states.  These states
-        determine the behavior of the application at various times.
-     */
+    typedef enum _MCP9800_REG_POINTER {
+        MCP9800_AMBIENT = 0,
+        MCP9800_CONFIG = 1,
+        MCP9800_HYSTERESIS = 2,
+        MCP9800_LIMITSET = 3
+    } MCP9800_REG_POINTER;
 
+    typedef union {
+        uint16_t val;
 
+        struct {// LSB
+            uint8_t lsb;
+            uint8_t msb;
+        } bytes;
 
-    // *****************************************************************************
+    } MCP9800_REG_AMBIENT;
 
-    /* Application Data
+    typedef union {
+        uint16_t val;
 
-  Summary:
-    Holds application data
+        struct {// LSB
+            uint8_t lsb;
+            uint8_t msb;
+        } bytes;
 
-  Description:
-    This structure holds the application's data.
+        struct {// LSB
+            uint8_t shutdown : 1; // 1 = Enable, 0 = Disable (Power-up default)
+            uint8_t comp_int : 1; // 1 = Interrupt mode, 0 = Comparator mode (Power-up default)
+            uint8_t alert_polarity : 1; // 1 = Active-high, 0 = Active-low (Power-up default)
+            uint8_t fault_queue : 2; // 00 = 1 (Power-up default), 01 = 2, 10 = 4, 11 = 6
+            uint8_t resolution : 2; // 00 = 9 bit or 0.5°C (Power-up default), 01 = 10 bit or 0.25°C, 10 = 11 bit or 0.125°C, 11 = 12 bit or 0.0625°C
+            uint8_t one_shot : 1; // 1 = Enabled, 0 = Disabled (Power-up default)
+        } bits;
 
-  Remarks:
-    Application strings and buffers are be defined outside this structure.
-     */
+    } MCP9800_REG_CONFIG;
 
+//#define CONFIG_REG                              (1);
+//
+//    // bit definitions for config register
+//#define ONE_SHOT                                (0x80);
+//#define ADC_RES_9BITS                           (0x00);
+//#define ADC_RES_10BITS                          (0x20);
+//#define ADC_RES_11BITS                          (0x40);
+//#define ADC_RES_12BITS                          (0x60);
+//#define FAULT_QUEUE_1                           (0x00);
+//#define FAULT_QUEUE_2                           (0x08);
+//#define FAULT_QUEUE_4                           (0x10);
+//#define FAULT_QUEUE_6                           (0x18);
+//#define ALERT_POLARITY_HIGH                     (0x04);
+//#define INTERRUPT_MODE                          (0x02);
+//#define SHUTDOWN                                (0x01);
 
     typedef struct {
-        /* The application's current state */
-        APP_STATES state;
-
-        /* TODO: Define any additional data used by the application. */
-        DRV_HANDLE handle;
-        DRV_AT24_GEOMETRY geometry;
-        AT24_MEM mem;
-
     } MCP9800_DATA;
 
     // *****************************************************************************
@@ -135,39 +156,6 @@ extern "C" {
      */
 
     void MCP9800_Initialize(void);
-
-
-    /*******************************************************************************
-      Function:
-        void APP_Tasks ( void )
-
-      Summary:
-        MPLAB Harmony Demo application tasks function
-
-      Description:
-        This routine is the Harmony Demo application's tasks function.  It
-        defines the application's state machine and core logic.
-
-      Precondition:
-        The system and application initialization ("SYS_Initialize") should be
-        called before calling this.
-
-      Parameters:
-        None.
-
-      Returns:
-        None.
-
-      Example:
-        <code>
-        APP_Tasks();
-        </code>
-
-      Remarks:
-        This routine must be called from SYS_Tasks() routine.
-     */
-
-    //void APP_Tasks(void);
 
     //DOM-IGNORE-BEGIN
 #ifdef __cplusplus

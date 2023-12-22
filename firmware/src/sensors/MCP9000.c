@@ -28,6 +28,7 @@
 // *****************************************************************************
 
 #include "MCP9000.h"
+#include "configuration.h"
 
 #undef LOG_LEVEL
 #define LOG_LEVEL   LOG_DEBUG
@@ -90,12 +91,48 @@ MCP9800_DATA mcpData;
 
 void MCP9800_Initialize(void) {
     /* Place the App state machine in its initial state. */
-    
 
+    MCP9800_REG_POINTER reg_pointer;
+    MCP9800_REG_CONFIG config = {0};
 
-    /* TODO: Initialize your application's state machine and other
-     * parameters.
-     */
+    while (I2C1_IsBusy()) {
+        vTaskDelay(1U / portTICK_PERIOD_MS);
+    }
+
+    reg_pointer = MCP9800_CONFIG;
+    config.bits.one_shot = true;
+    config.bits.resolution = 0b11u;
+    uint8_t tmp[2];
+    tmp[0] = reg_pointer;
+    tmp[1] = config.bytes.lsb;
+    bool rtn = I2C1_Write(MCP9800_BASE_ADDR, tmp, 2);
+
+    while (I2C1_IsBusy()) {
+        vTaskDelay(1U / portTICK_PERIOD_MS);
+    }
+    I2C_ERROR error = I2C1_ErrorGet();
+
+    memset(&config, 0xFF, sizeof (config));
+    rtn = I2C1_WriteRead(MCP9800_BASE_ADDR, (uint8_t*) & reg_pointer, 1, (uint8_t*) & config, 1);
+    while (I2C1_IsBusy()) {
+        vTaskDelay(1U / portTICK_PERIOD_MS);
+    }
+    error = I2C1_ErrorGet();
+
+    vTaskDelay(1U / portTICK_PERIOD_MS);
+    MCP9800_REG_AMBIENT temperature = {0};
+    reg_pointer = MCP9800_AMBIENT;
+    rtn = I2C1_WriteRead(MCP9800_BASE_ADDR, (uint8_t*) & reg_pointer, 1, (uint8_t*) & temperature, 2);
+    if (rtn) {
+        while (I2C1_IsBusy()) {
+            vTaskDelay(1U / portTICK_PERIOD_MS);
+        }
+        error = I2C1_ErrorGet();
+        //        float temp = 
+        logDebug("Temperature %d.%d C\r\n", temperature.bytes.lsb, temperature.bytes.msb);
+    } else {
+        logFatal("Cannot read temperature\r\n");
+    }
 }
 
 

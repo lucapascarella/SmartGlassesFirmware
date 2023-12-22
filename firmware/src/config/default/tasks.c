@@ -53,6 +53,7 @@
 #include "configuration.h"
 #include "definitions.h"
 #include "sys_tasks.h"
+#include "USB_CDC.h"
 
 
 // *****************************************************************************
@@ -181,7 +182,7 @@ void SYS_Tasks ( void )
 
     /* Maintain the application's state machine. */
         /* Create OS Thread for APP_Tasks. */
-    (void) xTaskCreate((TaskFunction_t) lAPP_Tasks,
+    xTaskCreate((TaskFunction_t) lAPP_Tasks,
                 "APP_Tasks",
                 1024,
                 NULL,
@@ -189,7 +190,12 @@ void SYS_Tasks ( void )
                 &xAPP_Tasks);
 
 
-
+    xTaskCreate((TaskFunction_t) APP_FREERTOS_Tasks,
+                "USB_AttachTask",
+                1024u,
+                NULL,
+                4u,
+                NULL);
 
     /* Start RTOS Scheduler. */
     

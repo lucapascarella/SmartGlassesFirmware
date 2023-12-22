@@ -490,6 +490,7 @@ void SYS_Initialize ( void* data )
     /* MISRAC 2012 deviation block end */
     APP_Initialize();
 
+    APP_FREERTOS_Initialize();
 
     EVIC_Initialize();
 
