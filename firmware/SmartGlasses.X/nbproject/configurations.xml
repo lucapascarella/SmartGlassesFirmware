@@ -7,10 +7,10 @@
       <logicalFolder name="config" displayName="config" projectFiles="true">
         <logicalFolder name="default" displayName="default" projectFiles="true">
           <logicalFolder name="driver" displayName="driver" projectFiles="true">
-            <logicalFolder name="at24" displayName="at24" projectFiles="true">
-              <itemPath>../src/config/default/driver/at24/drv_at24_definitions.h</itemPath>
-              <itemPath>../src/config/default/driver/at24/drv_at24.h</itemPath>
-              <itemPath>../src/config/default/driver/at24/src/drv_at24_local.h</itemPath>
+            <logicalFolder name="i2c" displayName="i2c" projectFiles="true">
+              <itemPath>../src/config/default/driver/i2c/src/drv_i2c_local.h</itemPath>
+              <itemPath>../src/config/default/driver/i2c/drv_i2c.h</itemPath>
+              <itemPath>../src/config/default/driver/i2c/drv_i2c_definitions.h</itemPath>
             </logicalFolder>
             <logicalFolder name="memory" displayName="memory" projectFiles="true">
               <itemPath>../src/config/default/driver/memory/src/drv_memory_local.h</itemPath>
@@ -156,10 +156,6 @@
               <itemPath>../src/config/default/system/int/sys_int_mapping.h</itemPath>
               <itemPath>../src/config/default/system/int/sys_int.h</itemPath>
             </logicalFolder>
-            <logicalFolder name="ports" displayName="ports" projectFiles="true">
-              <itemPath>../src/config/default/system/ports/sys_ports.h</itemPath>
-              <itemPath>../src/config/default/system/ports/sys_ports_mapping.h</itemPath>
-            </logicalFolder>
             <logicalFolder name="reset" displayName="reset" projectFiles="true">
               <itemPath>../src/config/default/system/reset/sys_reset.h</itemPath>
             </logicalFolder>
@@ -234,10 +230,18 @@
       </logicalFolder>
       <logicalFolder name="f1" displayName="sensors" projectFiles="true">
         <itemPath>../src/sensors/MCP9000.h</itemPath>
+        <itemPath>../src/sensors/vl53l5cx_api.h</itemPath>
+        <itemPath>../src/sensors/platform.h</itemPath>
+        <itemPath>../src/sensors/vl53l5cx_buffers.h</itemPath>
+        <itemPath>../src/sensors/vl53l5cx_plugin_xtalk.h</itemPath>
+        <itemPath>../src/sensors/vl53l5cx_plugin_detection_thresholds.h</itemPath>
+        <itemPath>../src/sensors/vl53l5cx_plugin_motion_indicator.h</itemPath>
       </logicalFolder>
       <itemPath>../src/app.h</itemPath>
       <itemPath>../src/log.h</itemPath>
-      <itemPath>../src/USB_CDC.h</itemPath>
+      <itemPath>../src/cdc.h</itemPath>
+      <itemPath>../src/mlx90640.h</itemPath>
+      <itemPath>../src/vl53l5cx.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -254,8 +258,8 @@
       <logicalFolder name="config" displayName="config" projectFiles="true">
         <logicalFolder name="default" displayName="default" projectFiles="true">
           <logicalFolder name="driver" displayName="driver" projectFiles="true">
-            <logicalFolder name="at24" displayName="at24" projectFiles="true">
-              <itemPath>../src/config/default/driver/at24/src/drv_at24.c</itemPath>
+            <logicalFolder name="i2c" displayName="i2c" projectFiles="true">
+              <itemPath>../src/config/default/driver/i2c/src/drv_i2c.c</itemPath>
             </logicalFolder>
             <logicalFolder name="memory" displayName="memory" projectFiles="true">
               <itemPath>../src/config/default/driver/memory/src/drv_memory.c</itemPath>
@@ -380,7 +384,7 @@
         <logicalFolder name="Source" displayName="Source" projectFiles="true">
           <logicalFolder name="portable" displayName="portable" projectFiles="true">
             <logicalFolder name="MemMang" displayName="MemMang" projectFiles="true">
-              <itemPath>../src/third_party/rtos/FreeRTOS/Source/portable/MemMang/heap_1.c</itemPath>
+              <itemPath>../src/third_party/rtos/FreeRTOS/Source/portable/MemMang/heap_3.c</itemPath>
             </logicalFolder>
             <logicalFolder name="MPLAB" displayName="MPLAB" projectFiles="true">
               <logicalFolder name="PIC32MZ" displayName="PIC32MZ" projectFiles="true">
@@ -400,10 +404,17 @@
       </logicalFolder>
       <logicalFolder name="f1" displayName="sensors" projectFiles="true">
         <itemPath>../src/sensors/MCP9000.c</itemPath>
+        <itemPath>../src/sensors/vl53l5cx_api.c</itemPath>
+        <itemPath>../src/sensors/platform.c</itemPath>
+        <itemPath>../src/sensors/vl53l5cx_plugin_xtalk.c</itemPath>
+        <itemPath>../src/sensors/vl53l5cx_plugin_detection_thresholds.c</itemPath>
+        <itemPath>../src/sensors/vl53l5cx_plugin_motion_indicator.c</itemPath>
       </logicalFolder>
       <itemPath>../src/app.cpp</itemPath>
       <itemPath>../src/main.cpp</itemPath>
-      <itemPath>../src/USB_CDC.cpp</itemPath>
+      <itemPath>../src/cdc.cpp</itemPath>
+      <itemPath>../src/mlx90640.cpp</itemPath>
+      <itemPath>../src/vl53l5cx.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -540,7 +551,7 @@
         <property key="generate-16-bit-code" value="false"/>
         <property key="generate-cross-reference-file" value="false"/>
         <property key="generate-micro-compressed-code" value="false"/>
-        <property key="heap-size" value="1024"/>
+        <property key="heap-size" value="50000"/>
         <property key="input-libraries" value=""/>
         <property key="kseg-length" value=""/>
         <property key="kseg-origin" value=""/>
@@ -555,7 +566,7 @@
         <property key="report-memory-usage" value="false"/>
         <property key="serial-length" value=""/>
         <property key="serial-origin" value=""/>
-        <property key="stack-size" value=""/>
+        <property key="stack-size" value="1024"/>
         <property key="symbol-stripping" value=""/>
         <property key="trace-symbols" value=""/>
         <property key="warn-section-align" value="false"/>
@@ -604,6 +615,132 @@
         <property key="stack-smashing" value=""/>
         <property key="wpo-lto" value="false"/>
       </C32Global>
+      <ICD5Tool>
+        <property key="ADC" value="true"/>
+        <property key="AutoSelectMemRanges" value="auto"/>
+        <property key="CAN1" value="true"/>
+        <property key="CAN2" value="true"/>
+        <property key="CHANGE NOTICE B" value="true"/>
+        <property key="CHANGE NOTICE C" value="true"/>
+        <property key="CHANGE NOTICE D" value="true"/>
+        <property key="CHANGE NOTICE E" value="true"/>
+        <property key="CHANGE NOTICE F" value="true"/>
+        <property key="CHANGE NOTICE G" value="true"/>
+        <property key="COMPARATOR" value="true"/>
+        <property key="DMA" value="true"/>
+        <property key="ETHERNET CONTROLLER" value="true"/>
+        <property key="Freeze All Other Peripherals" value="true"/>
+        <property key="I2C 1" value="true"/>
+        <property key="I2C 3" value="true"/>
+        <property key="I2C 4" value="true"/>
+        <property key="I2C 5" value="true"/>
+        <property key="INPUT CAPTURE 1" value="true"/>
+        <property key="INPUT CAPTURE 2" value="true"/>
+        <property key="INPUT CAPTURE 3" value="true"/>
+        <property key="INPUT CAPTURE 4" value="true"/>
+        <property key="INPUT CAPTURE 5" value="true"/>
+        <property key="INPUT CAPTURE 6" value="true"/>
+        <property key="INPUT CAPTURE 7" value="true"/>
+        <property key="INPUT CAPTURE 8" value="true"/>
+        <property key="INPUT CAPTURE 9" value="true"/>
+        <property key="INTERRUPT CONTROL" value="true"/>
+        <property key="OUTPUT COMPARE 1" value="true"/>
+        <property key="OUTPUT COMPARE 2" value="true"/>
+        <property key="OUTPUT COMPARE 3" value="true"/>
+        <property key="OUTPUT COMPARE 4" value="true"/>
+        <property key="OUTPUT COMPARE 5" value="true"/>
+        <property key="OUTPUT COMPARE 6" value="true"/>
+        <property key="OUTPUT COMPARE 7" value="true"/>
+        <property key="OUTPUT COMPARE 8" value="true"/>
+        <property key="OUTPUT COMPARE 9" value="true"/>
+        <property key="PARALLEL MASTER/SLAVE PORT" value="true"/>
+        <property key="REAL TIME CLOCK" value="true"/>
+        <property key="REFERENCE CLOCK1" value="true"/>
+        <property key="REFERENCE CLOCK2" value="true"/>
+        <property key="REFERENCE CLOCK3" value="true"/>
+        <property key="REFERENCE CLOCK4" value="true"/>
+        <property key="SPI/I2S 1" value="true"/>
+        <property key="SPI/I2S 2" value="true"/>
+        <property key="SPI/I2S 3" value="true"/>
+        <property key="SPI/I2S 4" value="true"/>
+        <property key="SecureSegment.SegmentProgramming" value="FullChipProgramming"/>
+        <property key="TIMER1" value="true"/>
+        <property key="TIMER2" value="true"/>
+        <property key="TIMER3" value="true"/>
+        <property key="TIMER4" value="true"/>
+        <property key="TIMER5" value="true"/>
+        <property key="TIMER6" value="true"/>
+        <property key="TIMER7" value="true"/>
+        <property key="TIMER8" value="true"/>
+        <property key="TIMER9" value="true"/>
+        <property key="ToolFirmwareFilePath"
+                  value="Press to browse for a specific firmware version"/>
+        <property key="ToolFirmwareOption.UpdateOptions"
+                  value="ToolFirmwareOption.UseLatest"/>
+        <property key="ToolFirmwareToolPack"
+                  value="Press to select which tool pack to use"/>
+        <property key="UART1" value="true"/>
+        <property key="UART2" value="true"/>
+        <property key="UART3" value="true"/>
+        <property key="UART4" value="true"/>
+        <property key="UART5" value="true"/>
+        <property key="UART6" value="true"/>
+        <property key="communication.activationmode" value="nohv"/>
+        <property key="communication.interface"
+                  value="${communication.interface.default}"/>
+        <property key="communication.interface.jtag" value="2wire"/>
+        <property key="communication.speed" value="${communication.speed.default}"/>
+        <property key="debugoptions.debug-startup" value="Use system settings"/>
+        <property key="debugoptions.reset-behaviour" value="Use system settings"/>
+        <property key="debugoptions.simultaneous.debug" value="false"/>
+        <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="event.recorder.enabled" value="false"/>
+        <property key="event.recorder.scvd.files" value=""/>
+        <property key="hwtoolclock.clock.frequency" value="4"/>
+        <property key="hwtoolclock.frcindebug" value="false"/>
+        <property key="lastid" value=""/>
+        <property key="memories.aux" value="false"/>
+        <property key="memories.bootflash" value="true"/>
+        <property key="memories.configurationmemory" value="true"/>
+        <property key="memories.configurationmemory2" value="true"/>
+        <property key="memories.dataflash" value="true"/>
+        <property key="memories.eeprom" value="true"/>
+        <property key="memories.exclude.configurationmemory" value="true"/>
+        <property key="memories.flashdata" value="true"/>
+        <property key="memories.id" value="true"/>
+        <property key="memories.instruction.ram.ranges"
+                  value="${memories.instruction.ram.ranges}"/>
+        <property key="memories.programmemory" value="true"/>
+        <property key="memories.programmemory.ranges" value="1d000000-1d1fffff"/>
+        <property key="poweroptions.powerenable" value="false"/>
+        <property key="programmerToGoFilePath"
+                  value="C:/Users/lucap/MPLABXProjects/SmartGlasses/firmware/SmartGlasses.X/debug/default/SmartGlasses_ptg"/>
+        <property key="programoptions.donoteraseauxmem" value="false"/>
+        <property key="programoptions.eraseb4program" value="true"/>
+        <property key="programoptions.pgcconfig" value="pull down"/>
+        <property key="programoptions.pgcresistor.value" value="4.7"/>
+        <property key="programoptions.pgdconfig" value="pull down"/>
+        <property key="programoptions.pgdresistor.value" value="4.7"/>
+        <property key="programoptions.pgmentry.voltage" value="low"/>
+        <property key="programoptions.pgmspeed" value="Max"/>
+        <property key="programoptions.preservedataflash" value="false"/>
+        <property key="programoptions.preservedataflash.ranges"
+                  value="${memories.dataflash.default}"/>
+        <property key="programoptions.preserveeeprom" value="false"/>
+        <property key="programoptions.preserveeeprom.ranges" value=""/>
+        <property key="programoptions.preserveprogram.ranges" value=""/>
+        <property key="programoptions.preserveprogramrange" value="false"/>
+        <property key="programoptions.preserveuserid" value="false"/>
+        <property key="programoptions.program.otpconfig" value="false"/>
+        <property key="programoptions.programcalmem" value="false"/>
+        <property key="programoptions.programuserotp" value="false"/>
+        <property key="programoptions.testmodeentrymethod" value="VDDFirst"/>
+        <property key="toolpack.updateoptions"
+                  value="toolpack.updateoptions.uselatestoolpack"/>
+        <property key="toolpack.updateoptions.packversion"
+                  value="Press to select which tool pack to use"/>
+        <property key="voltagevalue" value="3.25"/>
+      </ICD5Tool>
       <RealICEPlatformTool>
         <property key="ADC" value="true"/>
         <property key="AutoSelectMemRanges" value="auto"/>
@@ -803,7 +940,9 @@
         <property key="UART4" value="true"/>
         <property key="UART5" value="true"/>
         <property key="UART6" value="true"/>
-        <property key="communication.interface" value=""/>
+        <property key="communication.activationmode" value="nohv"/>
+        <property key="communication.interface"
+                  value="${communication.interface.default}"/>
         <property key="communication.interface.jtag" value="2wire"/>
         <property key="communication.speed" value="${communication.speed.default}"/>
         <property key="debugoptions.debug-startup" value="Use system settings"/>
@@ -814,6 +953,7 @@
         <property key="event.recorder.scvd.files" value=""/>
         <property key="firmware.download.all" value="false"/>
         <property key="freeze.timers" value="false"/>
+        <property key="hwtoolclock.clock.frequency" value="4"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="hwtoolclock.instructionspeed" value="4"/>
         <property key="hwtoolclock.units" value="mips"/>
@@ -835,15 +975,21 @@
         <property key="poweroptions.powerenable" value="false"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
+        <property key="programoptions.pgcconfig" value="pull down"/>
+        <property key="programoptions.pgcresistor.value" value="4.7"/>
+        <property key="programoptions.pgdconfig" value="pull down"/>
+        <property key="programoptions.pgdresistor.value" value="4.7"/>
         <property key="programoptions.pgmentry.voltage" value="low"/>
-        <property key="programoptions.pgmspeed" value="Med"/>
+        <property key="programoptions.pgmspeed" value="Max"/>
         <property key="programoptions.preservedataflash" value="false"/>
-        <property key="programoptions.preservedataflash.ranges" value=""/>
+        <property key="programoptions.preservedataflash.ranges"
+                  value="${memories.dataflash.default}"/>
         <property key="programoptions.preserveeeprom" value="false"/>
         <property key="programoptions.preserveeeprom.ranges" value=""/>
         <property key="programoptions.preserveprogram.ranges" value=""/>
         <property key="programoptions.preserveprogramrange" value="false"/>
         <property key="programoptions.preserveuserid" value="false"/>
+        <property key="programoptions.program.otpconfig" value="false"/>
         <property key="programoptions.programcalmem" value="false"/>
         <property key="programoptions.programuserotp" value="false"/>
         <property key="programoptions.testmodeentrymethod" value="VDDFirst"/>

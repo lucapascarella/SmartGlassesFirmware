@@ -150,8 +150,17 @@ extern "C" {
 // Section: Driver Configuration
 // *****************************************************************************
 // *****************************************************************************
+/* I2C Driver Instance 0 Configuration Options */
+#define DRV_I2C_INDEX_0                       0
+#define DRV_I2C_CLIENTS_NUMBER_IDX0           2
+#define DRV_I2C_CLOCK_SPEED_IDX0              400000
+
 /* Memory Driver Global Configuration Options */
 #define DRV_MEMORY_INSTANCES_NUMBER          (1U)
+/* I2C Driver Common Configuration Options */
+#define DRV_I2C_INSTANCES_NUMBER              (1U)
+
+
 
 /* Memory Driver Instance 0 Configuration */
 #define DRV_MEMORY_INDEX_0                   0
@@ -161,16 +170,6 @@ extern "C" {
 #define DRV_MEMORY_PRIORITY_IDX0                 1
 #define DRV_MEMORY_RTOS_DELAY_IDX0               10U
 
-/* AT24 Driver Configuration Options */
-
-
-#define DRV_AT24_INSTANCES_NUMBER              (1U)
-#define DRV_AT24_INDEX                         (0)
-#define DRV_AT24_CLIENTS_NUMBER_IDX            (1)
-#define DRV_AT24_INT_SRC_IDX                   (I2C1_IRQn)
-#define DRV_AT24_EEPROM_FLASH_SIZE             (32768)
-#define DRV_AT24_EEPROM_PAGE_SIZE              (64)
-#define DRV_AT24_WRITE_BUFFER_SIZE             (66)
 /* SST26 Driver Instance Configuration */
 #define DRV_SST26_INDEX                 (0U)
 #define DRV_SST26_CLIENTS_NUMBER        (1U)

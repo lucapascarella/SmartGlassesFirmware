@@ -60,6 +60,15 @@
 /* Declaration of  APP_Tasks task handle */
 extern TaskHandle_t xAPP_Tasks;
 
+/* Declaration of  CDC_Tasks task handle */
+extern TaskHandle_t xCDC_Tasks;
+
+/* Declaration of  VL53L5CX_Tasks task handle */
+extern TaskHandle_t xVL53L5CX_Tasks;
+
+/* Declaration of  MLX90640_Tasks task handle */
+extern TaskHandle_t xMLX90640_Tasks;
+
 
 /* Declaration of SYS_COMMAND task handle */
 extern TaskHandle_t xSYS_CMD_Tasks;

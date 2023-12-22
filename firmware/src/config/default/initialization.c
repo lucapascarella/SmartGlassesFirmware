@@ -122,16 +122,54 @@
 /* MISRA C-2012 Rule 11.1 */
 /* MISRA C-2012 Rule 11.3 */
 /* MISRA C-2012 Rule 11.8 */
-// <editor-fold defaultstate="collapsed" desc="DRV_SST26 Initialization Data">
+// <editor-fold defaultstate="collapsed" desc="DRV_I2C Instance 0 Initialization Data">
 
-static const DRV_SST26_PLIB_INTERFACE drvSST26PlibAPI = {
-    .DMATransfer       = SQI1_DMATransfer,
-    .RegisterCallback  = SQI1_RegisterCallback,
+/* I2C Client Objects Pool */
+static DRV_I2C_CLIENT_OBJ drvI2C0ClientObjPool[DRV_I2C_CLIENTS_NUMBER_IDX0];
+
+/* I2C PLib Interface Initialization */
+static const DRV_I2C_PLIB_INTERFACE drvI2C0PLibAPI = {
+
+    /* I2C PLib Transfer Read Add function */
+    .read_t = (DRV_I2C_PLIB_READ)I2C1_Read,
+
+    /* I2C PLib Transfer Write Add function */
+    .write_t = (DRV_I2C_PLIB_WRITE)I2C1_Write,
+
+    /* I2C PLib Transfer Forced Write Add function */
+    .writeForced = (DRV_I2C_PLIB_WRITE)I2C1_WriteForced,
+
+    /* I2C PLib Transfer Write Read Add function */
+    .writeRead = (DRV_I2C_PLIB_WRITE_READ)I2C1_WriteRead,
+
+    /*I2C PLib Transfer Abort function */
+    .transferAbort = (DRV_I2C_PLIB_TRANSFER_ABORT)I2C1_TransferAbort,
+
+    /* I2C PLib Transfer Status function */
+    .errorGet = (DRV_I2C_PLIB_ERROR_GET)I2C1_ErrorGet,
+
+    /* I2C PLib Transfer Setup function */
+    .transferSetup = (DRV_I2C_PLIB_TRANSFER_SETUP)I2C1_TransferSetup,
+
+    /* I2C PLib Callback Register */
+    .callbackRegister = (DRV_I2C_PLIB_CALLBACK_REGISTER)I2C1_CallbackRegister,
 };
 
-static const DRV_SST26_INIT drvSST26InitData =
+
+/* I2C Driver Initialization Data */
+static const DRV_I2C_INIT drvI2C0InitData =
 {
-    .sst26Plib      = &drvSST26PlibAPI,
+    /* I2C PLib API */
+    .i2cPlib = &drvI2C0PLibAPI,
+
+    /* I2C Number of clients */
+    .numClients = DRV_I2C_CLIENTS_NUMBER_IDX0,
+
+    /* I2C Client Objects Pool */
+    .clientObjPool = (uintptr_t)&drvI2C0ClientObjPool[0],
+
+    /* I2C Clock Speed */
+    .clockSpeed = DRV_I2C_CLOCK_SPEED_IDX0,
 };
 // </editor-fold>
 
@@ -167,51 +205,19 @@ static const DRV_MEMORY_INIT drvMemory0InitData =
 };
 
 // </editor-fold>
-// <editor-fold defaultstate="collapsed" desc="DRV_AT24 Initialization Data">
+// <editor-fold defaultstate="collapsed" desc="DRV_SST26 Initialization Data">
 
-/* I2C PLIB Interface Initialization for AT24 Driver */
-static const DRV_AT24_PLIB_INTERFACE drvAT24PlibAPI = {
-
-    /* I2C PLIB WriteRead function */
-    .writeRead = (DRV_AT24_PLIB_WRITE_READ)I2C1_WriteRead,
-
-    /* I2C PLIB Write function */
-    .write_t = (DRV_AT24_PLIB_WRITE)I2C1_Write,
-
-    /* I2C PLIB Read function */
-    .read_t = (DRV_AT24_PLIB_READ)I2C1_Read,
-
-    /* I2C PLIB Transfer Status function */
-    .isBusy = (DRV_AT24_PLIB_IS_BUSY)I2C1_IsBusy,
-
-    /* I2C PLIB Error Status function */
-    .errorGet = (DRV_AT24_PLIB_ERROR_GET)I2C1_ErrorGet,
-
-    /* I2C PLIB Callback Register */
-    .callbackRegister = (DRV_AT24_PLIB_CALLBACK_REGISTER)I2C1_CallbackRegister,
+static const DRV_SST26_PLIB_INTERFACE drvSST26PlibAPI = {
+    .DMATransfer       = SQI1_DMATransfer,
+    .RegisterCallback  = SQI1_RegisterCallback,
 };
 
-/* AT24 Driver Initialization Data */
-static const DRV_AT24_INIT drvAT24InitData =
+static const DRV_SST26_INIT drvSST26InitData =
 {
-    /* I2C PLIB API  interface*/
-    .i2cPlib = &drvAT24PlibAPI,
-
-    /* 7-bit I2C Slave address */
-    .slaveAddress = 0x50,
-
-    /* EEPROM Page Size in bytes */
-    .pageSize = DRV_AT24_EEPROM_PAGE_SIZE,
-
-    /* Total size of the EEPROM in bytes */
-    .flashSize = DRV_AT24_EEPROM_FLASH_SIZE,
-
-    /* AT24 Number of clients */
-    .numClients = DRV_AT24_CLIENTS_NUMBER_IDX,
-
-    .blockStartAddress =    0x0,
+    .sst26Plib      = &drvSST26PlibAPI,
 };
 // </editor-fold>
+
 
 
 
@@ -325,23 +331,6 @@ static const SYS_FS_REGISTRATION_TABLE sysFSInit [ SYS_FS_MAX_FILE_SYSTEM_TYPE ]
 // Section: System Initialization
 // *****************************************************************************
 // *****************************************************************************
-
-const SYS_CMD_INIT sysCmdInit =
-{
-    .moduleInit = {0},
-    .consoleCmdIOParam = SYS_CMD_SINGLE_CHARACTER_READ_CONSOLE_IO_PARAM,
-	.consoleIndex = 0,
-};
-
-
-static const SYS_DEBUG_INIT debugInit =
-{
-    .moduleInit = {0},
-    .errorLevel = SYS_DEBUG_GLOBAL_ERROR_LEVEL,
-    .consoleIndex = 0,
-};
-
-
 // <editor-fold defaultstate="collapsed" desc="SYS_TIME Initialization Data">
 
 static const SYS_TIME_PLIB_INTERFACE sysTimePlibAPI = {
@@ -387,6 +376,23 @@ static const SYS_CONSOLE_INIT sysConsole0Init =
 
 
 // </editor-fold>
+
+
+const SYS_CMD_INIT sysCmdInit =
+{
+    .moduleInit = {0},
+    .consoleCmdIOParam = SYS_CMD_SINGLE_CHARACTER_READ_CONSOLE_IO_PARAM,
+	.consoleIndex = 0,
+};
+
+
+static const SYS_DEBUG_INIT debugInit =
+{
+    .moduleInit = {0},
+    .errorLevel = SYS_DEBUG_GLOBAL_ERROR_LEVEL,
+    .consoleIndex = 0,
+};
+
 
 
 
@@ -447,36 +453,38 @@ void SYS_Initialize ( void* data )
 
     RTCC_Initialize();
 
+
     /* MISRAC 2012 deviation block start */
     /* Following MISRA-C rules deviated in this block  */
     /* MISRA C-2012 Rule 11.3 - Deviation record ID - H3_MISRAC_2012_R_11_3_DR_1 */
     /* MISRA C-2012 Rule 11.8 - Deviation record ID - H3_MISRAC_2012_R_11_8_DR_1 */
 
-    sysObj.drvSST26 = DRV_SST26_Initialize((SYS_MODULE_INDEX)DRV_SST26_INDEX, (SYS_MODULE_INIT *)&drvSST26InitData);
+    /* Initialize I2C0 Driver Instance */
+    sysObj.drvI2C0 = DRV_I2C_Initialize(DRV_I2C_INDEX_0, (SYS_MODULE_INIT *)&drvI2C0InitData);
 
 
     sysObj.drvMemory0 = DRV_MEMORY_Initialize((SYS_MODULE_INDEX)DRV_MEMORY_INDEX_0, (SYS_MODULE_INIT *)&drvMemory0InitData);
 
-    sysObj.drvAT24 = DRV_AT24_Initialize(DRV_AT24_INDEX, (SYS_MODULE_INIT *)&drvAT24InitData);
+    sysObj.drvSST26 = DRV_SST26_Initialize((SYS_MODULE_INDEX)DRV_SST26_INDEX, (SYS_MODULE_INIT *)&drvSST26InitData);
 
 
+    /* MISRA C-2012 Rule 11.3, 11.8 deviated below. Deviation record ID -  
+     H3_MISRAC_2012_R_11_3_DR_1 & H3_MISRAC_2012_R_11_8_DR_1*/
+        
+    sysObj.sysTime = SYS_TIME_Initialize(SYS_TIME_INDEX_0, (SYS_MODULE_INIT *)&sysTimeInitData);
+
+    /* MISRAC 2012 deviation block end */
+    /* MISRA C-2012 Rule 11.3, 11.8 deviated below. Deviation record ID -  
+    H3_MISRAC_2012_R_11_3_DR_1 & H3_MISRAC_2012_R_11_8_DR_1*/
+        sysObj.sysConsole0 = SYS_CONSOLE_Initialize(SYS_CONSOLE_INDEX_0, (SYS_MODULE_INIT *)&sysConsole0Init);
+   /* MISRAC 2012 deviation block end */
     SYS_CMD_Initialize((SYS_MODULE_INIT*)&sysCmdInit);
-
+        
     /* MISRA C-2012 Rule 11.3, 11.8 deviated below. Deviation record ID -  
      H3_MISRAC_2012_R_11_3_DR_1 & H3_MISRAC_2012_R_11_8_DR_1*/
         
     sysObj.sysDebug = SYS_DEBUG_Initialize(SYS_DEBUG_INDEX_0, (SYS_MODULE_INIT*)&debugInit);
 
-    /* MISRAC 2012 deviation block end */
-    /* MISRA C-2012 Rule 11.3, 11.8 deviated below. Deviation record ID -  
-    H3_MISRAC_2012_R_11_3_DR_1 & H3_MISRAC_2012_R_11_8_DR_1*/
-        
-    sysObj.sysTime = SYS_TIME_Initialize(SYS_TIME_INDEX_0, (SYS_MODULE_INIT *)&sysTimeInitData);
-    
-    /* MISRAC 2012 deviation block end */
-    /* MISRA C-2012 Rule 11.3, 11.8 deviated below. Deviation record ID -  
-     H3_MISRAC_2012_R_11_3_DR_1 & H3_MISRAC_2012_R_11_8_DR_1*/
-        sysObj.sysConsole0 = SYS_CONSOLE_Initialize(SYS_CONSOLE_INDEX_0, (SYS_MODULE_INIT *)&sysConsole0Init);
    /* MISRAC 2012 deviation block end */
 
 
@@ -493,8 +501,10 @@ void SYS_Initialize ( void* data )
 
     /* MISRAC 2012 deviation block end */
     APP_Initialize();
+    CDC_Initialize();
+    VL53L5CX_Initialize();
+    MLX90640_Initialize();
 
-    APP_FREERTOS_Initialize();
 
     EVIC_Initialize();
 

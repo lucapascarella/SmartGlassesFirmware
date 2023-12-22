@@ -5,7 +5,7 @@
     Microchip Technology Inc.
 
   File Name:
-    app.c
+    mlx90640.c
 
   Summary:
     This file contains the source code for the MPLAB Harmony application.
@@ -27,8 +27,7 @@
 // *****************************************************************************
 // *****************************************************************************
 
-#include "MCP9000.h"
-#include "configuration.h"
+#include "mlx90640.h"
 
 #undef LOG_LEVEL
 #define LOG_LEVEL   LOG_DEBUG
@@ -50,12 +49,12 @@
     This structure holds the application's data.
 
   Remarks:
-    This structure should be initialized by the APP_Initialize function.
+    This structure should be initialized by the MLX90640_Initialize function.
 
     Application strings and buffers are be defined outside this structure.
  */
 
-MCP9800_DATA mcpData;
+MLX90640_DATA mlx90640Data;
 
 // *****************************************************************************
 // *****************************************************************************
@@ -63,6 +62,8 @@ MCP9800_DATA mcpData;
 // *****************************************************************************
 // *****************************************************************************
 
+/* TODO:  Add any necessary callback functions.
+ */
 
 // *****************************************************************************
 // *****************************************************************************
@@ -83,94 +84,64 @@ MCP9800_DATA mcpData;
 
 /*******************************************************************************
   Function:
-    void APP_Initialize ( void )
+    void MLX90640_Initialize ( void )
 
   Remarks:
-    See prototype in app.h.
+    See prototype in mlx90640.h.
  */
 
-void MCP9800_Initialize(void) {
+void MLX90640_Initialize(void) {
+    /* Place the App state machine in its initial state. */
+    mlx90640Data.state = MLX90640_STATE_INIT;
 
-    MCP9800_REG_POINTER reg_pointer;
-    MCP9800_REG_CONFIG config = {0};
-    MCP9800_REG_AMBIENT temperature = {0};
 
-    DRV_HANDLE drvI2CHandle = DRV_HANDLE_INVALID;
-    drvI2CHandle = DRV_I2C_Open(DRV_I2C_INDEX_0, DRV_IO_INTENT_READWRITE);
-    if (drvI2CHandle != DRV_HANDLE_INVALID) {
 
-        reg_pointer = MCP9800_CONFIG;
-        config.bits.one_shot = true;
-        config.bits.resolution = 0b11u;
-        uint8_t tmp[2];
-        tmp[0] = reg_pointer;
-        tmp[1] = config.bytes.lsb;
+    /* TODO: Initialize your application's state machine and other
+     * parameters.
+     */
+}
 
-        if (DRV_I2C_WriteTransfer(drvI2CHandle, MCP9800_BASE_ADDR, tmp, 2)) {
-            logDebug("MCP9800 write config\r\n");
-            config.val = 0;
-            if (DRV_I2C_WriteReadTransfer(drvI2CHandle, MCP9800_BASE_ADDR, (uint8_t*) & reg_pointer, 1, (uint8_t*) & config, 1)) {
-                logDebug("MCP9800 resolution %d\r\n", config.bits.resolution);
-                reg_pointer = MCP9800_AMBIENT;
-                if (DRV_I2C_WriteReadTransfer(drvI2CHandle, MCP9800_BASE_ADDR, (uint8_t*) & reg_pointer, 1, (uint8_t*) & temperature, 2)) {
-                    float temp = temperature.bytes.lsb + temperature.bytes.msb / 10.0;
-                    logDebug("Temperature %d.%d C, %.2f C\r\n", temperature.bytes.lsb, temperature.bytes.msb, temp);
-                } else {
-                    logFatal("Cannot read I2C_DRV\r\n");
-                }
-            } else {
-                logFatal("Cannot write/read I2C_DRV\r\n");
+/******************************************************************************
+  Function:
+    void MLX90640_Tasks ( void )
+
+  Remarks:
+    See prototype in mlx90640.h.
+ */
+
+void MLX90640_Tasks(void) {
+
+    /* Check the application's current state. */
+    switch (mlx90640Data.state) {
+            /* Application's initial state. */
+        case MLX90640_STATE_INIT:
+        {
+            bool appInitialized = true;
+
+
+            if (appInitialized) {
+
+                mlx90640Data.state = MLX90640_STATE_SERVICE_TASKS;
             }
-        } else {
-            logFatal("Cannot write I2C_DRV\r\n");
+            break;
         }
-    } else {
-        logFatal("Cannot open I2C_DRV\r\n");
+
+        case MLX90640_STATE_SERVICE_TASKS:
+        {
+            vTaskDelay(100U / portTICK_PERIOD_MS);
+            break;
+        }
+
+            /* TODO: implement your application state machine.*/
+
+
+            /* The default state should never be executed. */
+        default:
+        {
+            /* TODO: Handle error in application's state machine. */
+            break;
+        }
     }
-
-    //    MCP9800_REG_POINTER reg_pointer;
-    //    MCP9800_REG_CONFIG config = {0};
-    //
-    //    while (I2C1_IsBusy()) {
-    //        vTaskDelay(1U / portTICK_PERIOD_MS);
-    //    }
-    //
-    //    reg_pointer = MCP9800_CONFIG;
-    //    config.bits.one_shot = true;
-    //    config.bits.resolution = 0b11u;
-    //    uint8_t tmp[2];
-    //    tmp[0] = reg_pointer;
-    //    tmp[1] = config.bytes.lsb;
-    //    bool rtn = I2C1_Write(MCP9800_BASE_ADDR, tmp, 2);
-    //
-    //    while (I2C1_IsBusy()) {
-    //        vTaskDelay(1U / portTICK_PERIOD_MS);
-    //    }
-    //    I2C_ERROR error = I2C1_ErrorGet();
-    //
-    //    memset(&config, 0xFF, sizeof (config));
-    //    rtn = I2C1_WriteRead(MCP9800_BASE_ADDR, (uint8_t*) & reg_pointer, 1, (uint8_t*) & config, 1);
-    //    while (I2C1_IsBusy()) {
-    //        vTaskDelay(1U / portTICK_PERIOD_MS);
-    //    }
-    //    error = I2C1_ErrorGet();
-    //
-    //    vTaskDelay(1U / portTICK_PERIOD_MS);
-    //    MCP9800_REG_AMBIENT temperature = {0};
-    //    reg_pointer = MCP9800_AMBIENT;
-    //    rtn = I2C1_WriteRead(MCP9800_BASE_ADDR, (uint8_t*) & reg_pointer, 1, (uint8_t*) & temperature, 2);
-    //    if (rtn) {
-    //        while (I2C1_IsBusy()) {
-    //            vTaskDelay(1U / portTICK_PERIOD_MS);
-    //        }
-    //        error = I2C1_ErrorGet();
-    //        //        float temp = 
-    //        logDebug("Temperature %d.%d C\r\n", temperature.bytes.lsb, temperature.bytes.msb);
-    //    } else {
-    //        logFatal("Cannot read temperature\r\n");
-    //    }
-
-
 }
 
 

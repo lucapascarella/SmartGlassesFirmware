@@ -60,8 +60,8 @@ void OCMP5_Initialize (void)
 
     OC5CON = 0xe;
 
-    OC5R = 2000;
-    OC5RS = 2000;
+    OC5R = 3125;
+    OC5RS = 3125;
 
 }
 

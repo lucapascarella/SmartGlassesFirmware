@@ -60,8 +60,8 @@ void OCMP3_Initialize (void)
 
     OC3CON = 0xe;
 
-    OC3R = 2000;
-    OC3RS = 2000;
+    OC3R = 3125;
+    OC3RS = 3125;
 
 }
 

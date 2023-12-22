@@ -64,32 +64,8 @@ APP_DATA appData;
 // *****************************************************************************
 // *****************************************************************************
 
-void ToF_Left_INT1_Handler(EXTERNAL_INT_PIN pin, uintptr_t context) {
 
-}
 
-void ToF_Right_INT2_Handler(EXTERNAL_INT_PIN pin, uintptr_t context) {
-
-}
-
-void transferEventHandler(DRV_AT24_TRANSFER_STATUS event, uintptr_t context) {
-    // The context handle was set to an application specific object.
-    // It is now retrievable easily in the event handler.
-    AT24_MEM * mem = (AT24_MEM *) context;
-
-    switch (event) {
-        case DRV_AT24_TRANSFER_STATUS_COMPLETED:
-            mem->done = true;
-            break;
-
-        case DRV_AT24_TRANSFER_STATUS_ERROR:
-            mem->error = true;
-            break;
-
-        default:
-            break;
-    }
-}
 
 // *****************************************************************************
 // *****************************************************************************
@@ -119,7 +95,6 @@ void transferEventHandler(DRV_AT24_TRANSFER_STATUS event, uintptr_t context) {
 void APP_Initialize(void) {
     /* Place the App state machine in its initial state. */
     appData.state = APP_STATE_INIT;
-    appData.mem = {0};
 
 
     /* TODO: Initialize your application's state machine and other
@@ -162,61 +137,37 @@ void APP_Tasks(void) {
                 //EN_1V8_Set();
 
 
-                appData.handle = DRV_AT24_Open(DRV_AT24_INDEX, DRV_IO_INTENT_READWRITE);
-                if (appData.handle != DRV_HANDLE_INVALID) {
-                    DRV_AT24_EventHandlerSet(appData.handle, transferEventHandler, (const uintptr_t) &appData.mem);
-                    memset(&appData.geometry, 0x00, sizeof (appData.geometry));
-                    bool rtn = DRV_AT24_GeometryGet(appData.handle, &appData.geometry);
-                    if (rtn) {
-                        uint32_t readBlockSize = appData.geometry.readBlockSize;
-                        uint32_t nReadBlocks = appData.geometry.readNumBlocks;
-                        uint32_t nReadRegions = appData.geometry.readNumRegions;
-                        uint32_t size = readBlockSize * nReadBlocks * nReadRegions;
-                        logDebug("Detected %d bytes EEPROM\r\n", size);
-                    } else {
-                        logFatal("Cannot detect size of EEPROM\r\n");
-                    }
-                }
+                //                appData.handle = DRV_AT24_Open(DRV_AT24_INDEX, DRV_IO_INTENT_READWRITE);
+                //                if (appData.handle != DRV_HANDLE_INVALID) {
+                //                    DRV_AT24_EventHandlerSet(appData.handle, transferEventHandler, (const uintptr_t) &appData.mem);
+                //                    memset(&appData.geometry, 0x00, sizeof (appData.geometry));
+                //                    bool rtn = DRV_AT24_GeometryGet(appData.handle, &appData.geometry);
+                //                    if (rtn) {
+                //                        uint32_t readBlockSize = appData.geometry.readBlockSize;
+                //                        uint32_t nReadBlocks = appData.geometry.readNumBlocks;
+                //                        uint32_t nReadRegions = appData.geometry.readNumRegions;
+                //                        uint32_t size = readBlockSize * nReadBlocks * nReadRegions;
+                //                        logDebug("Detected %d bytes EEPROM\r\n", size);
+                //                    } else {
+                //                        logFatal("Cannot detect size of EEPROM\r\n");
+                //                    }
+                //                }
 
-                MCP9800_Initialize();
+                //MCP9800_Initialize();
+
 
                 /* Active low output */
                 OCMP3_Enable();
+                OCMP4_Enable();
+                OCMP5_Enable();
+
+                // Set duty cycle at 50%
+                uint16_t ref = TMR3_PeriodGet() + 1;
+                OCMP3_CompareSecondaryValueSet(ref / 2);
+                OCMP4_CompareSecondaryValueSet(ref / 2);
+                OCMP5_CompareSecondaryValueSet(ref / 2);
 
                 TMR3_Start();
-                //                LED_SYS_OutputEnable();
-                //                LED_SYS_Clear();
-                //                LED_SYS_Set();
-
-
-                // Testing VL53L5CX
-                // Reset ToF
-                TOF_RST_RIGHT_Clear();
-                TOF_RST_RIGHT_OutputEnable();
-                TOF_RST_RIGHT_Set();
-                TOF_RST_RIGHT_Clear();
-
-                // Disable I2C communication
-                TOF_LPn_RIGHT_Clear();
-                TOF_LPn_RIGHT_OutputEnable();
-
-                // Register interrupt handler
-                EVIC_ExternalInterruptCallbackRegister(EXTERNAL_INT_1, ToF_Left_INT1_Handler, (const uintptr_t) &appData);
-                EVIC_ExternalInterruptEnable(EXTERNAL_INT_1);
-
-                // Reset ToF
-                TOF_RST_LEFT_Clear();
-                TOF_RST_LEFT_OutputEnable();
-                TOF_RST_LEFT_Set();
-                TOF_RST_LEFT_Clear();
-
-                // Disable I2C communication
-                TOF_LPn_LEFT_Clear();
-                TOF_LPn_LEFT_OutputEnable();
-
-                // Register interrupt handler
-                EVIC_ExternalInterruptCallbackRegister(EXTERNAL_INT_2, ToF_Right_INT2_Handler, (const uintptr_t) &appData);
-                EVIC_ExternalInterruptEnable(EXTERNAL_INT_2);
 
                 appData.state = APP_STATE_SERVICE_TASKS;
             }

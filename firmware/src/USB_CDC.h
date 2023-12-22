@@ -119,7 +119,6 @@ extern "C" {
     /* These routines are called by drivers when certain events occur.
      */
     void APP_USBDeviceEventHandler(USB_DEVICE_EVENT event, void * pData, uintptr_t context);
-
     USB_DEVICE_CDC_EVENT_RESPONSE APP_USBDeviceCDCEventHandler(USB_DEVICE_CDC_INDEX index, USB_DEVICE_CDC_EVENT event, void* pData, uintptr_t userData);
 
     void APP_FREERTOS_Tasks(void* p_arg);

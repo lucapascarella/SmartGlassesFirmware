@@ -18,7 +18,11 @@
          <string>class com.microchip.mcc.harmony.HarmonyModule</string>
       </entry>
       <entry>
-         <string>drv_at24</string>
+         <string>drv_i2c</string>
+         <string>class com.microchip.mcc.harmony.HarmonyModule</string>
+      </entry>
+      <entry>
+         <string>drv_i2c_0</string>
          <string>class com.microchip.mcc.harmony.HarmonyModule</string>
       </entry>
       <entry>
@@ -202,6 +206,32 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;FreeRTOS&gt;
   &lt;FreeRTOS dnOrder=&quot;0&quot; id=&quot;FREERTOS_GENERATE_RUN_TIME_STATS&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/FreeRTOS&gt;
+&lt;/FreeRTOS&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="FreeRTOS" name="FREERTOS_HEAP_1_C"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;FreeRTOS&gt;
+  &lt;FreeRTOS dnOrder=&quot;0&quot; id=&quot;FREERTOS_HEAP_1_C&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;false&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/FreeRTOS&gt;
+&lt;/FreeRTOS&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="FreeRTOS" name="FREERTOS_HEAP_3_C"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;FreeRTOS&gt;
+  &lt;FreeRTOS dnOrder=&quot;0&quot; id=&quot;FREERTOS_HEAP_3_C&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
   &lt;/FreeRTOS&gt;
 &lt;/FreeRTOS&gt;
 </value>
@@ -444,7 +474,9 @@
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="FreeRTOS" name="FREERTOS_MEMORY_MANAGEMENT_CHOICE"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;FreeRTOS&gt;
   &lt;FreeRTOS dnOrder=&quot;0&quot; id=&quot;FREERTOS_MEMORY_MANAGEMENT_CHOICE&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;/&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;Heap_3&quot;/&gt;
+    &lt;/Values&gt;
   &lt;/FreeRTOS&gt;
 &lt;/FreeRTOS&gt;
 </value>
@@ -698,7 +730,9 @@
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="FreeRTOS" name="FREERTOS_USE_TASK_FPU_SUPPORT"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;FreeRTOS&gt;
   &lt;FreeRTOS dnOrder=&quot;0&quot; id=&quot;FREERTOS_USE_TASK_FPU_SUPPORT&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;/&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;true&quot;/&gt;
+    &lt;/Values&gt;
   &lt;/FreeRTOS&gt;
 &lt;/FreeRTOS&gt;
 </value>
@@ -785,6 +819,102 @@
       &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
         &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
       &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/HarmonyCore&gt;
+&lt;/HarmonyCore&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="HarmonyCore" name="APP1_C"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;HarmonyCore&gt;
+  &lt;HarmonyCore dnOrder=&quot;0&quot; id=&quot;APP1_C&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+      &lt;String dnOrder=&quot;1&quot; id=&quot;name&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;cdc.cpp&lt;/Value&gt;
+      &lt;/String&gt;
+    &lt;/Attributes&gt;
+  &lt;/HarmonyCore&gt;
+&lt;/HarmonyCore&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="HarmonyCore" name="APP1_H"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;HarmonyCore&gt;
+  &lt;HarmonyCore dnOrder=&quot;0&quot; id=&quot;APP1_H&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+      &lt;String dnOrder=&quot;1&quot; id=&quot;name&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;cdc.h&lt;/Value&gt;
+      &lt;/String&gt;
+    &lt;/Attributes&gt;
+  &lt;/HarmonyCore&gt;
+&lt;/HarmonyCore&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="HarmonyCore" name="APP2_C"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;HarmonyCore&gt;
+  &lt;HarmonyCore dnOrder=&quot;0&quot; id=&quot;APP2_C&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+      &lt;String dnOrder=&quot;1&quot; id=&quot;name&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;vl53l5cx.cpp&lt;/Value&gt;
+      &lt;/String&gt;
+    &lt;/Attributes&gt;
+  &lt;/HarmonyCore&gt;
+&lt;/HarmonyCore&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="HarmonyCore" name="APP2_H"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;HarmonyCore&gt;
+  &lt;HarmonyCore dnOrder=&quot;0&quot; id=&quot;APP2_H&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+      &lt;String dnOrder=&quot;1&quot; id=&quot;name&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;vl53l5cx.h&lt;/Value&gt;
+      &lt;/String&gt;
+    &lt;/Attributes&gt;
+  &lt;/HarmonyCore&gt;
+&lt;/HarmonyCore&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="HarmonyCore" name="APP3_C"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;HarmonyCore&gt;
+  &lt;HarmonyCore dnOrder=&quot;0&quot; id=&quot;APP3_C&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+      &lt;String dnOrder=&quot;1&quot; id=&quot;name&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;mlx90640.cpp&lt;/Value&gt;
+      &lt;/String&gt;
+    &lt;/Attributes&gt;
+  &lt;/HarmonyCore&gt;
+&lt;/HarmonyCore&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="HarmonyCore" name="APP3_H"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;HarmonyCore&gt;
+  &lt;HarmonyCore dnOrder=&quot;0&quot; id=&quot;APP3_H&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+      &lt;String dnOrder=&quot;1&quot; id=&quot;name&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;mlx90640.h&lt;/Value&gt;
+      &lt;/String&gt;
     &lt;/Attributes&gt;
   &lt;/HarmonyCore&gt;
 &lt;/HarmonyCore&gt;
@@ -954,11 +1084,11 @@
   &lt;HarmonyCore dnOrder=&quot;0&quot; id=&quot;ENABLE_SYS_PORTS&quot;&gt;
     &lt;Attributes dnOrder=&quot;0&quot;&gt;
       &lt;Boolean dnOrder=&quot;0&quot; id=&quot;readOnly&quot;&gt;
-        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;false&lt;/Value&gt;
       &lt;/Boolean&gt;
     &lt;/Attributes&gt;
     &lt;Values dnOrder=&quot;1&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;HarmonyCore&quot; value=&quot;true&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;HarmonyCore&quot; value=&quot;false&quot;/&gt;
     &lt;/Values&gt;
   &lt;/HarmonyCore&gt;
 &lt;/HarmonyCore&gt;
@@ -3144,7 +3274,9 @@
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="HarmonyCore" name="GEN_APP_TASK_COUNT"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;HarmonyCore&gt;
   &lt;HarmonyCore dnOrder=&quot;0&quot; id=&quot;GEN_APP_TASK_COUNT&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;/&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;4&quot;/&gt;
+    &lt;/Values&gt;
   &lt;/HarmonyCore&gt;
 &lt;/HarmonyCore&gt;
 </value>
@@ -3342,7 +3474,9 @@
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="HarmonyCore" name="GEN_APP_TASK_NAME_1"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;HarmonyCore&gt;
   &lt;HarmonyCore dnOrder=&quot;0&quot; id=&quot;GEN_APP_TASK_NAME_1&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;/&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;cdc&quot;/&gt;
+    &lt;/Values&gt;
   &lt;/HarmonyCore&gt;
 &lt;/HarmonyCore&gt;
 </value>
@@ -3441,7 +3575,9 @@
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="HarmonyCore" name="GEN_APP_TASK_NAME_2"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;HarmonyCore&gt;
   &lt;HarmonyCore dnOrder=&quot;0&quot; id=&quot;GEN_APP_TASK_NAME_2&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;/&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;VL53L5CX&quot;/&gt;
+    &lt;/Values&gt;
   &lt;/HarmonyCore&gt;
 &lt;/HarmonyCore&gt;
 </value>
@@ -3450,7 +3586,9 @@
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="HarmonyCore" name="GEN_APP_TASK_NAME_3"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;HarmonyCore&gt;
   &lt;HarmonyCore dnOrder=&quot;0&quot; id=&quot;GEN_APP_TASK_NAME_3&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;/&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;MLX90640&quot;/&gt;
+    &lt;/Values&gt;
   &lt;/HarmonyCore&gt;
 &lt;/HarmonyCore&gt;
 </value>
@@ -3671,7 +3809,7 @@
   &lt;HarmonyCore dnOrder=&quot;0&quot; id=&quot;PORTS_DEF&quot;&gt;
     &lt;Attributes dnOrder=&quot;0&quot;&gt;
       &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
-        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;false&lt;/Value&gt;
       &lt;/Boolean&gt;
     &lt;/Attributes&gt;
   &lt;/HarmonyCore&gt;
@@ -3684,7 +3822,7 @@
   &lt;HarmonyCore dnOrder=&quot;0&quot; id=&quot;PORTS_HEADER&quot;&gt;
     &lt;Attributes dnOrder=&quot;0&quot;&gt;
       &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
-        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;false&lt;/Value&gt;
       &lt;/Boolean&gt;
     &lt;/Attributes&gt;
   &lt;/HarmonyCore&gt;
@@ -3697,7 +3835,7 @@
   &lt;HarmonyCore dnOrder=&quot;0&quot; id=&quot;PORTS_MAPPING&quot;&gt;
     &lt;Attributes dnOrder=&quot;0&quot;&gt;
       &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
-        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;false&lt;/Value&gt;
       &lt;/Boolean&gt;
     &lt;/Attributes&gt;
   &lt;/HarmonyCore&gt;
@@ -3914,18 +4052,18 @@
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="core" name="!@#harmonyUserData"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;UserData&gt;
   &lt;UserData dnOrder=&quot;0&quot;&gt;
-    &lt;GraphSettings canvasHeight=&quot;644&quot; canvasWidth=&quot;917&quot; dnOrder=&quot;0&quot;/&gt;
+    &lt;GraphSettings canvasHeight=&quot;689&quot; canvasWidth=&quot;908&quot; dnOrder=&quot;0&quot;/&gt;
     &lt;ComponentGraph dnOrder=&quot;1&quot; id=&quot;__ROOTVIEW&quot;&gt;
       &lt;ElementPositions dnOrder=&quot;0&quot;&gt;
         &lt;ElementPosition dnOrder=&quot;0&quot; id=&quot;FreeRTOS&quot; x=&quot;440&quot; y=&quot;20&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;1&quot; id=&quot;HarmonyCore&quot; x=&quot;600&quot; y=&quot;20&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;2&quot; id=&quot;core&quot; x=&quot;30&quot; y=&quot;60&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;3&quot; id=&quot;dfp&quot; x=&quot;20&quot; y=&quot;20&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;4&quot; id=&quot;drv_at24&quot; x=&quot;228&quot; y=&quot;491&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;4&quot; id=&quot;drv_i2c&quot; x=&quot;245&quot; y=&quot;513&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;5&quot; id=&quot;drv_memory&quot; x=&quot;607&quot; y=&quot;195&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;6&quot; id=&quot;drv_sst26&quot; x=&quot;447&quot; y=&quot;213&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;7&quot; id=&quot;drv_usbhs_v1&quot; x=&quot;30&quot; y=&quot;100&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;8&quot; id=&quot;i2c1&quot; x=&quot;69&quot; y=&quot;513&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;8&quot; id=&quot;i2c1&quot; x=&quot;81&quot; y=&quot;577&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;9&quot; id=&quot;ocmp3&quot; x=&quot;639&quot; y=&quot;435&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;10&quot; id=&quot;ocmp4&quot; x=&quot;639&quot; y=&quot;483&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;11&quot; id=&quot;ocmp5&quot; x=&quot;639&quot; y=&quot;532&quot;/&gt;
@@ -3937,7 +4075,7 @@
         &lt;ElementPosition dnOrder=&quot;17&quot; id=&quot;sys_fs&quot; x=&quot;771&quot; y=&quot;233&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;18&quot; id=&quot;sys_time&quot; x=&quot;766&quot; y=&quot;74&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;19&quot; id=&quot;tmr1&quot; x=&quot;610&quot; y=&quot;120&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;20&quot; id=&quot;tmr3&quot; x=&quot;636&quot; y=&quot;364&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;20&quot; id=&quot;tmr3&quot; x=&quot;638&quot; y=&quot;364&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;21&quot; id=&quot;uart1&quot; x=&quot;90&quot; y=&quot;373&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;22&quot; id=&quot;usb_device&quot; x=&quot;430&quot; y=&quot;100&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;23&quot; id=&quot;usb_device_cdc&quot; x=&quot;240&quot; y=&quot;20&quot;/&gt;
@@ -10415,6 +10553,7 @@
   &lt;core dnOrder=&quot;0&quot; id=&quot;XC32_HEAP_SIZE&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
       &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;core&quot; value=&quot;1024&quot;/&gt;
+      &lt;User dnOrder=&quot;1&quot; value=&quot;50000&quot;/&gt;
     &lt;/Values&gt;
   &lt;/core&gt;
 &lt;/core&gt;
@@ -10425,11 +10564,42 @@
          <value>__ROOTVIEW</value>
       </entry>
       <entry>
-         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_at24" name="!@#harmonyAttachmentState"/>
-         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;drv_at24&gt;
-  &lt;drv_at24 dnOrder=&quot;0&quot;&gt;
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_i2c" name="!@#harmonyAttachmentState"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;drv_i2c&gt;
+  &lt;drv_i2c dnOrder=&quot;0&quot;/&gt;
+&lt;/drv_i2c&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_i2c" name="#&amp;__MCC_Group_Parrent_id"/>
+         <value>__ROOTVIEW</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_i2c" name="DRV_I2C_FORCED_WRITE_API_GENERATE"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;drv_i2c&gt;
+  &lt;drv_i2c dnOrder=&quot;0&quot; id=&quot;DRV_I2C_FORCED_WRITE_API_GENERATE&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;drv_i2c&quot; value=&quot;1&quot;/&gt;
+    &lt;/Values&gt;
+  &lt;/drv_i2c&gt;
+&lt;/drv_i2c&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_i2c" name="DRV_I2C_MODE"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;drv_i2c&gt;
+  &lt;drv_i2c dnOrder=&quot;0&quot; id=&quot;DRV_I2C_MODE&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;/&gt;
+  &lt;/drv_i2c&gt;
+&lt;/drv_i2c&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_i2c_0" name="!@#harmonyAttachmentState"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;drv_i2c_0&gt;
+  &lt;drv_i2c_0 dnOrder=&quot;0&quot;&gt;
     &lt;Attachments dnOrder=&quot;0&quot;&gt;
-      &lt;DirectDependency dnOrder=&quot;0&quot; id=&quot;drv_at24_I2C_dependency&quot;&gt;
+      &lt;DirectDependency dnOrder=&quot;0&quot; id=&quot;drv_i2c_I2C_dependency&quot;&gt;
         &lt;Attributes dnOrder=&quot;0&quot;&gt;
           &lt;String dnOrder=&quot;0&quot; id=&quot;targetComponentID&quot;&gt;
             &lt;Value dnOrder=&quot;0&quot;&gt;i2c1&lt;/Value&gt;
@@ -10440,121 +10610,54 @@
         &lt;/Attributes&gt;
       &lt;/DirectDependency&gt;
     &lt;/Attachments&gt;
-  &lt;/drv_at24&gt;
-&lt;/drv_at24&gt;
+  &lt;/drv_i2c_0&gt;
+&lt;/drv_i2c_0&gt;
 </value>
       </entry>
       <entry>
-         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_at24" name="#&amp;__MCC_Group_Parrent_id"/>
-         <value>__ROOTVIEW</value>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_i2c_0" name="#&amp;__MCC_Group_Parrent_id"/>
+         <value>drv_i2c</value>
       </entry>
       <entry>
-         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_at24" name="DRV_AT24_NUM_CLIENTS"/>
-         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;drv_at24&gt;
-  &lt;drv_at24 dnOrder=&quot;0&quot; id=&quot;DRV_AT24_NUM_CLIENTS&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;/&gt;
-  &lt;/drv_at24&gt;
-&lt;/drv_at24&gt;
-</value>
-      </entry>
-      <entry>
-         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_at24" name="DRV_AT24_NUM_INSTANCES"/>
-         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;drv_at24&gt;
-  &lt;drv_at24 dnOrder=&quot;0&quot; id=&quot;DRV_AT24_NUM_INSTANCES&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;/&gt;
-  &lt;/drv_at24&gt;
-&lt;/drv_at24&gt;
-</value>
-      </entry>
-      <entry>
-         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_at24" name="DRV_AT24_PLIB"/>
-         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;drv_at24&gt;
-  &lt;drv_at24 dnOrder=&quot;0&quot; id=&quot;DRV_AT24_PLIB&quot;&gt;
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_i2c_0" name="DRV_I2C_INCLUDE_FORCED_WRITE_API"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;drv_i2c_0&gt;
+  &lt;drv_i2c_0 dnOrder=&quot;0&quot; id=&quot;DRV_I2C_INCLUDE_FORCED_WRITE_API&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;drv_at24&quot; value=&quot;I2C1&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;drv_i2c_0&quot; value=&quot;true&quot;/&gt;
     &lt;/Values&gt;
-  &lt;/drv_at24&gt;
-&lt;/drv_at24&gt;
+  &lt;/drv_i2c_0&gt;
+&lt;/drv_i2c_0&gt;
 </value>
       </entry>
       <entry>
-         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_at24" name="DRV_MEMORY_CONNECTED"/>
-         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;drv_at24&gt;
-  &lt;drv_at24 dnOrder=&quot;0&quot; id=&quot;DRV_MEMORY_CONNECTED&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;/&gt;
-  &lt;/drv_at24&gt;
-&lt;/drv_at24&gt;
-</value>
-      </entry>
-      <entry>
-         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_at24" name="EEPROM_ADDR_LEN"/>
-         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;drv_at24&gt;
-  &lt;drv_at24 dnOrder=&quot;0&quot; id=&quot;EEPROM_ADDR_LEN&quot;&gt;
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_i2c_0" name="DRV_I2C_NUM_CLIENTS"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;drv_i2c_0&gt;
+  &lt;drv_i2c_0 dnOrder=&quot;0&quot; id=&quot;DRV_I2C_NUM_CLIENTS&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;drv_at24&quot; value=&quot;2&quot;/&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;2&quot;/&gt;
     &lt;/Values&gt;
-  &lt;/drv_at24&gt;
-&lt;/drv_at24&gt;
+  &lt;/drv_i2c_0&gt;
+&lt;/drv_i2c_0&gt;
 </value>
       </entry>
       <entry>
-         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_at24" name="EEPROM_FLASH_SIZE"/>
-         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;drv_at24&gt;
-  &lt;drv_at24 dnOrder=&quot;0&quot; id=&quot;EEPROM_FLASH_SIZE&quot;&gt;
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_i2c_0" name="DRV_I2C_PLIB"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;drv_i2c_0&gt;
+  &lt;drv_i2c_0 dnOrder=&quot;0&quot; id=&quot;DRV_I2C_PLIB&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;User dnOrder=&quot;0&quot; value=&quot;32768&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;drv_i2c_0&quot; value=&quot;I2C1&quot;/&gt;
     &lt;/Values&gt;
-  &lt;/drv_at24&gt;
-&lt;/drv_at24&gt;
+  &lt;/drv_i2c_0&gt;
+&lt;/drv_i2c_0&gt;
 </value>
       </entry>
       <entry>
-         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_at24" name="EEPROM_PAGE_SIZE"/>
-         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;drv_at24&gt;
-  &lt;drv_at24 dnOrder=&quot;0&quot; id=&quot;EEPROM_PAGE_SIZE&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;User dnOrder=&quot;0&quot; value=&quot;64&quot;/&gt;
-    &lt;/Values&gt;
-  &lt;/drv_at24&gt;
-&lt;/drv_at24&gt;
-</value>
-      </entry>
-      <entry>
-         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_at24" name="ERASE_ENABLE"/>
-         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;drv_at24&gt;
-  &lt;drv_at24 dnOrder=&quot;0&quot; id=&quot;ERASE_ENABLE&quot;&gt;
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_i2c_0" name="DRV_I2C_QUEUE_SIZE"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;drv_i2c_0&gt;
+  &lt;drv_i2c_0 dnOrder=&quot;0&quot; id=&quot;DRV_I2C_QUEUE_SIZE&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;/&gt;
-  &lt;/drv_at24&gt;
-&lt;/drv_at24&gt;
-</value>
-      </entry>
-      <entry>
-         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_at24" name="I2C_EEPROM_ADDDRESS"/>
-         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;drv_at24&gt;
-  &lt;drv_at24 dnOrder=&quot;0&quot; id=&quot;I2C_EEPROM_ADDDRESS&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;User dnOrder=&quot;0&quot; value=&quot;80&quot;/&gt;
-    &lt;/Values&gt;
-  &lt;/drv_at24&gt;
-&lt;/drv_at24&gt;
-</value>
-      </entry>
-      <entry>
-         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_at24" name="INTERRUPT_ENABLE"/>
-         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;drv_at24&gt;
-  &lt;drv_at24 dnOrder=&quot;0&quot; id=&quot;INTERRUPT_ENABLE&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;/&gt;
-  &lt;/drv_at24&gt;
-&lt;/drv_at24&gt;
-</value>
-      </entry>
-      <entry>
-         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="drv_at24" name="START_ADDRESS"/>
-         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;drv_at24&gt;
-  &lt;drv_at24 dnOrder=&quot;0&quot; id=&quot;START_ADDRESS&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;/&gt;
-  &lt;/drv_at24&gt;
-&lt;/drv_at24&gt;
+  &lt;/drv_i2c_0&gt;
+&lt;/drv_i2c_0&gt;
 </value>
       </entry>
       <entry>
@@ -11244,10 +11347,10 @@
       &lt;DirectCapability dnOrder=&quot;0&quot; id=&quot;I2C1_I2C&quot;&gt;
         &lt;Attributes dnOrder=&quot;0&quot;&gt;
           &lt;String dnOrder=&quot;0&quot; id=&quot;targetComponentID&quot;&gt;
-            &lt;Value dnOrder=&quot;0&quot;&gt;drv_at24&lt;/Value&gt;
+            &lt;Value dnOrder=&quot;0&quot;&gt;drv_i2c_0&lt;/Value&gt;
           &lt;/String&gt;
           &lt;String dnOrder=&quot;1&quot; id=&quot;targetAttachmentID&quot;&gt;
-            &lt;Value dnOrder=&quot;0&quot;&gt;drv_at24_I2C_dependency&lt;/Value&gt;
+            &lt;Value dnOrder=&quot;0&quot;&gt;drv_i2c_I2C_dependency&lt;/Value&gt;
           &lt;/String&gt;
         &lt;/Attributes&gt;
       &lt;/DirectCapability&gt;
@@ -11682,7 +11785,9 @@
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="ocmp3" name="OCMP_OCxR"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;ocmp3&gt;
   &lt;ocmp3 dnOrder=&quot;0&quot; id=&quot;OCMP_OCxR&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;/&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;3125&quot;/&gt;
+    &lt;/Values&gt;
   &lt;/ocmp3&gt;
 &lt;/ocmp3&gt;
 </value>
@@ -11836,7 +11941,9 @@
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="ocmp4" name="OCMP_OCxR"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;ocmp4&gt;
   &lt;ocmp4 dnOrder=&quot;0&quot; id=&quot;OCMP_OCxR&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;/&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;3125&quot;/&gt;
+    &lt;/Values&gt;
   &lt;/ocmp4&gt;
 &lt;/ocmp4&gt;
 </value>
@@ -11990,7 +12097,9 @@
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="ocmp5" name="OCMP_OCxR"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;ocmp5&gt;
   &lt;ocmp5 dnOrder=&quot;0&quot; id=&quot;OCMP_OCxR&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;/&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;3125&quot;/&gt;
+    &lt;/Values&gt;
   &lt;/ocmp5&gt;
 &lt;/ocmp5&gt;
 </value>
@@ -14734,6 +14843,17 @@
 </value>
       </entry>
       <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="tmr3" name="TCON_REG_VALUE"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;tmr3&gt;
+  &lt;tmr3 dnOrder=&quot;0&quot; id=&quot;TCON_REG_VALUE&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;tmr3&quot; value=&quot;64&quot;/&gt;
+    &lt;/Values&gt;
+  &lt;/tmr3&gt;
+&lt;/tmr3&gt;
+</value>
+      </entry>
+      <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="tmr3" name="TIMER_32BIT_MODE_SEL"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;tmr3&gt;
   &lt;tmr3 dnOrder=&quot;0&quot; id=&quot;TIMER_32BIT_MODE_SEL&quot;&gt;
@@ -14746,7 +14866,9 @@
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="tmr3" name="TIMER_CLOCK_FREQ"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;tmr3&gt;
   &lt;tmr3 dnOrder=&quot;0&quot; id=&quot;TIMER_CLOCK_FREQ&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;/&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;tmr3&quot; value=&quot;6250000&quot;/&gt;
+    &lt;/Values&gt;
   &lt;/tmr3&gt;
 &lt;/tmr3&gt;
 </value>
@@ -14764,7 +14886,9 @@
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="tmr3" name="TIMER_PERIOD"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;tmr3&gt;
   &lt;tmr3 dnOrder=&quot;0&quot; id=&quot;TIMER_PERIOD&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;/&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;tmr3&quot; value=&quot;6249&quot;/&gt;
+    &lt;/Values&gt;
   &lt;/tmr3&gt;
 &lt;/tmr3&gt;
 </value>
@@ -14782,7 +14906,9 @@
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="tmr3" name="TIMER_PRE_SCALER"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;tmr3&gt;
   &lt;tmr3 dnOrder=&quot;0&quot; id=&quot;TIMER_PRE_SCALER&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;/&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;3&quot;/&gt;
+    &lt;/Values&gt;
   &lt;/tmr3&gt;
 &lt;/tmr3&gt;
 </value>
@@ -14827,7 +14953,14 @@
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="tmr3" name="TIMER_TIME_PERIOD_MS"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;tmr3&gt;
   &lt;tmr3 dnOrder=&quot;0&quot; id=&quot;TIMER_TIME_PERIOD_MS&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;/&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Float dnOrder=&quot;0&quot; id=&quot;max&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;10485.92&lt;/Value&gt;
+      &lt;/Float&gt;
+    &lt;/Attributes&gt;
+    &lt;Values dnOrder=&quot;1&quot;&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;1000.0&quot;/&gt;
+    &lt;/Values&gt;
   &lt;/tmr3&gt;
 &lt;/tmr3&gt;
 </value>
@@ -14836,7 +14969,9 @@
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="tmr3" name="TIMER_UNIT"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;tmr3&gt;
   &lt;tmr3 dnOrder=&quot;0&quot; id=&quot;TIMER_UNIT&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;/&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;microsecond&quot;/&gt;
+    &lt;/Values&gt;
   &lt;/tmr3&gt;
 &lt;/tmr3&gt;
 </value>
@@ -14899,7 +15034,9 @@
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="tmr3" name="TMR_PRESCALER_VALUE"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;tmr3&gt;
   &lt;tmr3 dnOrder=&quot;0&quot; id=&quot;TMR_PRESCALER_VALUE&quot;&gt;
-    &lt;Values dnOrder=&quot;0&quot;/&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;tmr3&quot; value=&quot;16&quot;/&gt;
+    &lt;/Values&gt;
   &lt;/tmr3&gt;
 &lt;/tmr3&gt;
 </value>
@@ -15841,16 +15978,24 @@
          <hash>8e35d8509552a4d1d6e6f123ad75694cf784a707f7dac592ed33b55121aa8e28</hash>
       </entry>
       <entry>
+         <file>..\src\cdc.cpp</file>
+         <hash>365ca1bbd5f38e1507192343f89c7cf8c2840f5734e968e361d445a67e54ab53</hash>
+      </entry>
+      <entry>
+         <file>..\src\cdc.h</file>
+         <hash>61187e941a17875aa88e30e94c7814e55c4b4f4c8495008fa2824089fe14fb8b</hash>
+      </entry>
+      <entry>
          <file>..\src\config\default\FreeRTOSConfig.h</file>
-         <hash>7257fc316dfd53a702073a4ac219315084fab1a9e09b7e18e1743539b6d38981</hash>
+         <hash>e2e8891e0e3a8f19ec369eae3f04f29071971a1317695c826aa171dd89f79a59</hash>
       </entry>
       <entry>
          <file>..\src\config\default\configuration.h</file>
-         <hash>dfbd534677f12d97844f5af4f39d956b3d61c37a5144a1e77526b24c9c52d72d</hash>
+         <hash>11053c6f5914f8d8994f2fe283ef28dd2cc6513a863d5ded06c91edc6b54637c</hash>
       </entry>
       <entry>
          <file>..\src\config\default\definitions.h</file>
-         <hash>2323137c32df889f4f25d23df782eb8682998b7421aaf60d15493f7b90bea10c</hash>
+         <hash>e0806909b049edaf4dba3a337ccbe64eed71baf8768ffe1e01f11b3290ce031c</hash>
       </entry>
       <entry>
          <file>..\src\config\default\device.h</file>
@@ -15861,28 +16006,28 @@
          <hash>fd0e9c9a7fbeb01fb289eecda8b0f0b3cfe0b86da13bc26801f611faa3b9a74c</hash>
       </entry>
       <entry>
-         <file>..\src\config\default\driver\at24\drv_at24.h</file>
-         <hash>1dc215dec472bebfa1ef65c7151fe833ddeda012c8764f6f87319ff0d12a8ebf</hash>
-      </entry>
-      <entry>
-         <file>..\src\config\default\driver\at24\drv_at24_definitions.h</file>
-         <hash>017d2d5b1f1aee1d8fdb7483d710e99b10182fd8ed796322c6c6084b50b85b5f</hash>
-      </entry>
-      <entry>
-         <file>..\src\config\default\driver\at24\src\drv_at24.c</file>
-         <hash>c2f0327fec5437b7e4974caae9f0576ea0d240720ddfef1fa19f59da32694451</hash>
-      </entry>
-      <entry>
-         <file>..\src\config\default\driver\at24\src\drv_at24_local.h</file>
-         <hash>00966246981802c2cfa6315ca799c5254602ec11401a5ecd3a6cdcee45d21142</hash>
-      </entry>
-      <entry>
          <file>..\src\config\default\driver\driver.h</file>
          <hash>042fdd289460dbddb8e805850af7e3ac9aea95468e37414959781ebc5b2f454d</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\driver_common.h</file>
          <hash>5217965f6720b4fdf717e99ce9df4f2c9fbd82bbbc9655847166d1eefa806fee</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\driver\i2c\drv_i2c.h</file>
+         <hash>a2e3e35a45be2dffd93f381c5eb7d50a9f2fd955aee73cdd3da3178c7c3cfed9</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\driver\i2c\drv_i2c_definitions.h</file>
+         <hash>f73e5a9cffe4b641461d911585e74730fded17ed4d4af661d3fbe3c6316a4eac</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\driver\i2c\src\drv_i2c.c</file>
+         <hash>ae8adbe87d7d8c649dfd5a4efd929ae75f133c3345e20203dacd6000fc463091</hash>
+      </entry>
+      <entry>
+         <file>..\src\config\default\driver\i2c\src\drv_i2c_local.h</file>
+         <hash>a5b8e0e4f5644b88470600c3e52e76f9492bfc52e65210d6f94d6b87374e9bce</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\memory\drv_memory.h</file>
@@ -16070,7 +16215,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\initialization.c</file>
-         <hash>4a12f3d25ed292737e8c6a1e39cda28d48264e17f271398943d1dccd6e23b8e4</hash>
+         <hash>8c92d9bfe77dc8d5bc4808bdc678b9ba9d6cc0366816b6386321891ed144612f</hash>
       </entry>
       <entry>
          <file>..\src\config\default\interrupts.c</file>
@@ -16162,7 +16307,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\ocmp\plib_ocmp3.c</file>
-         <hash>89b49fb1912dcd2fcb553668bbcd011e28ec31dddb1ffa968ff804e69fed51ca</hash>
+         <hash>030a65aede29a7b0609581e6e552a730c5800d194658eabc08955eaa21d03bee</hash>
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\ocmp\plib_ocmp3.h</file>
@@ -16170,7 +16315,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\ocmp\plib_ocmp4.c</file>
-         <hash>233c9d526c622036df1b742e6f66b54b9f6420b584bcf8db1f65cb6b4642ab68</hash>
+         <hash>33eb27023cda54e83772496ab65be74e82fda305d9e2585a57fcb759d6de0b68</hash>
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\ocmp\plib_ocmp4.h</file>
@@ -16178,7 +16323,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\ocmp\plib_ocmp5.c</file>
-         <hash>31c6c1e876406547ee939669beba5708dddc921d2d769b8310cf3260fca780ff</hash>
+         <hash>6a786e37629ca2c2f47ec3bfdd2b0c09674992c7fa90ccf799787279519c886a</hash>
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\ocmp\plib_ocmp5.h</file>
@@ -16222,7 +16367,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\tmr\plib_tmr3.c</file>
-         <hash>b2dbe5ff870bf092cf85cd8d51e1478bec323a750c31b4aaa59351e27fd91a3e</hash>
+         <hash>9b1386f9d5e417643deb1c50d5611a37a19a134202ca9741cc7f7095731609a2</hash>
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\tmr\plib_tmr3.h</file>
@@ -16250,7 +16395,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\sys_tasks.h</file>
-         <hash>db92e5126443fbe3f721921f12cd1c0ef9b28b9e26e1d77295c7f2bf925b1ca8</hash>
+         <hash>9e52b859684e7399c7c1b5d8c2f974a51123707f2281c4b0e72800baa6f668d0</hash>
       </entry>
       <entry>
          <file>..\src\config\default\system\cache\sys_cache.c</file>
@@ -16373,14 +16518,6 @@
          <hash>a2dcf05575becc98aa212af1d220eda07487bd645d82c4d7a980aa3a22384cf3</hash>
       </entry>
       <entry>
-         <file>..\src\config\default\system\ports\sys_ports.h</file>
-         <hash>340bb122aa62e8bf1aa4b6d8de36029515457525a097e591496f2b2bfae80eb5</hash>
-      </entry>
-      <entry>
-         <file>..\src\config\default\system\ports\sys_ports_mapping.h</file>
-         <hash>97195d4a7a99942def4f84b563b6590ee56ecb79c39f0defdc163c548e8f85ab</hash>
-      </entry>
-      <entry>
          <file>..\src\config\default\system\reset\sys_reset.c</file>
          <hash>7626748bc54c0de05d023a7aa7eacf73f9cc9ca2e1e77abe078b478b54ed5fed</hash>
       </entry>
@@ -16422,7 +16559,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\tasks.c</file>
-         <hash>e422218b15c90487a602515a788578492863d66bb7e621f533a5d55b6953258e</hash>
+         <hash>cd6f92b5533a4d88c8ccdb7c2ab2a5ef0a4c14074d9c3211eab0fdc79772abf5</hash>
       </entry>
       <entry>
          <file>..\src\config\default\toolchain_specifics.h</file>
@@ -16507,6 +16644,14 @@
       <entry>
          <file>..\src\main.cpp</file>
          <hash>d3c233d419e6304bfacbafc18cc68c0f5c26e365f23b20ea40ccfac458f664c5</hash>
+      </entry>
+      <entry>
+         <file>..\src\mlx90640.cpp</file>
+         <hash>ff82fd63c3d4446f8c139c09f7e7e5236a3fa9b27906da6f16c370b6aae7c916</hash>
+      </entry>
+      <entry>
+         <file>..\src\mlx90640.h</file>
+         <hash>08924771da4eb88cb2189e33db13f13b4ebd17ed0ecabad9666763b47fcdba94</hash>
       </entry>
       <entry>
          <file>..\src\third_party\rtos\FreeRTOS\Source\FreeRTOS_tasks.c</file>
@@ -16605,8 +16750,8 @@
          <hash>166f2c5cafe84b0bab9bfbea52f35de8e2f9ce8de79eb8a036fa6fb5d7f814a2</hash>
       </entry>
       <entry>
-         <file>..\src\third_party\rtos\FreeRTOS\Source\portable\MemMang\heap_1.c</file>
-         <hash>286e3fee81c9107fc6dec40405f500cabdca56836d29747c182f0899bb8997fd</hash>
+         <file>..\src\third_party\rtos\FreeRTOS\Source\portable\MemMang\heap_3.c</file>
+         <hash>e2d5dbb3f3ccbadd8e7ae778f30c18d28b0532ebfe81b03aa6a20e3f75242853</hash>
       </entry>
       <entry>
          <file>..\src\third_party\rtos\FreeRTOS\Source\queue.c</file>
@@ -16619,6 +16764,14 @@
       <entry>
          <file>..\src\third_party\rtos\FreeRTOS\Source\timers.c</file>
          <hash>24962ef361f396aaa5e6e33776eeeddaf2fb251c87b6fe50602acc56c537b093</hash>
+      </entry>
+      <entry>
+         <file>..\src\vl53l5cx.cpp</file>
+         <hash>41341ef9864a14a2476c99068f14b1cb9297530a677274065d5ce4b74bec73f3</hash>
+      </entry>
+      <entry>
+         <file>..\src\vl53l5cx.h</file>
+         <hash>34eb45255f69ef1da3b6823491b6f5945b35a1376c2a55a198846b9001ba9283</hash>
       </entry>
    </generatedFileHashHistoryMap>
 </config>

@@ -5,7 +5,7 @@
     Microchip Technology Inc.
 
   File Name:
-    app.h
+    vl53l5cx.h
 
   Summary:
     This header file provides prototypes and definitions for the application.
@@ -13,13 +13,13 @@
   Description:
     This header file provides function prototypes and data type definitions for
     the application.  Some of these are required by the system (such as the
-    "APP_Initialize" and "APP_Tasks" prototypes) and some of them are only used
-    internally by the application (such as the "APP_STATES" definition).  Both
+    "VL53L5CX_Initialize" and "VL53L5CX_Tasks" prototypes) and some of them are only used
+    internally by the application (such as the "VL53L5CX_STATES" definition).  Both
     are defined here for convenience.
  *******************************************************************************/
 
-#ifndef _APP_H
-#define _APP_H
+#ifndef _VL53L5CX_H
+#define _VL53L5CX_H
 
 // *****************************************************************************
 // *****************************************************************************
@@ -33,6 +33,7 @@
 #include <stdlib.h>
 #include "configuration.h"
 #include "definitions.h"
+#include "sensors/vl53l5cx_api.h"
 
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility
@@ -62,11 +63,15 @@ extern "C" {
 
     typedef enum {
         /* Application's state machine's initial state. */
-        APP_STATE_INIT = 0,
-        APP_STATE_SERVICE_TASKS,
-        /* TODO: Define states used by the application state machine. */
+        VL53L5CX_STATE_INIT = 0,
+        VL53L5CX_STATE_OPEN_DRV_I2C,
+        VL53L5CX_STATE_POWER_ON,
+        VL53L5CX_STATE_START_RANGING,
+        VL53L5CX_STATE_SERVICE_TASKS,
+                
+        VL53L5CX_STATE_ERROR,
 
-    } APP_STATES;
+    } VL53L5CX_STATES;
 
 
     // *****************************************************************************
@@ -84,21 +89,15 @@ extern "C" {
      */
 
 
-    typedef struct {
-        bool done;
-        bool error;
-    } AT24_MEM;
 
     typedef struct {
         /* The application's current state */
-        APP_STATES state;
+        VL53L5CX_STATES state;
+        DRV_HANDLE drvI2CHandle;
+        VL53L5CX_Configuration Dev; /* Sensor configuration */
+        VL53L5CX_ResultsData Results; /* Results data from VL53L5CX */
 
-        /* TODO: Define any additional data used by the application. */
-        DRV_HANDLE handle;
-//        DRV_AT24_GEOMETRY geometry;
-//        AT24_MEM mem;
-
-    } APP_DATA;
+    } VL53L5CX_DATA;
 
     // *****************************************************************************
     // *****************************************************************************
@@ -116,7 +115,7 @@ extern "C" {
 
     /*******************************************************************************
       Function:
-        void APP_Initialize ( void )
+    void VL53L5CX_Initialize ( void )
 
       Summary:
          MPLAB Harmony application initialization routine.
@@ -124,7 +123,7 @@ extern "C" {
       Description:
         This function initializes the Harmony application.  It places the
         application in its initial state and prepares it to run so that its
-        APP_Tasks function can be called.
+    VL53L5CX_Tasks function can be called.
 
       Precondition:
         All other system initialization routines should be called before calling
@@ -138,19 +137,19 @@ extern "C" {
 
       Example:
         <code>
-        APP_Initialize();
+    VL53L5CX_Initialize();
         </code>
 
       Remarks:
         This routine must be called from the SYS_Initialize function.
      */
 
-    void APP_Initialize(void);
+    void VL53L5CX_Initialize(void);
 
 
     /*******************************************************************************
       Function:
-        void APP_Tasks ( void )
+    void VL53L5CX_Tasks ( void )
 
       Summary:
         MPLAB Harmony Demo application tasks function
@@ -171,14 +170,14 @@ extern "C" {
 
       Example:
         <code>
-        APP_Tasks();
+    VL53L5CX_Tasks();
         </code>
 
       Remarks:
         This routine must be called from SYS_Tasks() routine.
      */
 
-    void APP_Tasks(void);
+    void VL53L5CX_Tasks(void);
 
     //DOM-IGNORE-BEGIN
 #ifdef __cplusplus
@@ -186,7 +185,7 @@ extern "C" {
 #endif
 //DOM-IGNORE-END
 
-#endif /* _APP_H */
+#endif /* _VL53L5CX_H */
 
 /*******************************************************************************
  End of File

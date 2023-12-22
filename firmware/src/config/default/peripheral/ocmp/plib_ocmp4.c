@@ -60,8 +60,8 @@ void OCMP4_Initialize (void)
 
     OC4CON = 0xe;
 
-    OC4R = 2000;
-    OC4RS = 2000;
+    OC4R = 3125;
+    OC4RS = 3125;
 
 }
 

@@ -5,7 +5,7 @@
     Microchip Technology Inc.
 
   File Name:
-    app.h
+    cdc.h
 
   Summary:
     This header file provides prototypes and definitions for the application.
@@ -13,13 +13,13 @@
   Description:
     This header file provides function prototypes and data type definitions for
     the application.  Some of these are required by the system (such as the
-    "APP_Initialize" and "APP_Tasks" prototypes) and some of them are only used
-    internally by the application (such as the "APP_STATES" definition).  Both
+    "CDC_Initialize" and "CDC_Tasks" prototypes) and some of them are only used
+    internally by the application (such as the "CDC_STATES" definition).  Both
     are defined here for convenience.
  *******************************************************************************/
 
-#ifndef _APP_H
-#define _APP_H
+#ifndef _CDC_H
+#define _CDC_H
 
 // *****************************************************************************
 // *****************************************************************************
@@ -47,8 +47,12 @@ extern "C" {
     // Section: Type Definitions
     // *****************************************************************************
     // *****************************************************************************
-
     // *****************************************************************************
+
+#define  LED_Off()
+#define  LED_On()
+
+#define APP_READ_BUFFER_SIZE 512
 
     /* Application states
 
@@ -60,53 +64,83 @@ extern "C" {
         determine the behavior of the application at various times.
      */
 
-    typedef enum {
-        /* Application's state machine's initial state. */
-        APP_STATE_INIT = 0,
-        APP_STATE_SERVICE_TASKS,
-        /* TODO: Define states used by the application state machine. */
+#define USBDEVICETASK_OPENUSB_STATE                1
+#define USBDEVICETASK_ATTACHUSB_STATE              2
+#define USBDEVICETASK_PROCESSUSBEVENTS_STATE       3
 
-    } APP_STATES;
+#define USBDEVICETASK_USBPOWERED_EVENT             1
+#define USBDEVICETASK_USBCONFIGURED_EVENT          2
+#define USBDEVICETASK_READDONECOM1_EVENT           3
+#define USBDEVICETASK_WRITEDONECOM1_EVENT          4
+#define USBDEVICETASK_SOF_EVENT                    5
 
+    /******************************************************
+     * Application COM Port Object
+     ******************************************************/
+
+    typedef struct {
+        /* CDC instance number */
+        USB_DEVICE_CDC_INDEX cdcInstance;
+
+        /* Set Line Coding Data */
+        USB_CDC_LINE_CODING setLineCodingData;
+
+        /* Get Line Coding Data */
+        USB_CDC_LINE_CODING getLineCodingData;
+
+        /* Control Line State */
+        USB_CDC_CONTROL_LINE_STATE controlLineStateData;
+
+        /* Break data */
+        uint16_t breakData;
+
+    } APP_COM_PORT_OBJECT;
 
     // *****************************************************************************
 
     /* Application Data
 
-  Summary:
-    Holds application data
+      Summary:
+        Holds application data
 
-  Description:
-    This structure holds the application's data.
+      Description:
+        This structure holds the application's data.
 
-  Remarks:
-    Application strings and buffers are be defined outside this structure.
+      Remarks:
+        Application strings and buffers are be defined outside this structure.
      */
 
-
     typedef struct {
-        bool done;
-        bool error;
-    } AT24_MEM;
+        /* Device layer handle returned by device layer open function */
+        USB_DEVICE_HANDLE deviceHandle;
 
-    typedef struct {
-        /* The application's current state */
-        APP_STATES state;
+        /* This demo supports 1 COM port */
+        APP_COM_PORT_OBJECT appCOMPortObjects[1];
 
-        /* TODO: Define any additional data used by the application. */
-        DRV_HANDLE handle;
-//        DRV_AT24_GEOMETRY geometry;
-//        AT24_MEM mem;
+        int numBytesRead;
 
-    } APP_DATA;
+        /* True if the switch press needs to be ignored*/
+        bool ignoreSwitchPress;
+
+        /* Switch debounce timer */
+        unsigned int switchDebounceTimer;
+
+        /* Switch debounce timer count */
+        unsigned int debounceCount;
+
+        /* Device configured state */
+        bool isConfigured;
+
+    } APP_CDC_DATA;
 
     // *****************************************************************************
     // *****************************************************************************
     // Section: Application Callback Routines
     // *****************************************************************************
     // *****************************************************************************
-    /* These routines are called by drivers when certain events occur.
-     */
+
+    void APP_USBDeviceEventHandler(USB_DEVICE_EVENT event, void * pData, uintptr_t context);
+    USB_DEVICE_CDC_EVENT_RESPONSE APP_USBDeviceCDCEventHandler(USB_DEVICE_CDC_INDEX index, USB_DEVICE_CDC_EVENT event, void* pData, uintptr_t userData);
 
     // *****************************************************************************
     // *****************************************************************************
@@ -116,7 +150,7 @@ extern "C" {
 
     /*******************************************************************************
       Function:
-        void APP_Initialize ( void )
+        void CDC_Initialize ( void )
 
       Summary:
          MPLAB Harmony application initialization routine.
@@ -124,7 +158,7 @@ extern "C" {
       Description:
         This function initializes the Harmony application.  It places the
         application in its initial state and prepares it to run so that its
-        APP_Tasks function can be called.
+        CDC_Tasks function can be called.
 
       Precondition:
         All other system initialization routines should be called before calling
@@ -138,19 +172,19 @@ extern "C" {
 
       Example:
         <code>
-        APP_Initialize();
+        CDC_Initialize();
         </code>
 
       Remarks:
         This routine must be called from the SYS_Initialize function.
      */
 
-    void APP_Initialize(void);
+    void CDC_Initialize(void);
 
 
     /*******************************************************************************
       Function:
-        void APP_Tasks ( void )
+        void CDC_Tasks ( void )
 
       Summary:
         MPLAB Harmony Demo application tasks function
@@ -171,14 +205,14 @@ extern "C" {
 
       Example:
         <code>
-        APP_Tasks();
+        CDC_Tasks();
         </code>
 
       Remarks:
         This routine must be called from SYS_Tasks() routine.
      */
 
-    void APP_Tasks(void);
+    void CDC_Tasks(void);
 
     //DOM-IGNORE-BEGIN
 #ifdef __cplusplus
@@ -186,7 +220,7 @@ extern "C" {
 #endif
 //DOM-IGNORE-END
 
-#endif /* _APP_H */
+#endif /* _CDC_H */
 
 /*******************************************************************************
  End of File

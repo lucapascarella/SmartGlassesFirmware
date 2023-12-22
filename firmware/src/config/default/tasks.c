@@ -53,7 +53,6 @@
 #include "configuration.h"
 #include "definitions.h"
 #include "sys_tasks.h"
-#include "USB_CDC.h"
 
 
 // *****************************************************************************
@@ -114,6 +113,38 @@ static void lAPP_Tasks(  void *pvParameters  )
     }
 }
 
+/* Handle for the CDC_Tasks. */
+TaskHandle_t xCDC_Tasks;
+
+static void lCDC_Tasks(  void *pvParameters  )
+{   
+    while(true)
+    {
+        CDC_Tasks();
+    }
+}
+
+/* Handle for the CDC_Tasks. */
+TaskHandle_t xVL53L5CX_Tasks;
+
+static void lVL53L5CX_Tasks(  void *pvParameters  )
+{   
+    while(true)
+    {
+        VL53L5CX_Tasks();
+    }
+}
+
+/* Handle for the MLX90640_Tasks. */
+TaskHandle_t xMLX90640_Tasks;
+
+static void lMLX90640_Tasks(  void *pvParameters  )
+{   
+    while(true)
+    {
+        MLX90640_Tasks();
+    }
+}
 
 
 
@@ -134,6 +165,7 @@ void SYS_Tasks ( void )
 {
     /* Maintain system services */
     
+
     (void) xTaskCreate( lSYS_CMD_Tasks,
         "SYS_CMD_TASKS",
         SYS_CMD_RTOS_STACK_SIZE,
@@ -151,7 +183,6 @@ void SYS_Tasks ( void )
         SYS_FS_PRIORITY,
         (TaskHandle_t*)NULL
     );
-
 
 
 
@@ -182,20 +213,39 @@ void SYS_Tasks ( void )
 
     /* Maintain the application's state machine. */
         /* Create OS Thread for APP_Tasks. */
-    xTaskCreate((TaskFunction_t) lAPP_Tasks,
+    (void) xTaskCreate((TaskFunction_t) lAPP_Tasks,
                 "APP_Tasks",
                 1024,
                 NULL,
                 1,
                 &xAPP_Tasks);
 
+//    /* Create OS Thread for CDC_Tasks. */
+//    (void) xTaskCreate((TaskFunction_t) lCDC_Tasks,
+//                "CDC_Tasks",
+//                1024,
+//                NULL,
+//                1,
+//                &xCDC_Tasks);
 
-    xTaskCreate((TaskFunction_t) APP_FREERTOS_Tasks,
-                "USB_AttachTask",
-                1024u,
+    /* Create OS Thread for VL53L5CX_Tasks. */
+    (void) xTaskCreate((TaskFunction_t) lVL53L5CX_Tasks,
+                "VL53L5CX",
+                1024,
                 NULL,
-                4u,
-                NULL);
+                1,
+                &xVL53L5CX_Tasks);
+
+    /* Create OS Thread for MLX90640_Tasks. */
+    (void) xTaskCreate((TaskFunction_t) lMLX90640_Tasks,
+                "MLX90640",
+                1024,
+                NULL,
+                1,
+                &xMLX90640_Tasks);
+
+
+
 
     /* Start RTOS Scheduler. */
     
