@@ -79,6 +79,17 @@ extern "C" {
 // Section: System Service Configuration
 // *****************************************************************************
 // *****************************************************************************
+/* TIME System Service Configuration Options */
+#define SYS_TIME_INDEX_0                            (0)
+#define SYS_TIME_MAX_TIMERS                         (5)
+#define SYS_TIME_HW_COUNTER_WIDTH                   (32)
+#define SYS_TIME_TICK_FREQ_IN_HZ                    (1525.90218)
+
+#define SYS_CONSOLE_INDEX_0                       0
+
+
+
+
 
 #define SYS_CMD_ENABLE
 #define SYS_CMD_DEVICE_MAX_INSTANCES       SYS_CONSOLE_DEVICE_MAX_INSTANCES
@@ -95,12 +106,6 @@ extern "C" {
 #define SYS_DEBUG_BUFFER_DMA_READY
 #define SYS_DEBUG_USE_CONSOLE
 
-
-/* TIME System Service Configuration Options */
-#define SYS_TIME_INDEX_0                            (0)
-#define SYS_TIME_MAX_TIMERS                         (5)
-#define SYS_TIME_HW_COUNTER_WIDTH                   (32)
-#define SYS_TIME_TICK_FREQ_IN_HZ                    (1525.90218)
 
 
 /* File System Service Configuration */
@@ -138,11 +143,6 @@ extern "C" {
 #define SYS_CONSOLE_PRINT_BUFFER_SIZE        		(4096U)
 
 
-#define SYS_CONSOLE_INDEX_0                       0
-
-
-
-
 
 
 // *****************************************************************************
@@ -152,14 +152,6 @@ extern "C" {
 // *****************************************************************************
 /* Memory Driver Global Configuration Options */
 #define DRV_MEMORY_INSTANCES_NUMBER          (1U)
-/* SST26 Driver Instance Configuration */
-#define DRV_SST26_INDEX                 (0U)
-#define DRV_SST26_CLIENTS_NUMBER        (1U)
-#define DRV_SST26_START_ADDRESS         (0x0U)
-#define DRV_SST26_PAGE_SIZE             (256U)
-#define DRV_SST26_ERASE_BUFFER_SIZE     (4096U)
-#define DRV_SST26_BUFF_DESC_NUMBER      (10U)
-
 
 /* Memory Driver Instance 0 Configuration */
 #define DRV_MEMORY_INDEX_0                   0
@@ -179,6 +171,14 @@ extern "C" {
 #define DRV_AT24_EEPROM_FLASH_SIZE             (32768)
 #define DRV_AT24_EEPROM_PAGE_SIZE              (64)
 #define DRV_AT24_WRITE_BUFFER_SIZE             (66)
+/* SST26 Driver Instance Configuration */
+#define DRV_SST26_INDEX                 (0U)
+#define DRV_SST26_CLIENTS_NUMBER        (1U)
+#define DRV_SST26_START_ADDRESS         (0x0U)
+#define DRV_SST26_PAGE_SIZE             (256U)
+#define DRV_SST26_ERASE_BUFFER_SIZE     (4096U)
+#define DRV_SST26_BUFF_DESC_NUMBER      (10U)
+
 
 
 // *****************************************************************************

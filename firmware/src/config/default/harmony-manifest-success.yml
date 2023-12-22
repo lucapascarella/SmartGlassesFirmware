@@ -4,7 +4,7 @@
 
 
 project: SmartGlasses
-creation_date: 2023-12-21T09:05:55.239+01:00[Europe/Berlin]    # ISO 8601 format: https://www.w3.org/TR/NOTE-datetime
+creation_date: 2023-12-22T09:51:32.679+01:00[Europe/Berlin]    # ISO 8601 format: https://www.w3.org/TR/NOTE-datetime
 operating_system: Windows 10
 mcc_mode: IDE            # [IDE|Standalone|Headless]
 mcc_version: v5.4.1
@@ -17,8 +17,8 @@ modules:
     - {name: "core", version: "v3.13.1"}
     - {name: "csp", version: "v3.18.0"}
     - {name: "filex", version: "v6.2.1_rel"}
-    - {name: "dev_packs", version: "v3.18.0"}
     - {name: "usb", version: "v3.11.0"}
+    - {name: "dev_packs", version: "v3.18.0"}
     - {name: "littlefs", version: "v2.7.0"}
     - {name: "CMSIS-FreeRTOS", version: "v10.5.1"}
 

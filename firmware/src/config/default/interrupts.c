@@ -67,6 +67,8 @@
 // Section: System Interrupt Vector declarations
 // *****************************************************************************
 // *****************************************************************************
+void ToF_Right_Handler (void);
+void ToF_Left_Handler (void);
 void TIMER_3_Handler (void);
 void UART1_FAULT_Handler (void);
 void UART1_RX_Handler (void);
@@ -84,6 +86,16 @@ void SQI1_Handler (void);
 // *****************************************************************************
 // *****************************************************************************
 
+
+void ToF_Right_Handler (void)
+{
+    EXTERNAL_1_InterruptHandler();
+}
+
+void ToF_Left_Handler (void)
+{
+    EXTERNAL_2_InterruptHandler();
+}
 
 void TIMER_3_Handler (void)
 {

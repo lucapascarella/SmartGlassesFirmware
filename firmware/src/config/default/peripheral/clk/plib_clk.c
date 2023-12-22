@@ -114,8 +114,8 @@ void CLK_Initialize( void )
     /* ROTRIM = 472 */
     REFO4TRIM = 0xec000000;
 
-    /* Enable oscillator (ON bit) and Enable Output (OE bit) */
-    REFO4CONSET = 0x00001000U | 0x00008000U;
+    /* Enable oscillator (ON bit) */
+    REFO4CONSET = 0x00008000;
 
   
 
@@ -125,10 +125,10 @@ void CLK_Initialize( void )
 
     PMD1 = 0x1001U;
     PMD2 = 0x3U;
-    PMD3 = 0x1fb01ffU;
+    PMD3 = 0x1e301ffU;
     PMD4 = 0x1faU;
     PMD5 = 0x301e3f3eU;
-    PMD6 = 0x10030001U;
+    PMD6 = 0x10030000U;
     PMD7 = 0x500000U;
 
     CFGCONbits.PMDLOCK = 1;

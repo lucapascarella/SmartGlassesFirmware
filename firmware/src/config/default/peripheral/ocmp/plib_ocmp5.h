@@ -1,22 +1,22 @@
 /*******************************************************************************
- System Interrupts File
+  Output Compare (OCMP) Peripheral Library Interface Header File
 
   Company:
     Microchip Technology Inc.
 
   File Name:
-    interrupt.h
+    plib_ocmp5.h
 
   Summary:
-    Interrupt vectors mapping
+    OCMP PLIB Header File
 
   Description:
-    This file contains declarations of device vectors used by Harmony 3
- *******************************************************************************/
+    None
 
-// DOM-IGNORE-BEGIN
+*******************************************************************************/
+
 /*******************************************************************************
-* Copyright (C) 2018 Microchip Technology Inc. and its subsidiaries.
+* Copyright (C) 2019 Microchip Technology Inc. and its subsidiaries.
 *
 * Subject to your compliance with these terms, you may use Microchip software
 * and any derivatives exclusively with Microchip products. It is your
@@ -36,39 +36,97 @@
 * FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
- *******************************************************************************/
+*******************************************************************************/
+
+#ifndef PLIB_OCMP5_H
+#define PLIB_OCMP5_H
+
+#include <stddef.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include "device.h"
+#include "plib_ocmp_common.h"
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+    extern "C" {
+#endif
 // DOM-IGNORE-END
 
-#ifndef INTERRUPTS_H
-#define INTERRUPTS_H
 
 // *****************************************************************************
-// *****************************************************************************
-// Section: Included Files
-// *****************************************************************************
-// *****************************************************************************
-#include <stdint.h>
-
-
-
-// *****************************************************************************
-// *****************************************************************************
-// Section: Handler Routines
+// Section: Interface
 // *****************************************************************************
 // *****************************************************************************
 
-void EXTERNAL_1_InterruptHandler( void );
-void EXTERNAL_2_InterruptHandler( void );
-void TIMER_3_InterruptHandler( void );
-void UART1_FAULT_InterruptHandler( void );
-void UART1_RX_InterruptHandler( void );
-void UART1_TX_InterruptHandler( void );
-void I2C1_BUS_InterruptHandler( void );
-void I2C1_MASTER_InterruptHandler( void );
-void DRV_USBHS_InterruptHandler( void );
-void DRV_USBHS_DMAInterruptHandler( void );
-void SQI1_InterruptHandler( void );
+/*************************** OCMP5 API ****************************************/
+// *****************************************************************************
+/* Function:
+   void OCMP5_Initialize (void)
+
+  Summary:
+    Initialization function OCMP5 peripheral
+
+  Description:
+    This function initializes the OCMP5 peripheral with user input
+	from the configurator.
+
+  Parameters:
+    void
+
+  Returns:
+    void
+*/
+void OCMP5_Initialize (void);
+
+// *****************************************************************************
+/* Function:
+   void OCMP5_Enable (void)
+
+  Summary:
+    Enable function OCMP5 peripheral
+
+  Description:
+    This function enables the OCMP5 peripheral
+
+  Parameters:
+    void
+
+  Returns:
+    void
+*/
+void OCMP5_Enable (void);
+
+// *****************************************************************************
+/* Function:
+   void OCMP5_Disable (void)
+
+  Summary:
+    Disable function OCMP5 peripheral
+
+  Description:
+    This function disables the OCMP5 peripheral.
+
+  Parameters:
+    void
+
+  Returns:
+    void
+*/
+void OCMP5_Disable (void);
 
 
 
-#endif // INTERRUPTS_H
+uint16_t OCMP5_CompareValueGet (void);
+
+uint16_t OCMP5_CompareSecondaryValueGet (void);
+void OCMP5_CompareSecondaryValueSet (uint16_t value);
+
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+    }
+#endif
+
+// DOM-IGNORE-END
+#endif // PLIB_OCMP5_H

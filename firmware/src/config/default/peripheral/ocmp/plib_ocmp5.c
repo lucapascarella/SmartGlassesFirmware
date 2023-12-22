@@ -1,22 +1,22 @@
 /*******************************************************************************
- System Interrupts File
+  Output Compare OCMP5 Peripheral Library (PLIB)
 
   Company:
     Microchip Technology Inc.
 
   File Name:
-    interrupt.h
+    plib_ocmp5.c
 
   Summary:
-    Interrupt vectors mapping
+    OCMP5 Source File
 
   Description:
-    This file contains declarations of device vectors used by Harmony 3
- *******************************************************************************/
+    None
 
-// DOM-IGNORE-BEGIN
+*******************************************************************************/
+
 /*******************************************************************************
-* Copyright (C) 2018 Microchip Technology Inc. and its subsidiaries.
+* Copyright (C) 2019 Microchip Technology Inc. and its subsidiaries.
 *
 * Subject to your compliance with these terms, you may use Microchip software
 * and any derivatives exclusively with Microchip products. It is your
@@ -36,39 +36,59 @@
 * FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
- *******************************************************************************/
-// DOM-IGNORE-END
-
-#ifndef INTERRUPTS_H
-#define INTERRUPTS_H
+*******************************************************************************/
+#include "plib_ocmp5.h"
+#include "interrupts.h"
 
 // *****************************************************************************
-// *****************************************************************************
-// Section: Included Files
-// *****************************************************************************
-// *****************************************************************************
-#include <stdint.h>
-
-
 
 // *****************************************************************************
-// *****************************************************************************
-// Section: Handler Routines
+// Section: OCMP5 Implementation
 // *****************************************************************************
 // *****************************************************************************
 
-void EXTERNAL_1_InterruptHandler( void );
-void EXTERNAL_2_InterruptHandler( void );
-void TIMER_3_InterruptHandler( void );
-void UART1_FAULT_InterruptHandler( void );
-void UART1_RX_InterruptHandler( void );
-void UART1_TX_InterruptHandler( void );
-void I2C1_BUS_InterruptHandler( void );
-void I2C1_MASTER_InterruptHandler( void );
-void DRV_USBHS_InterruptHandler( void );
-void DRV_USBHS_DMAInterruptHandler( void );
-void SQI1_InterruptHandler( void );
+// *****************************************************************************
+
+
+void OCMP5_Initialize (void)
+{
+    /*Setup OC5CON        */
+    /*OCM         = 6        */
+    /*OCTSEL       = 1        */
+    /*OC32         = 0        */
+    /*SIDL         = false    */
+
+    OC5CON = 0xe;
+
+    OC5R = 2000;
+    OC5RS = 2000;
+
+}
+
+void OCMP5_Enable (void)
+{
+    OC5CONSET = _OC5CON_ON_MASK;
+}
+
+void OCMP5_Disable (void)
+{
+    OC5CONCLR = _OC5CON_ON_MASK;
+}
 
 
 
-#endif // INTERRUPTS_H
+uint16_t OCMP5_CompareValueGet (void)
+{
+    return (uint16_t)OC5R;
+}
+
+void OCMP5_CompareSecondaryValueSet (uint16_t value)
+{
+    OC5RS = value;
+}
+
+uint16_t OCMP5_CompareSecondaryValueGet (void)
+{
+    return (uint16_t)OC5RS;
+}
+

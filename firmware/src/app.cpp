@@ -64,6 +64,14 @@ APP_DATA appData;
 // *****************************************************************************
 // *****************************************************************************
 
+void ToF_Left_INT1_Handler(EXTERNAL_INT_PIN pin, uintptr_t context) {
+
+}
+
+void ToF_Right_INT2_Handler(EXTERNAL_INT_PIN pin, uintptr_t context) {
+
+}
+
 void transferEventHandler(DRV_AT24_TRANSFER_STATUS event, uintptr_t context) {
     // The context handle was set to an application specific object.
     // It is now retrievable easily in the event handler.
@@ -129,9 +137,6 @@ void APP_Initialize(void) {
 
 void APP_Tasks(void) {
 
-
-
-
     /* Check the application's current state. */
     switch (appData.state) {
             /* Application's initial state. */
@@ -147,11 +152,11 @@ void APP_Tasks(void) {
                  */
                 logDebug("\a\033[1;1H\033[2J");
                 logDebug("Hello World!\r\n");
-                
+
                 // Enable 3V3
                 EN_3V3_OutputEnable();
                 EN_3V3_Set();
-                
+
                 // Enable 1V8
                 //EN_1V8_OutputEnable();
                 //EN_1V8_Set();
@@ -172,7 +177,7 @@ void APP_Tasks(void) {
                         logFatal("Cannot detect size of EEPROM\r\n");
                     }
                 }
-                
+
                 MCP9800_Initialize();
 
                 /* Active low output */
@@ -182,6 +187,37 @@ void APP_Tasks(void) {
                 //                LED_SYS_OutputEnable();
                 //                LED_SYS_Clear();
                 //                LED_SYS_Set();
+
+
+                // Testing VL53L5CX
+                // Reset ToF
+                TOF_RST_RIGHT_Clear();
+                TOF_RST_RIGHT_OutputEnable();
+                TOF_RST_RIGHT_Set();
+                TOF_RST_RIGHT_Clear();
+
+                // Disable I2C communication
+                TOF_LPn_RIGHT_Clear();
+                TOF_LPn_RIGHT_OutputEnable();
+
+                // Register interrupt handler
+                EVIC_ExternalInterruptCallbackRegister(EXTERNAL_INT_1, ToF_Left_INT1_Handler, (const uintptr_t) &appData);
+                EVIC_ExternalInterruptEnable(EXTERNAL_INT_1);
+
+                // Reset ToF
+                TOF_RST_LEFT_Clear();
+                TOF_RST_LEFT_OutputEnable();
+                TOF_RST_LEFT_Set();
+                TOF_RST_LEFT_Clear();
+
+                // Disable I2C communication
+                TOF_LPn_LEFT_Clear();
+                TOF_LPn_LEFT_OutputEnable();
+
+                // Register interrupt handler
+                EVIC_ExternalInterruptCallbackRegister(EXTERNAL_INT_2, ToF_Right_INT2_Handler, (const uintptr_t) &appData);
+                EVIC_ExternalInterruptEnable(EXTERNAL_INT_2);
+
                 appData.state = APP_STATE_SERVICE_TASKS;
             }
             break;

@@ -429,9 +429,11 @@ void SYS_Initialize ( void* data )
 
 	GPIO_Initialize();
 
-    OCMP3_Initialize();
+    OCMP4_Initialize();
 
-    I2C1_Initialize();
+    OCMP5_Initialize();
+
+    OCMP3_Initialize();
 
 	UART1_Initialize();
 
@@ -441,7 +443,9 @@ void SYS_Initialize ( void* data )
 
     SQI1_Initialize();
 
+    I2C1_Initialize();
 
+    RTCC_Initialize();
 
     /* MISRAC 2012 deviation block start */
     /* Following MISRA-C rules deviated in this block  */

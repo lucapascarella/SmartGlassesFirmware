@@ -52,6 +52,42 @@
 #include <xc.h>
 #include "ISR_Support.h"
 
+    .extern  ToF_Right_Handler
+
+    .section   .vector_8,code, keep
+    .equ     __vector_dispatch_8, IntVectorToF_Right_Handler
+    .global  __vector_dispatch_8
+    .set     nomicromips
+    .set     noreorder
+    .set     nomips16
+    .set     noat
+    .ent  IntVectorToF_Right_Handler
+
+IntVectorToF_Right_Handler:
+    portSAVE_CONTEXT
+    la    s6,  ToF_Right_Handler
+    jalr  s6
+    nop
+    portRESTORE_CONTEXT
+    .end   IntVectorToF_Right_Handler
+    .extern  ToF_Left_Handler
+
+    .section   .vector_13,code, keep
+    .equ     __vector_dispatch_13, IntVectorToF_Left_Handler
+    .global  __vector_dispatch_13
+    .set     nomicromips
+    .set     noreorder
+    .set     nomips16
+    .set     noat
+    .ent  IntVectorToF_Left_Handler
+
+IntVectorToF_Left_Handler:
+    portSAVE_CONTEXT
+    la    s6,  ToF_Left_Handler
+    jalr  s6
+    nop
+    portRESTORE_CONTEXT
+    .end   IntVectorToF_Left_Handler
     .extern  TIMER_3_Handler
 
     .section   .vector_14,code, keep
