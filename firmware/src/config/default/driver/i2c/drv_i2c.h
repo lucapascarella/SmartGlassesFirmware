@@ -1117,6 +1117,17 @@ bool DRV_I2C_WriteTransfer(
     const size_t writeSize
 );
 
+#if defined (ENABLE_ADDRESS_FIRST)
+bool DRV_I2C_WriteTransferPlusAddress(
+    const DRV_HANDLE handle,
+    uint16_t address,
+    void* const addressBuffer,
+    const size_t addressWriteSize,
+    void* const writeBuffer,
+    const size_t writeSize
+);
+#endif
+
 // *****************************************************************************
 /* Function:
     bool DRV_I2C_ForcedWriteTransfer(

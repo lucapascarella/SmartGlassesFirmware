@@ -390,6 +390,10 @@ void DRV_I2C_Close( const DRV_HANDLE handle )
 static bool lDRV_I2C_WriteReadTransfer (
     const DRV_HANDLE handle,
     uint16_t address,
+#if defined (ENABLE_ADDRESS_FIRST)
+    void* const addressBuffer,
+    const size_t addressWriteSize,
+#endif
     void* const writeBuffer,
     const size_t writeSize,
     void* const readBuffer,
@@ -417,7 +421,7 @@ static bool lDRV_I2C_WriteReadTransfer (
             return isSuccess;
         }
     }
-    else if ((transferFlags == DRV_I2C_TRANSFER_OBJ_FLAG_WR) || (transferFlags == DRV_I2C_TRANSFER_OBJ_FLAG_WR_FRCD))
+    else if (((transferFlags == DRV_I2C_TRANSFER_OBJ_FLAG_WR) || (transferFlags == DRV_I2C_TRANSFER_OBJ_FLAG_WR_FIRST)) || (transferFlags == DRV_I2C_TRANSFER_OBJ_FLAG_WR_FRCD))
     {
         if((writeSize == 0U) || (writeBuffer == NULL))
         {
@@ -490,6 +494,15 @@ static bool lDRV_I2C_WriteReadTransfer (
                     isReqAccepted = true;
                 }
                 break;
+            
+#if defined (ENABLE_ADDRESS_FIRST)
+            case DRV_I2C_TRANSFER_OBJ_FLAG_WR_FIRST:
+                if (hDriver->i2cPlib->write_addr_t(address, addressBuffer, addressWriteSize, writeBuffer, writeSize) == true)
+                {
+                    isReqAccepted = true;
+                }
+                break;
+#endif
 
             default:
                      /* Nothing to do */
@@ -539,6 +552,10 @@ bool DRV_I2C_ReadTransfer(
     return lDRV_I2C_WriteReadTransfer(
         handle,
         address,
+#if defined (ENABLE_ADDRESS_FIRST)
+        NULL,
+        0,
+#endif
         NULL,
         0,
         readBuffer,
@@ -557,6 +574,10 @@ bool DRV_I2C_WriteTransfer(
     return lDRV_I2C_WriteReadTransfer(
         handle,
         address,
+#if defined (ENABLE_ADDRESS_FIRST)
+        NULL,
+        0,
+#endif
         writeBuffer,
         writeSize,
         NULL,
@@ -564,6 +585,32 @@ bool DRV_I2C_WriteTransfer(
         DRV_I2C_TRANSFER_OBJ_FLAG_WR
     );
 }
+
+#if defined (ENABLE_ADDRESS_FIRST)
+bool DRV_I2C_WriteTransferPlusAddress(
+    const DRV_HANDLE handle,
+    uint16_t address,
+    void* const addressBuffer,
+    const size_t addressWriteSize,
+    void* const writeBuffer,
+    const size_t writeSize
+)
+{
+    return lDRV_I2C_WriteReadTransfer(
+        handle,
+        address,
+#if defined (ENABLE_ADDRESS_FIRST)
+        addressBuffer,
+        addressWriteSize,
+#endif
+        writeBuffer,
+        writeSize,
+        NULL,
+        0,
+        DRV_I2C_TRANSFER_OBJ_FLAG_WR_FIRST
+    );
+}
+#endif
 
 bool DRV_I2C_ForcedWriteTransfer(
     const DRV_HANDLE handle,
@@ -575,6 +622,10 @@ bool DRV_I2C_ForcedWriteTransfer(
     return lDRV_I2C_WriteReadTransfer(
         handle,
         address,
+#if defined (ENABLE_ADDRESS_FIRST)
+        NULL,
+        0,
+#endif
         writeBuffer,
         writeSize,
         NULL,
@@ -595,6 +646,10 @@ bool DRV_I2C_WriteReadTransfer (
     return lDRV_I2C_WriteReadTransfer(
         handle,
         address,
+#if defined (ENABLE_ADDRESS_FIRST)
+        NULL,
+        0,
+#endif
         writeBuffer,
         writeSize,
         readBuffer,

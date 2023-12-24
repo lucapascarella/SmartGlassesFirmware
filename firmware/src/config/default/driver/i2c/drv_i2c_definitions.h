@@ -128,6 +128,10 @@ typedef bool (* DRV_I2C_PLIB_WRITE_FORCED)( uint16_t address, uint8_t *pdata, ui
 
 typedef bool (* DRV_I2C_PLIB_WRITE_READ)( uint16_t address, uint8_t *wdata, uint32_t wlength, uint8_t *rdata, uint32_t rlength );
 
+#if defined (ENABLE_ADDRESS_FIRST)
+typedef bool (* DRV_I2C_PLIB_WRITE_FIRST)( uint16_t address, uint8_t *adata, uint32_t alength, uint8_t *wdata, uint32_t wlength);
+#endif
+
 typedef void (* DRV_I2C_PLIB_TRANSFER_ABORT) (void);
 
 typedef DRV_I2C_ERROR (* DRV_I2C_PLIB_ERROR_GET)( void );
@@ -180,6 +184,11 @@ typedef struct
     /* I2C PLib write API */
     DRV_I2C_PLIB_WRITE                          write_t;
 
+#if defined (ENABLE_ADDRESS_FIRST)
+    /* I2C PLib write API */
+    DRV_I2C_PLIB_WRITE_FIRST                    write_addr_t;
+#endif
+    
     /* I2C PLib forced write API */
     DRV_I2C_PLIB_WRITE_FORCED                   writeForced;
 

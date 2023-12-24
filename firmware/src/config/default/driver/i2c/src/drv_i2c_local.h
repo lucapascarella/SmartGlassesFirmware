@@ -104,6 +104,11 @@ typedef enum
 
     /* Indicates this buffer was submitted by a force write function */
     DRV_I2C_TRANSFER_OBJ_FLAG_WR_FRCD = 1 << 3,
+            
+#if defined (ENABLE_ADDRESS_FIRST)
+    /* Indicates this buffer was submitted by a write function plus address first*/
+    DRV_I2C_TRANSFER_OBJ_FLAG_WR_FIRST = 1 << 4,
+#endif
 
 } DRV_I2C_TRANSFER_OBJ_FLAGS;
 

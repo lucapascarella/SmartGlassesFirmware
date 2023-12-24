@@ -177,24 +177,25 @@ void VL53L5CX_Tasks(void) {
 
             /* (Optional) Check if there is a VL53L5CX sensor connected */
             status = vl53l5cx_is_alive(&vl53l5cxData.Dev, &isAlive);
-            if (!isAlive || status) {
-                logError("VL53L5CX not detected at requested address\r\n");
-                vl53l5cxData.state = VL53L5CX_STATE_ERROR;
-            } else {
+            if (isAlive && status == VL53L5CX_STATUS_OK) {
                 /* (Mandatory) Init VL53L5CX sensor */
                 status = vl53l5cx_init(&vl53l5cxData.Dev);
-                if (status) {
-                    logFatal("VL53L5CX ULD Loading failed\r\n");
-                    vl53l5cxData.state = VL53L5CX_STATE_ERROR;
-                } else {
+                if (status == VL53L5CX_STATUS_OK) {
                     logDebug("VL53L5CX ULD ready ! (Version : %s)\r\n", VL53L5CX_API_REVISION);
                     vl53l5cxData.state = VL53L5CX_STATE_START_RANGING;
+                } else {
+                    logFatal("VL53L5CX ULD Loading failed\r\n");
+                    vl53l5cxData.state = VL53L5CX_STATE_ERROR;
                 }
+            } else {
+                logError("VL53L5CX not detected at requested address\r\n");
+                vl53l5cxData.state = VL53L5CX_STATE_ERROR;
             }
             break;
 
         case VL53L5CX_STATE_START_RANGING:
             status = vl53l5cx_start_ranging(&vl53l5cxData.Dev);
+            vl53l5cxData.state = VL53L5CX_STATE_SERVICE_TASKS;
             break;
 
         case VL53L5CX_STATE_SERVICE_TASKS:

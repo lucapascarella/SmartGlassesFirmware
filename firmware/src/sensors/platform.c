@@ -73,23 +73,14 @@ uint8_t WrMulti(VL53L5CX_Platform *p_platform, uint16_t RegisterAdress, uint8_t 
         TOF_LPn_RIGHT_Set(); // Logic 0 disables the I2C comms
     }
 
-    uint8_t *write_buffer;
+    uint8_t reg_addr[2];
+    reg_addr[1] = RegisterAdress;
+    reg_addr[0] = RegisterAdress >> 8;
+    bool rtn = DRV_I2C_WriteTransferPlusAddress(p_platform->drvI2CHandle, DEVICE_ADDRESS, reg_addr, 2, p_values, size);
 
-    write_buffer = OSAL_Malloc(size + 2);
-    if (write_buffer != NULL) {
-        write_buffer[1] = RegisterAdress;
-        write_buffer[0] = RegisterAdress >> 8;
-        for (uint32_t i = 0; i < size; i++) {
-            write_buffer[i + 2] = p_values[i];
-        }
-        bool rtn = DRV_I2C_WriteTransfer(p_platform->drvI2CHandle, DEVICE_ADDRESS, &write_buffer, size + 2);
-        OSAL_Free(write_buffer);
-        
-        uint8_t status = rtn ? 0 : 255;
+    uint8_t status = rtn ? 0 : 255;
 
-        return status;
-    }
-    return 255u;
+    return status;
 }
 
 uint8_t RdMulti(VL53L5CX_Platform *p_platform, uint16_t RegisterAdress, uint8_t *p_values, uint32_t size) {

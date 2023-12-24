@@ -58,6 +58,8 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+#define ENABLE_ADDRESS_FIRST
+
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility
 
@@ -189,11 +191,20 @@ typedef void (*I2C_CALLBACK) (uintptr_t contextHandle);
 typedef struct
 {
     uint16_t                address;
+#if defined (ENABLE_ADDRESS_FIRST)
+    uint8_t*                addressBuffer;
+#endif
     uint8_t*                writeBuffer;
     uint8_t*                readBuffer;
+#if defined (ENABLE_ADDRESS_FIRST)
+    size_t                  writeAddressSize;
+#endif
     size_t                  writeSize;
     size_t                  readSize;
     size_t                  writeCount;
+#if defined (ENABLE_ADDRESS_FIRST)
+    size_t                  addressCount;
+#endif
     size_t                  readCount;
     bool                    forcedWrite;
     I2C_TRANSFER_TYPE       transferType;

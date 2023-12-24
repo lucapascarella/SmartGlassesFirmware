@@ -54,6 +54,8 @@
 
 #include "plib_i2c_master_common.h"
 
+#define ENABLE_ADDRESS_FIRST
+
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus // Provide C++ Compatibility
 
@@ -245,6 +247,10 @@ bool I2C1_Read(uint16_t address, uint8_t* rdata, size_t rlength);
     None.
 */
 bool I2C1_Write(uint16_t address, uint8_t* wdata, size_t wlength);
+
+#if defined (ENABLE_ADDRESS_FIRST)
+bool I2C1_WriteAddressFirst(uint16_t address, uint8_t* adata, size_t alength, uint8_t* wdata, size_t wlength);
+#endif
 
 // *****************************************************************************
 /* Function:
