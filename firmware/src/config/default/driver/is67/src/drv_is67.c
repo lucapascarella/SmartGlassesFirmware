@@ -66,14 +66,12 @@
 static DRV_IS67_OBJECT gDrvIS67Obj;
 static DRV_IS67_OBJECT *dObj = &gDrvIS67Obj;
 
-///* Table mapping the Flash ID's to their sizes. */
-//static uint32_t gSstFlashIdSizeTable [5][2] = {
-//    {0x01, 0x200000}, /* 16 MBit */
-//    {0x41, 0x200000}, /* 16 MBit */
-//    {0x02, 0x400000}, /* 32 MBit */
-//    {0x42, 0x400000}, /* 32 MBit */
-//    {0x43, 0x800000}  /* 64 MBit */
-//};
+/* Table mapping the Flash ID's to their sizes. */
+static uint32_t gSstMemoryIdSizeTable [3][2] = {
+    {0x00, 0x100000}, /*  8 MBit */
+    {0x01, 0x200000}, /* 16 MBit */
+    {0x02, 0x400000}, /* 32 MBit */
+};
 
 static sqi_dma_desc_t CACHE_ALIGN sqiCmdDesc[CMD_DESC_NUMBER];
 static sqi_dma_desc_t CACHE_ALIGN sqiBufDesc[DRV_IS67_BUFF_DESC_NUMBER];
@@ -82,19 +80,14 @@ static uint8_t CACHE_ALIGN statusRegVal;
 
 static uint8_t CACHE_ALIGN jedecID[8];
 
-static uint8_t CACHE_ALIGN sqi_cmd_jedec[8];
+static uint8_t CACHE_ALIGN sqi_cmd_jedec[4];
 static uint8_t CACHE_ALIGN sqi_cmd_eqio;
 static uint8_t CACHE_ALIGN sqi_cmd_rsten;
 static uint8_t CACHE_ALIGN sqi_cmd_rst;
-static uint8_t CACHE_ALIGN sqi_cmd_wren;
 static uint8_t CACHE_ALIGN sqi_cmd_rdsr[2];
-static uint8_t CACHE_ALIGN sqi_cmd_ce;
-static uint8_t CACHE_ALIGN sqi_cmd_se[4];
-static uint8_t CACHE_ALIGN sqi_cmd_be[4];
-static uint8_t CACHE_ALIGN sqi_cmd_pp[4];
-static uint8_t CACHE_ALIGN sqi_cmd_hsr[7];
-static uint8_t CACHE_ALIGN sqi_cmd_ULBPR;
-static uint8_t CACHE_ALIGN sqi_cmd_dummy[6];
+static uint8_t CACHE_ALIGN sqi_cmd_wr[4];
+static uint8_t CACHE_ALIGN sqi_cmd_hsr[4];
+static uint8_t CACHE_ALIGN sqi_cmd_dummy[2];
 
 
 // *****************************************************************************
@@ -110,22 +103,22 @@ static void DRV_IS67_EventHandler(uintptr_t context)
     obj->isTransferDone = true;
 }
 
-///* This function returns the flash size in bytes for the specified deviceId. A
-// * zero is returned if the device id is not supported. */
-//static uint32_t DRV_IS67_GetFlashSize( uint8_t deviceId )
-//{
-//    uint8_t i = 0;
-//
-//    for (i = 0; i < 5; i++)
-//    {
-//        if (deviceId == gSstFlashIdSizeTable[i][0])
-//        {
-//            return gSstFlashIdSizeTable[i][1];
-//        }
-//    }
-//
-//    return 0;
-//}
+/* This function returns the flash size in bytes for the specified deviceId. A
+ * zero is returned if the device id is not supported. */
+static uint32_t DRV_IS67_GetMemorySize( uint8_t deviceId )
+{
+    uint8_t i = 0;
+
+    for (i = 0; i < 3; i++)
+    {
+        if (deviceId == gSstMemoryIdSizeTable[i][0])
+        {
+            return gSstMemoryIdSizeTable[i][1];
+        }
+    }
+
+    return 0;
+}
 
 static void DRV_IS67_ResetFlash(void)
 {
@@ -197,19 +190,6 @@ static void DRV_IS67_EnableQuadIO(void)
     }
 }
 
-//static void DRV_IS67_WriteEnable(void)
-//{
-//    sqi_cmd_wren                = (uint8_t)IS67_CMD_WRITE_ENABLE;
-//
-//    sqiCmdDesc[0].bd_ctrl       = ( SQI_BDCTRL_BUFFLEN_VAL(1) | DRV_SQI_LANE_MODE |
-//                                    SQI_CHIP_SELECT | SQI_BDCTRL_DEASSERT |
-//                                    SQI_BDCTRL_DESCEN);
-//
-//    sqiCmdDesc[0].bd_bufaddr    = (uint32_t *)KVA_TO_PA(&sqi_cmd_wren);
-//    sqiCmdDesc[0].bd_stat       = 0;
-//    sqiCmdDesc[0].bd_nxtptr     = (sqi_dma_desc_t *)KVA_TO_PA(&sqiCmdDesc[1]);
-//}
-
 static bool DRV_IS67_ValidateHandleAndCheckBusy( const DRV_HANDLE handle )
 {
     /* Validate the handle.
@@ -228,40 +208,6 @@ static bool DRV_IS67_ValidateHandleAndCheckBusy( const DRV_HANDLE handle )
 // *****************************************************************************
 // *****************************************************************************
 
-//bool DRV_IS67_UnlockFlash( const DRV_HANDLE handle )
-//{
-//    if(DRV_IS67_ValidateHandleAndCheckBusy(handle) == true)
-//    {
-//        return false;
-//    }
-//
-//    dObj->isTransferDone = false;
-//
-//    DRV_IS67_WriteEnable();
-//
-//    sqi_cmd_ULBPR               = (uint8_t)IS67_CMD_UNPROTECT_GLOBAL;
-//
-//    sqiCmdDesc[1].bd_ctrl       = ( SQI_BDCTRL_BUFFLEN_VAL(1) | SQI_BDCTRL_PKTINTEN |
-//                                    SQI_BDCTRL_LASTPKT | SQI_BDCTRL_LASTBD |
-//                                    DRV_SQI_LANE_MODE | SQI_CHIP_SELECT |
-//                                    SQI_BDCTRL_DEASSERT | SQI_BDCTRL_DESCEN);
-//
-//    sqiCmdDesc[1].bd_bufaddr    = (uint32_t *)KVA_TO_PA(&sqi_cmd_ULBPR);
-//    sqiCmdDesc[1].bd_stat       = 0;
-//    sqiCmdDesc[1].bd_nxtptr     = NULL;
-//
-//    dObj->curOpType = DRV_IS67_OPERATION_TYPE_CMD;
-//
-//    dObj->is67Plib->DMATransfer((sqi_dma_desc_t *)KVA_TO_PA(&sqiCmdDesc[0]));
-//
-//    while(dObj->isTransferDone == false)
-//    {
-//        /* Wait for  transfer to complete */
-//    }
-//
-//    return true;
-//}
-
 bool DRV_IS67_ReadJedecId( const DRV_HANDLE handle, void *jedec_id)
 {
     if(DRV_IS67_ValidateHandleAndCheckBusy(handle) == true)
@@ -275,10 +221,6 @@ bool DRV_IS67_ReadJedecId( const DRV_HANDLE handle, void *jedec_id)
     sqi_cmd_jedec[1]            = DUMMY_BYTE;
     sqi_cmd_jedec[2]            = DUMMY_BYTE;
     sqi_cmd_jedec[3]            = DUMMY_BYTE;
-//    sqi_cmd_jedec[4]            = DUMMY_BYTE;
-//    sqi_cmd_jedec[5]            = DUMMY_BYTE;
-//    sqi_cmd_jedec[6]            = DUMMY_BYTE;
-//    sqi_cmd_jedec[7]            = DUMMY_BYTE;
 
     sqiCmdDesc[0].bd_ctrl       = ( SQI_BDCTRL_BUFFLEN_VAL(4) | DRV_SQI_LANE_MODE |
                                     SQI_CHIP_SELECT | SQI_BDCTRL_DESCEN);
@@ -310,53 +252,6 @@ bool DRV_IS67_ReadJedecId( const DRV_HANDLE handle, void *jedec_id)
     return true;
 }
 
-bool DRV_IS67_ReadStatus( const DRV_HANDLE handle, void *rx_data, uint32_t rx_data_length )
-{
-    uint8_t *status = (uint8_t *)rx_data;
-
-    if(DRV_IS67_ValidateHandleAndCheckBusy(handle) == true)
-    {
-        return false;
-    }
-
-    dObj->isTransferDone = false;
-
-    sqi_cmd_rdsr[0]             = (uint8_t)IS67_CMD_READ_STATUS_REG;
-
-    sqi_cmd_rdsr[1]             = DUMMY_BYTE;
-
-    sqiCmdDesc[0].bd_ctrl       = ( SQI_BDCTRL_BUFFLEN_VAL(2) | DRV_SQI_LANE_MODE |
-                                    SQI_CHIP_SELECT | SQI_BDCTRL_DESCEN);
-
-    sqiCmdDesc[0].bd_bufaddr    = (uint32_t *)KVA_TO_PA(&sqi_cmd_rdsr);
-    sqiCmdDesc[0].bd_stat       = 0;
-    sqiCmdDesc[0].bd_nxtptr     = (sqi_dma_desc_t *)KVA_TO_PA(&sqiBufDesc[0]);
-
-    sqiBufDesc[0].bd_ctrl       = ( SQI_BDCTRL_BUFFLEN_VAL(rx_data_length) | SQI_BDCTRL_PKTINTEN |
-                                    SQI_BDCTRL_LASTPKT | SQI_BDCTRL_LASTBD |
-                                    DRV_SQI_LANE_MODE | SQI_BDCTRL_DIR_READ |
-                                    SQI_CHIP_SELECT | SQI_BDCTRL_DEASSERT |
-                                    SQI_BDCTRL_DESCEN);
-
-    sqiBufDesc[0].bd_bufaddr    = (uint32_t *)KVA_TO_PA(&statusRegVal);
-    sqiBufDesc[0].bd_stat       = 0;
-    sqiBufDesc[0].bd_nxtptr     = NULL;
-
-    dObj->curOpType = DRV_IS67_OPERATION_TYPE_READ;
-
-    // Initialize the root buffer descriptor
-    dObj->is67Plib->DMATransfer((sqi_dma_desc_t *)KVA_TO_PA(&sqiCmdDesc[0]));
-
-    while(dObj->isTransferDone == false)
-    {
-        /* Wait for transfer to complete */
-    }
-
-    *status = statusRegVal;
-
-    return true;
-}
-
 DRV_IS67_TRANSFER_STATUS DRV_IS67_TransferStatusGet( const DRV_HANDLE handle )
 {
     DRV_IS67_TRANSFER_STATUS status = DRV_IS67_TRANSFER_ERROR_UNKNOWN;
@@ -378,7 +273,7 @@ DRV_IS67_TRANSFER_STATUS DRV_IS67_TransferStatusGet( const DRV_HANDLE handle )
     return status;
 }
 
-bool DRV_IS67_Read( const DRV_HANDLE handle, void *rx_data, uint32_t rx_data_length, uint32_t address )
+bool DRV_IS67_Read( const DRV_HANDLE handle, void *rx_data, uint32_t rx_data_length, uint32_t address)
 {
     uint32_t pendingBytes   = rx_data_length;
     uint8_t *readBuffer     = (uint8_t *)rx_data;
@@ -390,7 +285,7 @@ bool DRV_IS67_Read( const DRV_HANDLE handle, void *rx_data, uint32_t rx_data_len
         return false;
     }
 
-    if (rx_data_length > (DRV_IS67_PAGE_SIZE * DRV_IS67_BUFF_DESC_NUMBER))
+    if (rx_data_length > (DRV_IS67_BURST_SIZE * DRV_IS67_BUFF_DESC_NUMBER))
     {
         return false;
     }
@@ -402,8 +297,6 @@ bool DRV_IS67_Read( const DRV_HANDLE handle, void *rx_data, uint32_t rx_data_len
     sqi_cmd_hsr[1] = (uint8_t)(0xFFU & (address >> 16));
     sqi_cmd_hsr[2] = (uint8_t)(0xFFU & (address >> 8));
     sqi_cmd_hsr[3] = (uint8_t)(0xFFU & (address >> 0));
-//    sqi_cmd_hsr[4] = DUMMY_BYTE;
-//    sqi_cmd_hsr[5] = DUMMY_BYTE;
 
     sqiCmdDesc[0].bd_ctrl       = ( SQI_BDCTRL_BUFFLEN_VAL(4) | DRV_SQI_LANE_MODE |
                                     SQI_CHIP_SELECT | SQI_BDCTRL_DESCEN);
@@ -424,9 +317,9 @@ bool DRV_IS67_Read( const DRV_HANDLE handle, void *rx_data, uint32_t rx_data_len
 
     while ((i < DRV_IS67_BUFF_DESC_NUMBER) && (pendingBytes > 0))
     {
-        if (pendingBytes > DRV_IS67_PAGE_SIZE)
+        if (pendingBytes > DRV_IS67_BURST_SIZE)
         {
-            numBytes = DRV_IS67_PAGE_SIZE;
+            numBytes = DRV_IS67_BURST_SIZE;
         }
         else
         {
@@ -460,43 +353,70 @@ bool DRV_IS67_Read( const DRV_HANDLE handle, void *rx_data, uint32_t rx_data_len
     return true;
 }
 
-bool DRV_IS67_Write( const DRV_HANDLE handle, void *tx_data, uint32_t tx_data_length, uint32_t address )
+bool DRV_IS67_Write( const DRV_HANDLE handle, void *tx_data, uint32_t tx_data_length, uint32_t address)
 {
+    uint32_t pendingBytes   = tx_data_length;
+    uint8_t *writeBuffer     = (uint8_t *)tx_data;
+    uint32_t numBytes       = 0;
+    uint32_t i              = 0;
+
+    
     if(DRV_IS67_ValidateHandleAndCheckBusy(handle) == true)
+    {
+        return false;
+    }
+    
+    if (tx_data_length > (DRV_IS67_BURST_SIZE * DRV_IS67_BUFF_DESC_NUMBER))
     {
         return false;
     }
 
     dObj->isTransferDone = false;
 
-    ////DRV_IS67_WriteEnable();
-
     // Construct parameters to issue page program command
-    sqi_cmd_pp[0] = (uint8_t)IS67_CMD_QUAD_IO_WRITE;
-    sqi_cmd_pp[1] = (uint8_t)(0xFFU & (address >> 16));
-    sqi_cmd_pp[2] = (uint8_t)(0xFFU & (address >> 8));
-    sqi_cmd_pp[3] = (uint8_t)(0xFFU & (address >> 0));
+    sqi_cmd_wr[0] = (uint8_t)IS67_CMD_QUAD_IO_WRITE;
+    sqi_cmd_wr[1] = (uint8_t)(0xFFU & (address >> 16));
+    sqi_cmd_wr[2] = (uint8_t)(0xFFU & (address >> 8));
+    sqi_cmd_wr[3] = (uint8_t)(0xFFU & (address >> 0));
 
     sqiCmdDesc[0].bd_ctrl       = ( SQI_BDCTRL_BUFFLEN_VAL(4) | DRV_SQI_LANE_MODE |
                                     SQI_CHIP_SELECT | SQI_BDCTRL_DESCEN);
 
-    sqiCmdDesc[0].bd_bufaddr    = (uint32_t *)KVA_TO_PA(&sqi_cmd_pp);
+    sqiCmdDesc[0].bd_bufaddr    = (uint32_t *)KVA_TO_PA(&sqi_cmd_wr);
     sqiCmdDesc[0].bd_stat       = 0;
     sqiCmdDesc[0].bd_nxtptr     = (sqi_dma_desc_t *)KVA_TO_PA(&sqiBufDesc[0]);
+    
+    while ((i < DRV_IS67_BUFF_DESC_NUMBER) && (pendingBytes > 0))
+    {
+        if (pendingBytes > DRV_IS67_BURST_SIZE)
+        {
+            numBytes = DRV_IS67_BURST_SIZE;
+        }
+        else
+        {
+            numBytes = pendingBytes;
+        }
 
-    if (tx_data_length > DRV_IS67_PAGE_SIZE)
-        tx_data_length = DRV_IS67_PAGE_SIZE;
-            
-    sqiBufDesc[0].bd_ctrl       = ( SQI_BDCTRL_BUFFLEN_VAL(tx_data_length) | SQI_BDCTRL_PKTINTEN |
-                                    SQI_BDCTRL_LASTPKT | SQI_BDCTRL_LASTBD |
-                                    DRV_SQI_LANE_MODE | //SQI_BDCTRL_SCHECK |
-                                    SQI_CHIP_SELECT | SQI_BDCTRL_DEASSERT |
-                                    SQI_BDCTRL_DESCEN);
+        sqiBufDesc[i].bd_ctrl       = ( SQI_BDCTRL_BUFFLEN_VAL(numBytes) | SQI_BDCTRL_PKTINTEN |
+                                        DRV_SQI_LANE_MODE | SQI_BDCTRL_DIR_WRITE |
+                                        SQI_CHIP_SELECT | SQI_BDCTRL_DESCEN);
 
-    sqiBufDesc[0].bd_bufaddr    = (uint32_t *)KVA_TO_PA((uint8_t*)tx_data);
-    sqiBufDesc[0].bd_stat       = 0;
-    sqiBufDesc[0].bd_nxtptr     = NULL;
+        sqiBufDesc[i].bd_bufaddr    = (uint32_t *)KVA_TO_PA(writeBuffer);
+        sqiBufDesc[i].bd_stat       = 0;
+        sqiBufDesc[i].bd_nxtptr     = (sqi_dma_desc_t *)KVA_TO_PA(&sqiBufDesc[i+1]);
 
+        pendingBytes    -= numBytes;
+        writeBuffer     += numBytes;
+        i++;
+    }
+
+    /* The last descriptor must indicate the end of the descriptor list */
+    sqiBufDesc[i-1].bd_ctrl         |= (SQI_BDCTRL_LASTPKT | SQI_BDCTRL_LASTBD |
+                                        SQI_BDCTRL_DEASSERT);
+
+    sqiBufDesc[i-1].bd_nxtptr       = NULL;
+
+    
     dObj->curOpType = DRV_IS67_OPERATION_TYPE_WRITE;
 
     // Initialize the root buffer descriptor
@@ -505,74 +425,9 @@ bool DRV_IS67_Write( const DRV_HANDLE handle, void *tx_data, uint32_t tx_data_le
     return true;
 }
 
-//static bool DRV_IS67_Erase( uint8_t *instruction, uint32_t length )
-//{
-//    dObj->isTransferDone = false;
-//
-//    ////DRV_IS67_WriteEnable();
-//
-//    sqiCmdDesc[1].bd_ctrl       = ( SQI_BDCTRL_BUFFLEN_VAL(length) | SQI_BDCTRL_PKTINTEN |
-//                                    SQI_BDCTRL_LASTPKT | SQI_BDCTRL_LASTBD |
-//                                    DRV_SQI_LANE_MODE | SQI_BDCTRL_SCHECK |
-//                                    SQI_CHIP_SELECT | SQI_BDCTRL_DEASSERT |
-//                                    SQI_BDCTRL_DESCEN);
-//
-//    sqiCmdDesc[1].bd_bufaddr    = (uint32_t *)KVA_TO_PA(instruction);
-//    sqiCmdDesc[1].bd_stat       = 0;
-//    sqiCmdDesc[1].bd_nxtptr     = NULL;
-//
-//    dObj->curOpType = DRV_IS67_OPERATION_TYPE_ERASE;
-//
-//    dObj->is67Plib->DMATransfer((sqi_dma_desc_t *)KVA_TO_PA(&sqiCmdDesc[0]));
-//
-//    return true;
-//}
-
-//bool DRV_IS67_SectorErase( const DRV_HANDLE handle, uint32_t address )
-//{
-//    if(DRV_IS67_ValidateHandleAndCheckBusy(handle) == true)
-//    {
-//        return false;
-//    }
-//
-//    sqi_cmd_se[0] = (uint8_t)IS67_CMD_SECTOR_ERASE;
-//    sqi_cmd_se[1] = (uint8_t)(0xFFU & (address >> 16));
-//    sqi_cmd_se[2] = (uint8_t)(0xFFU & (address >> 8));
-//    sqi_cmd_se[3] = (uint8_t)(0xFFU & (address >> 0));
-//
-//    return (DRV_IS67_Erase(&sqi_cmd_se[0], 4));
-//}
-
-//bool DRV_IS67_BulkErase( const DRV_HANDLE handle, uint32_t address )
-//{
-//    if(DRV_IS67_ValidateHandleAndCheckBusy(handle) == true)
-//    {
-//        return false;
-//    }
-//
-//    sqi_cmd_be[0] = (uint8_t)IS67_CMD_BULK_ERASE_64K;
-//    sqi_cmd_be[1] = (uint8_t)(0xFFU & (address >> 16));
-//    sqi_cmd_be[2] = (uint8_t)(0xFFU & (address >> 8));
-//    sqi_cmd_be[3] = (uint8_t)(0xFFU & (address >> 0));
-//
-//    return (DRV_IS67_Erase(&sqi_cmd_be[0], 4));
-//}
-
-//bool DRV_IS67_ChipErase( const DRV_HANDLE handle )
-//{
-//    if(DRV_IS67_ValidateHandleAndCheckBusy(handle) == true)
-//    {
-//        return false;
-//    }
-//
-//    sqi_cmd_ce = (uint8_t)IS67_CMD_CHIP_ERASE;
-//
-//    return (DRV_IS67_Erase(&sqi_cmd_ce, 1));
-//}
-
 bool DRV_IS67_GeometryGet( const DRV_HANDLE handle, DRV_IS67_GEOMETRY *geometry )
 {
-//    uint32_t flash_size = 0;
+    uint32_t memory_size = 0;
     bool status = true;
 
     if (DRV_IS67_ReadJedecId(handle, (void *)&jedecID) == false)
@@ -581,53 +436,47 @@ bool DRV_IS67_GeometryGet( const DRV_HANDLE handle, DRV_IS67_GEOMETRY *geometry 
     }
     else
     {
-//        flash_size = DRV_IS67_GetFlashSize(jedecID[2]);
-//
-//        if (flash_size == 0U)
-//        {
-//            status = false;
-//        }
-//
-//        if(DRV_IS67_START_ADDRESS >= flash_size)
-//        {
-//            status = false;
-//        }
-//        else
-//        {
-//            flash_size = flash_size - DRV_IS67_START_ADDRESS;
-//
-//            /* Flash size should be at-least of a Erase Block size */
-//            if (flash_size < DRV_IS67_ERASE_BUFFER_SIZE)
-//            {
-//                status = false;
-//            }
-//            else
-//            {
+        if (jedecID[0] != 0x9D && jedecID[1] != 0x5D) /* 9dh => ISSI ANDD 5dh => PASS */
+        {
+            status = false;
+        }
+        else
+        {
+            memory_size = DRV_IS67_GetMemorySize((jedecID[2] >> 5) & 0x07);
+
+            if (memory_size == 0U)
+            {
+                status = false;
+            }
+
+            if(DRV_IS67_START_ADDRESS >= memory_size)
+            {
+                status = false;
+            }
+            else
+            {
+                memory_size = memory_size - DRV_IS67_START_ADDRESS;
+
                 /* Read block size and number of blocks */
                 geometry->read_blockSize    = 1;
-                geometry->read_numBlocks    = 0x400000; /* 32 MBit */
+                geometry->read_numBlocks    = memory_size;
 
                 /* Write block size and number of blocks */
-                geometry->write_blockSize   = DRV_IS67_PAGE_SIZE;
-                geometry->write_numBlocks   = (0x400000 / DRV_IS67_PAGE_SIZE);
-
-//                /* Erase block size and number of blocks */
-//                geometry->erase_blockSize   = DRV_IS67_ERASE_BUFFER_SIZE;
-//                geometry->erase_numBlocks   = (flash_size / DRV_IS67_ERASE_BUFFER_SIZE);
+                geometry->write_blockSize   = DRV_IS67_BURST_SIZE;
+                geometry->write_numBlocks   = (memory_size / DRV_IS67_BURST_SIZE);
 
                 geometry->numReadRegions    = 1;
                 geometry->numWriteRegions   = 1;
-//                geometry->numEraseRegions   = 1;
 
                 geometry->blockStartAddress = DRV_IS67_START_ADDRESS;
-//            }
-//        }
+            }
+        }
     }
 
     return status;
 }
 
-DRV_HANDLE DRV_IS67_Open( const SYS_MODULE_INDEX drvIndex, const DRV_IO_INTENT ioIntent )
+DRV_HANDLE DRV_IS67_Open( const SYS_MODULE_INDEX drvIndex)
 {
     if ((dObj->status != SYS_STATUS_READY) ||
         (dObj->nClients >= DRV_IS67_CLIENTS_NUMBER))
@@ -641,18 +490,7 @@ DRV_HANDLE DRV_IS67_Open( const SYS_MODULE_INDEX drvIndex, const DRV_IO_INTENT i
     /* Put IS67 Flash device on QUAD IO Mode */
     DRV_IS67_EnableQuadIO();
 
-//    if ((ioIntent & DRV_IO_INTENT_WRITE) == (DRV_IO_INTENT_WRITE))
-//    {
-//        /* Unlock the Flash */
-//        if (DRV_IS67_UnlockFlash((DRV_HANDLE)drvIndex) == false)
-//        {
-//            return DRV_HANDLE_INVALID;
-//        }
-//    }
-
     dObj->nClients++;
-
-    dObj->ioIntent = ioIntent;
 
     return ((DRV_HANDLE)drvIndex);
 }

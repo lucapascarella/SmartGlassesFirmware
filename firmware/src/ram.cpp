@@ -54,8 +54,7 @@
     Application strings and buffers are be defined outside this structure.
  */
 
-static uint8_t CACHE_ALIGN jedec_id[4];
-static uint8_t CACHE_ALIGN data[512];
+static uint8_t CACHE_ALIGN data[2048];
 RAM_DATA ramData;
 
 // *****************************************************************************
@@ -141,7 +140,7 @@ void RAM_Tasks(void) {
 
         case RAM_STATE_OPEN_DRIVER:
         {
-            ramData.handle = DRV_IS67_Open(DRV_SST26_INDEX, DRV_IO_INTENT_READWRITE);
+            ramData.handle = DRV_IS67_Open(DRV_SST26_INDEX);
             if (ramData.handle != DRV_HANDLE_INVALID) {
                 SYS_STATUS status = DRV_IS67_Status(DRV_SST26_INDEX);
                 if (status == SYS_STATUS_READY) {
@@ -176,12 +175,12 @@ void RAM_Tasks(void) {
 
         case RAM_STATE_WRITE:
         {
-            for (int16_t i = 0; i < sizeof(data); i++)
+            for (int16_t i = 0; i < sizeof (data); i++)
                 data[i] = i;
-            print_buffer_human(data, 256);
-//            vTaskDelay(100U / portTICK_PERIOD_MS);
+            //            print_buffer_human(data, 256);
+            //            vTaskDelay(100U / portTICK_PERIOD_MS);
 
-            bool success = DRV_IS67_Write(ramData.handle, data, 256, 0x000000);
+            bool success = DRV_IS67_Write(ramData.handle, data, 2048, 0x000000);
 
             if (success) {
                 logDebug("IS67 write block allocated\r\n");
@@ -199,17 +198,26 @@ void RAM_Tasks(void) {
 
         case RAM_STATE_READ:
         {
-            for (int16_t i = 0; i < sizeof(data); i++)
+            for (int16_t i = 0; i < sizeof (data); i++)
                 data[i] = 0;
 
-            bool success = DRV_IS67_Read(ramData.handle, data, 512, 0x000000);
+            bool success = DRV_IS67_Read(ramData.handle, data, 2048, 0x000000);
 
             if (success) {
                 logDebug("IS67 read allocated\r\n");
                 while (DRV_IS67_TransferStatusGet(ramData.handle) == DRV_IS67_TRANSFER_BUSY)
                     vTaskDelay(10U / portTICK_PERIOD_MS);
                 logDebug("IS67 read completed\r\n");
-                print_buffer_human(data, 512);
+                //                print_buffer_human(data, 2048);
+
+                for (int16_t i = 0; i < sizeof (data); i++) {
+                    if (data[i] != (i & 0xFF)) {
+                        logError("Read mismatch %x02 != %x02\r\n", data[i], (i & 0xFF));
+                        ramData.state = RAM_STATE_ERROR;
+                        break;
+                    }
+                }
+                logDebug("IS67 read success\r\n");
 
                 ramData.state = RAM_STATE_SERVICE_TASKS;
             } else {

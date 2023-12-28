@@ -112,10 +112,6 @@ typedef struct
     uint32_t write_numBlocks;
     uint32_t numWriteRegions;
 
-//    uint32_t erase_blockSize;
-//    uint32_t erase_numBlocks;
-//    uint32_t numEraseRegions;
-
     uint32_t blockStartAddress;
 } DRV_IS67_GEOMETRY;
 
@@ -263,7 +259,7 @@ SYS_MODULE_OBJ DRV_IS67_Initialize
 
 // ****************************************************************************
 /* Function:
-    DRV_HANDLE DRV_IS67_Open( const SYS_MODULE_INDEX drvIndex, const DRV_IO_INTENT ioIntent );
+    DRV_HANDLE DRV_IS67_Open( const SYS_MODULE_INDEX drvIndex);
 
   Summary:
     Opens the specified IS67 driver instance and returns a handle to it
@@ -288,10 +284,6 @@ SYS_MODULE_OBJ DRV_IS67_Initialize
 
   Parameters:
     drvIndex   -  Identifier for the instance to be opened
-
-    ioIntent   -  Zero or more of the values from the enumeration
-                  DRV_IO_INTENT "ORed" together to indicate the intended use
-                  of the driver
 
   Returns:
     If successful, the routine returns a valid open-instance handle (a
@@ -318,7 +310,7 @@ SYS_MODULE_OBJ DRV_IS67_Initialize
     If the driver has already been opened, it should not be opened again.
 */
 
-DRV_HANDLE DRV_IS67_Open( const SYS_MODULE_INDEX drvIndex, const DRV_IO_INTENT ioIntent );
+DRV_HANDLE DRV_IS67_Open( const SYS_MODULE_INDEX drvIndex);
 
 // *****************************************************************************
 /* Function:
@@ -404,50 +396,6 @@ SYS_STATUS DRV_IS67_Status( const SYS_MODULE_INDEX drvIndex );
 
 // *****************************************************************************
 /* Function:
-    bool DRV_IS67_UnlockFlash( const DRV_HANDLE handle );
-
-  Summary:
-    Unlocks the flash device for Erase and Program operations.
-
-  Description:
-    This function schedules a blocking operation for unlocking the flash blocks
-    globally. This allows to perform erase and program operations on the flash.
-
-  Precondition:
-    The DRV_IS67_Open() routine must have been called for the
-    specified IS67 driver instance.
-
-  Parameters:
-    handle       - A valid open-instance handle, returned from the driver's
-                   open routine
-
-  Returns:
-    true
-        - if the unlock is successfully completed
-
-    false
-        - if Write enable fails before sending unlock command to flash and 
-        - if Unlock flash command itself fails
-
-  Example:
-    <code>
-    DRV_HANDLE handle;  
-
-    if(DRV_IS67_UnlockFlash(handle) == false)
-    {
-        
-    }
-
-    </code>
-
-  Remarks:
-    None.
-*/
-
-//bool DRV_IS67_UnlockFlash( const DRV_HANDLE handle );
-
-// *****************************************************************************
-/* Function:
     bool DRV_IS67_ReadJedecId( const DRV_HANDLE handle, void *jedec_id );
 
   Summary:
@@ -488,161 +436,6 @@ SYS_STATUS DRV_IS67_Status( const SYS_MODULE_INDEX drvIndex );
 */
 
 bool DRV_IS67_ReadJedecId( const DRV_HANDLE handle, void *jedec_id );
-
-// **************************************************************************
-/* Function:
-    bool DRV_IS67_SectorErase( const DRV_HANDLE handle, uint32_t address );
-
-  Summary:
-    Erase the sector from the specified block start address.
-
-  Description:
-    This function schedules a non-blocking sector erase operation of flash memory.
-    Each Sector is of 4 KByte.
-
-    The requesting client should call DRV_IS67_TransferStatusGet() API to know
-    the current status of the request.
-
-  Preconditions:
-    The DRV_IS67_Open() routine must have been called for the
-    specified IS67 driver instance.
-
-  Parameters:
-    handle        - A valid open-instance handle, returned from the driver's
-                   open routine
-
-    address       - block start address from where a sector needs to be erased.
-
-  Returns:
-    true
-        - if the erase request is successfully sent to the flash
-
-    false
-        - if Write enable fails before sending sector erase command to flash
-        - if sector erase command itself fails
-
-  Example:
-    <code>
-
-    DRV_HANDLE handle;  
-    uint32_t sectorStart = 0;
-
-    if(DRV_IS67_SectorErase(handle, sectorStart) == false)
-    {
-        
-    }
-   
-    while(DRV_IS67_TRANSFER_BUSY == DRV_IS67_TransferStatusGet(handle));
-
-    </code>
-
-  Remarks:
-    None.
-*/
-
-bool DRV_IS67_SectorErase( const DRV_HANDLE handle, uint32_t address );
-
-// **************************************************************************
-/* Function:
-    bool DRV_IS67_BulkErase( const DRV_HANDLE handle, uint32_t address );
-
-  Summary:
-    Erase a block from the specified block start address.
-
-  Description:
-    This function schedules a non-blocking block erase operation of flash memory.
-    The block size can be 8 KByte, 32KByte or 64 KByte.
-
-    The requesting client should call DRV_IS67_TransferStatusGet() API to know
-    the current status of the request.
-
-  Preconditions:
-    The DRV_IS67_Open() routine must have been called for the
-    specified IS67 driver instance.
-
-  Parameters:
-    handle        - A valid open-instance handle, returned from the driver's
-                   open routine
-
-    address       - block start address to be erased.
-
-  Returns:
-    true
-        - if the erase request is successfully sent to the flash
-
-    false
-        - if Write enable fails before sending sector erase command to flash
-        - if block erase command itself fails
-
-  Example:
-    <code>
-
-    DRV_HANDLE handle;  
-    uint32_t blockStart = 0;
-
-    if(DRV_IS67_SectorErase(handle, blockStart) == false)
-    {
-        
-    }
-   
-    while(DRV_IS67_TransferStatusGet(handle) == DRV_IS67_TRANSFER_BUSY);
-
-    </code>
-
-  Remarks:
-    None.
-*/
-
-bool DRV_IS67_BulkErase( const DRV_HANDLE handle, uint32_t address );
-
-// **************************************************************************
-/* Function:
-    bool DRV_IS67_ChipErase( const DRV_HANDLE handle );
-
-  Summary:
-    Erase entire flash memory.
-
-  Description:
-    This function schedules a non-blocking chip erase operation of flash memory.
-
-    The requesting client should call DRV_IS67_TransferStatusGet() API to know
-    the current status of the request.
-
-  Preconditions:
-    The DRV_IS67_Open() routine must have been called for the
-    specified IS67 driver instance.
-
-  Parameters:
-    handle        - A valid open-instance handle, returned from the driver's
-                    open routine
-
-  Returns:
-    true
-        - if the erase request is successfully sent to the flash
-
-    false
-        - if Write enable fails before sending sector erase command to flash
-        - if chip erase command itself fails
-
-  Example:
-    <code>
-
-    DRV_HANDLE handle; 
-
-    if(DRV_IS67_ChipErase(handle) == flase)
-    {
-        
-    }
-   
-    while(DRV_IS67_TransferStatusGet(handle) == DRV_IS67_TRANSFER_BUSY);
-
-    </code>
-
-  Remarks:
-    None.
-*/
-
-bool DRV_IS67_ChipErase( const DRV_HANDLE handle );
 
 // *****************************************************************************
 /* Function:

@@ -162,9 +162,6 @@ typedef struct
     /* The status of the driver */
     SYS_STATUS status;
 
-    /* Intent of opening the driver */
-    DRV_IO_INTENT ioIntent;
-
     /* Indicates the number of clients that have opened this driver */
     size_t nClients;
 

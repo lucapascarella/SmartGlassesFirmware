@@ -141,8 +141,8 @@ extern "C" {
 #define DRV_IS67_INDEX                  (0U)
 #define DRV_IS67_CLIENTS_NUMBER         (1U)
 #define DRV_IS67_START_ADDRESS          (0x0U)
-#define DRV_IS67_PAGE_SIZE              (256U)
-#define DRV_IS67_ERASE_BUFFER_SIZE      (4096U)
+#define DRV_IS67_BURST_SIZE             (1024U) /* Default 1024 */
+//#define DRV_IS67_ERASE_BUFFER_SIZE      (4096U)
 #define DRV_IS67_BUFF_DESC_NUMBER       (10U)
 
 
