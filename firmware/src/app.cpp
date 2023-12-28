@@ -117,60 +117,57 @@ void APP_Tasks(void) {
             /* Application's initial state. */
         case APP_STATE_INIT:
         {
-            bool appInitialized = true;
+
+            SYS_DEBUG_ErrorLevelSet(SYS_ERROR_DEBUG);
+            /*
+             * Clean the console
+             */
+            logDebug("\a\033[1;1H\033[2J");
+            logDebug("Hello World!\r\n");
+
+            // Enable 3V3
+            EN_3V3_OutputEnable();
+            EN_3V3_Set();
+
+            // Enable 1V8
+            //EN_1V8_OutputEnable();
+            //EN_1V8_Set();
 
 
-            if (appInitialized) {
-                SYS_DEBUG_ErrorLevelSet(SYS_ERROR_DEBUG);
-                /*
-                 * Clean the console
-                 */
-                logDebug("\a\033[1;1H\033[2J");
-                logDebug("Hello World!\r\n");
+            //                appData.handle = DRV_AT24_Open(DRV_AT24_INDEX, DRV_IO_INTENT_READWRITE);
+            //                if (appData.handle != DRV_HANDLE_INVALID) {
+            //                    DRV_AT24_EventHandlerSet(appData.handle, transferEventHandler, (const uintptr_t) &appData.mem);
+            //                    memset(&appData.geometry, 0x00, sizeof (appData.geometry));
+            //                    bool rtn = DRV_AT24_GeometryGet(appData.handle, &appData.geometry);
+            //                    if (rtn) {
+            //                        uint32_t readBlockSize = appData.geometry.readBlockSize;
+            //                        uint32_t nReadBlocks = appData.geometry.readNumBlocks;
+            //                        uint32_t nReadRegions = appData.geometry.readNumRegions;
+            //                        uint32_t size = readBlockSize * nReadBlocks * nReadRegions;
+            //                        logDebug("Detected %d bytes EEPROM\r\n", size);
+            //                    } else {
+            //                        logFatal("Cannot detect size of EEPROM\r\n");
+            //                    }
+            //                }
 
-                // Enable 3V3
-                EN_3V3_OutputEnable();
-                EN_3V3_Set();
-
-                // Enable 1V8
-                //EN_1V8_OutputEnable();
-                //EN_1V8_Set();
-
-
-                //                appData.handle = DRV_AT24_Open(DRV_AT24_INDEX, DRV_IO_INTENT_READWRITE);
-                //                if (appData.handle != DRV_HANDLE_INVALID) {
-                //                    DRV_AT24_EventHandlerSet(appData.handle, transferEventHandler, (const uintptr_t) &appData.mem);
-                //                    memset(&appData.geometry, 0x00, sizeof (appData.geometry));
-                //                    bool rtn = DRV_AT24_GeometryGet(appData.handle, &appData.geometry);
-                //                    if (rtn) {
-                //                        uint32_t readBlockSize = appData.geometry.readBlockSize;
-                //                        uint32_t nReadBlocks = appData.geometry.readNumBlocks;
-                //                        uint32_t nReadRegions = appData.geometry.readNumRegions;
-                //                        uint32_t size = readBlockSize * nReadBlocks * nReadRegions;
-                //                        logDebug("Detected %d bytes EEPROM\r\n", size);
-                //                    } else {
-                //                        logFatal("Cannot detect size of EEPROM\r\n");
-                //                    }
-                //                }
-
-                //MCP9800_Initialize();
+            //MCP9800_Initialize();
 
 
-                /* Active low output */
-                OCMP3_Enable();
-                OCMP4_Enable();
-                OCMP5_Enable();
+            /* Active low output */
+            OCMP3_Enable();
+            OCMP4_Enable();
+            OCMP5_Enable();
 
-                // Set duty cycle at 50%
-                uint16_t ref = TMR3_PeriodGet() + 1;
-                OCMP3_CompareSecondaryValueSet(ref / 2);
-                OCMP4_CompareSecondaryValueSet(ref / 2);
-                OCMP5_CompareSecondaryValueSet(ref / 2);
+            // Set duty cycle at 50%
+            uint16_t ref = TMR3_PeriodGet() + 1;
+            OCMP3_CompareSecondaryValueSet(ref / 2);
+            OCMP4_CompareSecondaryValueSet(ref / 2);
+            OCMP5_CompareSecondaryValueSet(ref / 2);
 
-                TMR3_Start();
+            TMR3_Start();
 
-                appData.state = APP_STATE_SERVICE_TASKS;
-            }
+            appData.state = APP_STATE_SERVICE_TASKS;
+
             break;
         }
 

@@ -1,25 +1,27 @@
-/******************************************************************************
-  MEMORY Driver File System Interface Implementation
+/*******************************************************************************
+  Resets (RCON) PLIB
 
-  Company:
+  Company
     Microchip Technology Inc.
 
-  File Name:
-    drv_memory_file_system.h
+  File Name
+    plib_rcon.c
 
-  Summary:
-    MEMORY Driver Interface Definition
+  Summary
+    RCON PLIB Implementation File.
 
-  Description:
-    The MEMORY Driver provides a interface to access the MEMORY on the PIC32
-    microcontroller. This file implements the MEMORY Driver file system interface.
-    This file should be included in the project if MEMORY driver functionality with
-    File system is needed.
+  Description
+    This file defines the interface to the RCON peripheral library.
+    This library provides access to and control of the associated Resets.
+
+  Remarks:
+    None.
+
 *******************************************************************************/
 
-//DOM-IGNORE-BEGIN
+// DOM-IGNORE-BEGIN
 /*******************************************************************************
-* Copyright (C) 2018 Microchip Technology Inc. and its subsidiaries.
+* Copyright (C) 2019 Microchip Technology Inc. and its subsidiaries.
 *
 * Subject to your compliance with these terms, you may use Microchip software
 * and any derivatives exclusively with Microchip products. It is your
@@ -40,42 +42,50 @@
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 *******************************************************************************/
-//DOM-IGNORE-END
-#ifndef DRV_MEMORY_FILE_SYSTEM_H
-#define DRV_MEMORY_FILE_SYSTEM_H
-
-// *****************************************************************************
-// *****************************************************************************
-// Section: Include Files
-// *****************************************************************************
-// *****************************************************************************
-
-#include "driver/memory/src/drv_memory_local.h"
-#include "system/fs/sys_fs_media_manager.h"
-
-// DOM-IGNORE-BEGIN
-#ifdef __cplusplus  // Provide C++ Compatibility
-    extern "C" {
-#endif
 // DOM-IGNORE-END
 
 // *****************************************************************************
 // *****************************************************************************
-// Section: Global objects
+// Section: Included Files
 // *****************************************************************************
 // *****************************************************************************
 
+#include "plib_rcon.h"
 
 // *****************************************************************************
 // *****************************************************************************
-// Section: MEMORY Driver File system interface Routines
+// Section: RCON Implementation
 // *****************************************************************************
 // *****************************************************************************
 
-void DRV_MEMORY_RegisterWithSysFs( const SYS_MODULE_INDEX drvIndex, uint8_t mediaType);
-
-#ifdef __cplusplus
+RCON_RESET_CAUSE RCON_ResetCauseGet( void )
+{
+    return (RCON_RESET_CAUSE)(RCON);
 }
-#endif
 
-#endif //#ifndef DRV_MEMORY_FILE_SYSTEM_H
+void RCON_ResetCauseClear( RCON_RESET_CAUSE cause )
+{
+    /* Clear reset cause status flag */
+    RCONCLR = (uint32_t)cause;
+}
+
+void __attribute__((noreturn)) RCON_SoftwareReset( void )
+{
+    (void) __builtin_disable_interrupts();
+
+    /* Unlock System */
+    SYSKEY = 0x00000000U;
+    SYSKEY = 0xAA996655U;
+    SYSKEY = 0x556699AAU;
+
+    RSWRSTSET = _RSWRST_SWRST_MASK;
+
+    /* Read RSWRST register to trigger reset */
+    RSWRST;
+
+    /* Prevent any unwanted code execution until reset occurs */
+    while(true)
+    {
+        /* Nothing to do */
+    }
+}

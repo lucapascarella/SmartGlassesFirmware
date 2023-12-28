@@ -48,39 +48,33 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
-#include "driver/memory/drv_memory.h"
 #include "usb/usb_chapter_9.h"
 #include "usb/usb_device.h"
 #include "peripheral/ocmp/plib_ocmp4.h"
+#include "peripheral/rcon/plib_rcon.h"
 #include "peripheral/ocmp/plib_ocmp5.h"
-#include "system/time/sys_time.h"
-#include "driver/i2c/drv_i2c.h"
 #include "peripheral/ocmp/plib_ocmp3.h"
+#include "driver/i2c/drv_i2c.h"
+#include "system/time/sys_time.h"
 #include "usb/usb_device_cdc.h"
 #include "usb/usb_cdc.h"
 #include "peripheral/uart/plib_uart1.h"
 #include "peripheral/tmr/plib_tmr3.h"
 #include "peripheral/tmr1/plib_tmr1.h"
 #include "peripheral/sqi/plib_sqi1.h"
+#include "peripheral/spi/spi_master/plib_spi1_master.h"
 #include "system/int/sys_int.h"
-#include "system/cache/sys_cache.h"
 #include "system/reset/sys_reset.h"
 #include "osal/osal.h"
 #include "system/debug/sys_debug.h"
 #include "system/command/sys_command.h"
 #include "peripheral/clk/plib_clk.h"
 #include "peripheral/gpio/plib_gpio.h"
-#include "peripheral/cache/plib_cache.h"
 #include "peripheral/evic/plib_evic.h"
 #include "driver/sst26/drv_sst26.h"
+#include "driver/is67/drv_is67.h"
 #include "peripheral/i2c/master/plib_i2c1_master.h"
 #include "driver/usb/usbhs/drv_usbhs.h"
-#include "system/fs/sys_fs.h"
-#include "system/fs/sys_fs_media_manager.h"
-#include "system/fs/sys_fs_fat_interface.h"
-#include "system/fs/fat_fs/file_system/ff.h"
-#include "system/fs/fat_fs/file_system/ffconf.h"
-#include "system/fs/fat_fs/hardware_access/diskio.h"
 #include "system/console/sys_console.h"
 #include "system/console/src/sys_console_uart_definitions.h"
 #include "FreeRTOS.h"
@@ -90,6 +84,7 @@
 #include "cdc.h"
 #include "vl53l5cx.h"
 #include "mlx90640.h"
+#include "ram.h"
 
 
 
@@ -226,10 +221,10 @@ typedef struct
     SYS_MODULE_OBJ  usbDevObject0;
 
     SYS_MODULE_OBJ  sysTime;
-    SYS_MODULE_OBJ  drvMemory0;
     SYS_MODULE_OBJ  sysConsole0;
 
     SYS_MODULE_OBJ  drvSST26;
+    SYS_MODULE_OBJ  drvIS67;
     SYS_MODULE_OBJ  sysDebug;
 
 	SYS_MODULE_OBJ  drvUSBHSObject;

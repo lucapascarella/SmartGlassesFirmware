@@ -91,17 +91,6 @@ void _DRV_USBHS_Tasks(  void *pvParameters  )
     }
 }
 
-
-static void lSYS_FS_Tasks(  void *pvParameters  )
-{
-    while(true)
-    {
-        SYS_FS_Tasks();
-        vTaskDelay(10U / portTICK_PERIOD_MS);
-    }
-}
-
-
 /* Handle for the APP_Tasks. */
 TaskHandle_t xAPP_Tasks;
 
@@ -145,7 +134,16 @@ static void lMLX90640_Tasks(  void *pvParameters  )
         MLX90640_Tasks();
     }
 }
+/* Handle for the RAM_Tasks. */
+TaskHandle_t xRAM_Tasks;
 
+static void lRAM_Tasks(  void *pvParameters  )
+{   
+    while(true)
+    {
+        RAM_Tasks();
+    }
+}
 
 
 // *****************************************************************************
@@ -176,19 +174,9 @@ void SYS_Tasks ( void )
 
 
 
-    (void) xTaskCreate( lSYS_FS_Tasks,
-        "SYS_FS_TASKS",
-        SYS_FS_STACK_SIZE,
-        (void*)NULL,
-        SYS_FS_PRIORITY,
-        (TaskHandle_t*)NULL
-    );
-
-
 
     /* Maintain Device Drivers */
     
-
 
     /* Maintain Middleware & Other Libraries */
         /* Create OS Thread for USB_DEVICE_Tasks. */
@@ -228,21 +216,29 @@ void SYS_Tasks ( void )
 //                1,
 //                &xCDC_Tasks);
 
-    /* Create OS Thread for VL53L5CX_Tasks. */
-    (void) xTaskCreate((TaskFunction_t) lVL53L5CX_Tasks,
-                "VL53L5CX",
-                1024,
-                NULL,
-                1,
-                &xVL53L5CX_Tasks);
+//    /* Create OS Thread for VL53L5CX_Tasks. */
+//    (void) xTaskCreate((TaskFunction_t) lVL53L5CX_Tasks,
+//                "VL53L5CX_Tasks",
+//                1024,
+//                NULL,
+//                1,
+//                &xVL53L5CX_Tasks);
+//
+//    /* Create OS Thread for MLX90640_Tasks. */
+//    (void) xTaskCreate((TaskFunction_t) lMLX90640_Tasks,
+//                "MLX90640_Tasks",
+//                1024,
+//                NULL,
+//                1,
+//                &xMLX90640_Tasks);
 
-    /* Create OS Thread for MLX90640_Tasks. */
-    (void) xTaskCreate((TaskFunction_t) lMLX90640_Tasks,
-                "MLX90640",
+    /* Create OS Thread for RAM_Tasks. */
+    (void) xTaskCreate((TaskFunction_t) lRAM_Tasks,
+                "RAM_Tasks",
                 1024,
                 NULL,
                 1,
-                &xMLX90640_Tasks);
+                &xRAM_Tasks);
 
 
 

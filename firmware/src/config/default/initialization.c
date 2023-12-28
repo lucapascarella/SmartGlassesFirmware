@@ -178,38 +178,6 @@ static const DRV_I2C_INIT drvI2C0InitData =
 };
 // </editor-fold>
 
-// <editor-fold defaultstate="collapsed" desc="DRV_MEMORY Instance 0 Initialization Data">
-
-static uint8_t gDrvMemory0EraseBuffer[DRV_SST26_ERASE_BUFFER_SIZE] CACHE_ALIGN;
-
-static DRV_MEMORY_CLIENT_OBJECT gDrvMemory0ClientObject[DRV_MEMORY_CLIENTS_NUMBER_IDX0];
-
-
-static const DRV_MEMORY_DEVICE_INTERFACE drvMemory0DeviceAPI = {
-    .Open               = DRV_SST26_Open,
-    .Close              = DRV_SST26_Close,
-    .Status             = DRV_SST26_Status,
-    .SectorErase        = DRV_SST26_SectorErase,
-    .Read               = DRV_SST26_Read,
-    .PageWrite          = DRV_SST26_PageWrite,
-    .EventHandlerSet    = NULL,
-    .GeometryGet        = (DRV_MEMORY_DEVICE_GEOMETRY_GET)DRV_SST26_GeometryGet,
-    .TransferStatusGet  = (DRV_MEMORY_DEVICE_TRANSFER_STATUS_GET)DRV_SST26_TransferStatusGet
-};
-static const DRV_MEMORY_INIT drvMemory0InitData =
-{
-    .memDevIndex                = DRV_SST26_INDEX,
-    .memoryDevice               = &drvMemory0DeviceAPI,
-    .isMemDevInterruptEnabled   = false,
-    .memDevStatusPollUs         = 500,
-    .isFsEnabled                = true,
-    .deviceMediaType            = (uint8_t)SYS_FS_MEDIA_TYPE_SPIFLASH,
-    .ewBuffer                   = &gDrvMemory0EraseBuffer[0],
-    .clientObjPool              = (uintptr_t)&gDrvMemory0ClientObject[0],
-    .nClientsMax                = DRV_MEMORY_CLIENTS_NUMBER_IDX0
-};
-
-// </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="DRV_SST26 Initialization Data">
 
 static const DRV_SST26_PLIB_INTERFACE drvSST26PlibAPI = {
@@ -220,6 +188,16 @@ static const DRV_SST26_PLIB_INTERFACE drvSST26PlibAPI = {
 static const DRV_SST26_INIT drvSST26InitData =
 {
     .sst26Plib      = &drvSST26PlibAPI,
+};
+
+static const DRV_IS67_PLIB_INTERFACE drvIS67PlibAPI = {
+    .DMATransfer       = SQI1_DMATransfer,
+    .RegisterCallback  = SQI1_RegisterCallback,
+};
+
+static const DRV_IS67_INIT drvIS67InitData =
+{
+    .is67Plib      = &drvIS67PlibAPI,
 };
 // </editor-fold>
 
@@ -270,64 +248,6 @@ const DRV_USBHS_INIT drvUSBInit =
 
 };
 
-
-// <editor-fold defaultstate="collapsed" desc="File System Initialization Data">
-
-
-const SYS_FS_MEDIA_MOUNT_DATA sysfsMountTable[SYS_FS_VOLUME_NUMBER] =
-{
-    {NULL}
-};
-
-static const SYS_FS_FUNCTIONS FatFsFunctions =
-{
-    .mount             = FATFS_mount,
-    .unmount           = FATFS_unmount,
-    .open              = FATFS_open,
-    .read_t              = FATFS_read,
-    .close             = FATFS_close,
-    .seek              = FATFS_lseek,
-    .fstat             = FATFS_stat,
-    .getlabel          = FATFS_getlabel,
-    .currWD            = FATFS_getcwd,
-    .getstrn           = FATFS_gets,
-    .openDir           = FATFS_opendir,
-    .readDir           = FATFS_readdir,
-    .closeDir          = FATFS_closedir,
-    .chdir             = FATFS_chdir,
-    .chdrive           = FATFS_chdrive,
-    .write_t             = FATFS_write,
-    .tell              = FATFS_tell,
-    .eof               = FATFS_eof,
-    .size              = FATFS_size,
-    .mkdir             = FATFS_mkdir,
-    .remove_t            = FATFS_unlink,
-    .setlabel          = FATFS_setlabel,
-    .truncate          = FATFS_truncate,
-    .chmode            = FATFS_chmod,
-    .chtime            = FATFS_utime,
-    .rename_t            = FATFS_rename,
-    .sync              = FATFS_sync,
-    .putchr            = FATFS_putc,
-    .putstrn           = FATFS_puts,
-    .formattedprint    = FATFS_printf,
-    .testerror         = FATFS_error,
-    .formatDisk        = (FORMAT_DISK)FATFS_mkfs,
-    .partitionDisk     = FATFS_fdisk,
-    .getCluster        = FATFS_getclusters
-};
-
-
-
-
-static const SYS_FS_REGISTRATION_TABLE sysFSInit [ SYS_FS_MAX_FILE_SYSTEM_TYPE ] =
-{
-    {
-        .nativeFileSystemType = FAT,
-        .nativeFileSystemFunctions = &FatFsFunctions
-    }
-};
-// </editor-fold>
 
 
 
@@ -454,6 +374,8 @@ void SYS_Initialize ( void* data )
 
     SQI1_Initialize();
 
+	SPI1_Initialize();
+
     I2C1_Initialize();
 
     RTCC_Initialize();
@@ -467,10 +389,8 @@ void SYS_Initialize ( void* data )
     /* Initialize I2C0 Driver Instance */
     sysObj.drvI2C0 = DRV_I2C_Initialize(DRV_I2C_INDEX_0, (SYS_MODULE_INIT *)&drvI2C0InitData);
 
-
-    sysObj.drvMemory0 = DRV_MEMORY_Initialize((SYS_MODULE_INDEX)DRV_MEMORY_INDEX_0, (SYS_MODULE_INIT *)&drvMemory0InitData);
-
-    sysObj.drvSST26 = DRV_SST26_Initialize((SYS_MODULE_INDEX)DRV_SST26_INDEX, (SYS_MODULE_INIT *)&drvSST26InitData);
+    //sysObj.drvSST26 = DRV_SST26_Initialize((SYS_MODULE_INDEX)DRV_SST26_INDEX, (SYS_MODULE_INIT *)&drvSST26InitData);
+    sysObj.drvIS67 = DRV_IS67_Initialize((SYS_MODULE_INDEX)DRV_IS67_INDEX, (SYS_MODULE_INIT *)&drvIS67InitData);
 
 
     /* MISRA C-2012 Rule 11.3, 11.8 deviated below. Deviation record ID -  
@@ -500,15 +420,13 @@ void SYS_Initialize ( void* data )
 	/* Initialize USB Driver */ 
     sysObj.drvUSBHSObject = DRV_USBHS_Initialize(DRV_USBHS_INDEX_0, (SYS_MODULE_INIT *) &drvUSBInit);	
 
-    /*** File System Service Initialization Code ***/
-    (void) SYS_FS_Initialize( (const void *) sysFSInit );
-
 
     /* MISRAC 2012 deviation block end */
     APP_Initialize();
     CDC_Initialize();
     VL53L5CX_Initialize();
     MLX90640_Initialize();
+    RAM_Initialize();
 
 
     EVIC_Initialize();

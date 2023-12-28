@@ -116,13 +116,9 @@ void MLX90640_Tasks(void) {
             /* Application's initial state. */
         case MLX90640_STATE_INIT:
         {
-            bool appInitialized = true;
+                
+            mlx90640Data.state = MLX90640_STATE_SERVICE_TASKS;
 
-
-            if (appInitialized) {
-
-                mlx90640Data.state = MLX90640_STATE_SERVICE_TASKS;
-            }
             break;
         }
 

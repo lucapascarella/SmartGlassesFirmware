@@ -1,25 +1,27 @@
-    /******************************************************************************
-  MEMORY Driver File System Interface Implementation
+/*******************************************************************************
+  Resets (RCON) PLIB
 
-  Company:
+  Company
     Microchip Technology Inc.
 
-  File Name:
-    drv_memory_file_system.c
+  File Name
+    plib_rcon.h
 
-  Summary:
-    MEMORY Driver Interface Definition
+  Summary
+    RCON PLIB Header File.
 
-  Description:
-    The MEMORY Driver provides a interface to access the MEMORY on the PIC32
-    microcontroller. This file implements the MEMORY Driver file system interface.
-    This file should be included in the project if MEMORY driver functionality with
-    File system is needed.
+  Description
+    This file defines the interface to the RCON peripheral library.
+    This library provides access to and control of the associated Resets.
+
+  Remarks:
+    None.
+
 *******************************************************************************/
 
-//DOM-IGNORE-BEGIN
+// DOM-IGNORE-BEGIN
 /*******************************************************************************
-* Copyright (C) 2018 Microchip Technology Inc. and its subsidiaries.
+* Copyright (C) 2019 Microchip Technology Inc. and its subsidiaries.
 *
 * Subject to your compliance with these terms, you may use Microchip software
 * and any derivatives exclusively with Microchip products. It is your
@@ -40,53 +42,79 @@
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 *******************************************************************************/
-//DOM-IGNORE-END
+// DOM-IGNORE-END
+
+#ifndef PLIB_RCON_H      // Guards against multiple inclusion
+#define PLIB_RCON_H
 
 // *****************************************************************************
 // *****************************************************************************
-// Section: Include Files
+// Section: Included Files
 // *****************************************************************************
 // *****************************************************************************
 
-#include "driver/memory/src/drv_memory_file_system.h"
+#include <stdbool.h>
+#include <stddef.h>
+#include "device.h"
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus // Provide C++ Compatibility
+
+    extern "C" {
+
+#endif
+// DOM-IGNORE-END
 
 // *****************************************************************************
 // *****************************************************************************
-// Section: Global objects
+// Section: Data Types
 // *****************************************************************************
 // *****************************************************************************
-/* MISRA C-2012 Rule 11.1 deviated:7 Deviation record ID -  H3_MISRAC_2012_R_11_1_DR_1 */
 
-static const SYS_FS_MEDIA_FUNCTIONS memoryMediaFunctions =
+typedef enum
 {
-    .mediaStatusGet     = DRV_MEMORY_IsAttached,
-    .mediaGeometryGet   = DRV_MEMORY_GeometryGet,
-    .sectorRead         = DRV_MEMORY_Read,
-    .sectorWrite        = DRV_MEMORY_EraseWrite,
-    .eventHandlerset    = DRV_MEMORY_TransferHandlerSet,
-    .commandStatusGet   = (CommandStatusGetType)DRV_MEMORY_CommandStatusGet,
-    .Read               = DRV_MEMORY_Read,
-    .erase              = DRV_MEMORY_Erase,
-    .addressGet         = DRV_MEMORY_AddressGet,
-    .open               = DRV_MEMORY_Open,
-    .close              = DRV_MEMORY_Close,
-    .tasks              = NULL,
-};
+    RCON_RESET_CAUSE_POR = _RCON_POR_MASK,
 
-/* MISRAC 2012 deviation block end */
+    RCON_RESET_CAUSE_BOR = _RCON_BOR_MASK,
+
+    RCON_RESET_CAUSE_IDLE = _RCON_IDLE_MASK,
+
+    RCON_RESET_CAUSE_SLEEP = _RCON_SLEEP_MASK,
+
+    RCON_RESET_CAUSE_WDTO = _RCON_WDTO_MASK,
+
+    RCON_RESET_CAUSE_DMTO = _RCON_DMTO_MASK,
+
+    RCON_RESET_CAUSE_SWR = _RCON_SWR_MASK,
+
+    RCON_RESET_CAUSE_EXTR = _RCON_EXTR_MASK,
+
+    RCON_RESET_CAUSE_CMR = _RCON_CMR_MASK,
+
+    RCON_RESET_CAUSE_BCFGFAIL = _RCON_BCFGFAIL_MASK,
+
+    RCON_RESET_CAUSE_BCFGERR = _RCON_BCFGERR_MASK,
+
+} RCON_RESET_CAUSE;
+
 // *****************************************************************************
 // *****************************************************************************
-// Section: MEMORY Driver File system interface Routines
+// Section: Interface
 // *****************************************************************************
 // *****************************************************************************
 
-void DRV_MEMORY_RegisterWithSysFs( const SYS_MODULE_INDEX drvIndex, uint8_t mediaType)
-{
-    (void) SYS_FS_MEDIA_MANAGER_Register
-    (
-        (SYS_MODULE_OBJ)drvIndex,
-        (SYS_MODULE_INDEX)drvIndex,
-        &memoryMediaFunctions,
-        (SYS_FS_MEDIA_TYPE)mediaType
-    );
-}
+RCON_RESET_CAUSE RCON_ResetCauseGet( void );
+
+void RCON_ResetCauseClear( RCON_RESET_CAUSE cause );
+
+void RCON_SoftwareReset( void );
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+
+    }
+
+#endif
+// DOM-IGNORE-END
+
+#endif /* PLIB_RCON_H */
