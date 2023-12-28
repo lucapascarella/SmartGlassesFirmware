@@ -257,8 +257,16 @@ void RAM_Tasks(void) {
             SQI1_XIPSetup(sqiXcon1Val, sqiXcon2Val);
 
             for (i = 0; i < (512 / 4); i++) {
-                *sqiXipAddr++ = *readBuffer++;
+                *readBuffer++ = *sqiXipAddr++;
             }
+            for (int16_t i = 0; i < 512; i++) {
+                if (data[i] != (i & 0xFF)) {
+                    logError("XIP Read mismatch %x02 != %x02\r\n", data[i], (i & 0xFF));
+                    ramData.state = RAM_STATE_ERROR;
+                    break;
+                }
+            }
+            logDebug("XIP success\r\n");
 
             ramData.state = RAM_STATE_SERVICE_TASKS;
 
