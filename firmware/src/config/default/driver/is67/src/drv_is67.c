@@ -76,7 +76,7 @@ static uint32_t gSstMemoryIdSizeTable [3][2] = {
 static sqi_dma_desc_t CACHE_ALIGN sqiCmdDesc[CMD_DESC_NUMBER];
 static sqi_dma_desc_t CACHE_ALIGN sqiBufDesc[DRV_IS67_BUFF_DESC_NUMBER];
 
-static uint8_t CACHE_ALIGN statusRegVal;
+//static uint8_t CACHE_ALIGN statusRegVal;
 
 static uint8_t CACHE_ALIGN jedecID[8];
 
@@ -84,7 +84,7 @@ static uint8_t CACHE_ALIGN sqi_cmd_jedec[4];
 static uint8_t CACHE_ALIGN sqi_cmd_eqio;
 static uint8_t CACHE_ALIGN sqi_cmd_rsten;
 static uint8_t CACHE_ALIGN sqi_cmd_rst;
-static uint8_t CACHE_ALIGN sqi_cmd_rdsr[2];
+//static uint8_t CACHE_ALIGN sqi_cmd_rdsr[2];
 static uint8_t CACHE_ALIGN sqi_cmd_wr[4];
 static uint8_t CACHE_ALIGN sqi_cmd_hsr[4];
 static uint8_t CACHE_ALIGN sqi_cmd_dummy[2];

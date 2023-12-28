@@ -51,6 +51,22 @@ int main ( void )
 }
 
 
+///* The _on_reset() function will be called by the default
+// runtime start-up code prior to data initialization. */
+//void _on_reset (void)
+//{
+// /* Call a function that configures the EBI control
+// registers for the target board. */
+// //configure_ebi_sram();
+//    Nop();
+//}
+//
+//void __pic32_tlb_init_ebi_sqi(void)
+//{
+//    Nop();
+//}
+
+
 /*******************************************************************************
  End of File
 */

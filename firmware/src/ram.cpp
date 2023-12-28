@@ -101,12 +101,13 @@ static void print_buffer_human(uint8_t *data, uint16_t data_len) {
 void RAM_Initialize(void) {
     /* Place the App state machine in its initial state. */
     ramData.state = RAM_STATE_INIT;
+}
 
+void __pic32_tlb_init_ebi_sqi();
 
-
-    /* TODO: Initialize your application's state machine and other
-     * parameters.
-     */
+void __pic32_tlb_init_ebi_sqi() {
+    Nop();
+    Nop();
 }
 
 /******************************************************************************
@@ -117,6 +118,10 @@ void RAM_Initialize(void) {
     See prototype in ram.h.
  */
 
+#define SRAM_VIRT_ADDR_SQI      0xF0000000 // SQI base in virtual memory KSEG3 (not cacheable)
+//#define SRAM_VIRT_ADDR_SQI      0xD0000000 // SQI base in virtual memory KSEG2 (cacheable)
+//#define SRAM_VIRT_ADDR_SQI      0xE0000000 // EBI base in virtual memory KSEG3 (not cacheable)
+
 void RAM_Tasks(void) {
 
     /* Check the application's current state. */
@@ -124,6 +129,9 @@ void RAM_Tasks(void) {
             /* Application's initial state. */
         case RAM_STATE_INIT:
         {
+            //            uint32_t *addr_ptr = (uint32_t *) SRAM_VIRT_ADDR_SQI;
+            //            *addr_ptr = 0x0;
+
             vTaskDelay(100U / portTICK_PERIOD_MS);
             SYS_STATUS status = DRV_IS67_Status(DRV_SST26_INDEX);
             if (status == SYS_STATUS_READY) {
@@ -219,7 +227,10 @@ void RAM_Tasks(void) {
                 }
                 logDebug("IS67 read success\r\n");
 
-                ramData.state = RAM_STATE_SERVICE_TASKS;
+                for (int16_t i = 0; i < sizeof (data); i++)
+                    data[i] = 0;
+
+                ramData.state = RAM_STATE_XIP;
             } else {
                 logError("Cannot get geometry\r\n");
                 ramData.state = RAM_STATE_ERROR;
@@ -227,6 +238,32 @@ void RAM_Tasks(void) {
             break;
         }
 
+        case RAM_STATE_XIP:
+        {
+            uint32_t address = 0x0000;
+            uint32_t *sqiXipAddr = (uint32_t *) (address | SRAM_VIRT_ADDR_SQI);
+            uint32_t *readBuffer = (uint32_t *) data;
+            uint32_t sqiXcon1Val = 0;
+            uint32_t sqiXcon2Val = 0;
+            uint32_t i;
+
+            sqiXcon1Val = SQI_XCON1_TYPECMD_VAL(QUAD_MODE) | SQI_XCON1_TYPEADDR_VAL(QUAD_MODE) |
+                    SQI_XCON1_TYPEMODE_VAL(QUAD_MODE) | SQI_XCON1_TYPEDUMMY_VAL(QUAD_MODE) |
+                    SQI_XCON1_TYPEDATA_VAL(QUAD_MODE) | SQI_XCON1_READOPCODE_VAL(0x0B) |
+                    SQI_XCON1_ADDRBYTES_VAL(THREE_ADDR_BYTES) | SQI_XCON1_DUMMYBYTES_VAL(2);
+
+            sqiXcon2Val = SQI_XCON2_MODEBYTES_VAL(0) | SQI_XCON2_DEVSEL_VAL(DEVICE_0);
+
+            SQI1_XIPSetup(sqiXcon1Val, sqiXcon2Val);
+
+            for (i = 0; i < (512 / 4); i++) {
+                *sqiXipAddr++ = *readBuffer++;
+            }
+
+            ramData.state = RAM_STATE_SERVICE_TASKS;
+
+            break;
+        }
             //        case RAM_STATE_INIT:
             //        {
             //            vTaskDelay(100U / portTICK_PERIOD_MS);

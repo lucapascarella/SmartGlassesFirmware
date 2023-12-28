@@ -68,6 +68,7 @@ extern "C" {
         RAM_STATE_READ_JEDEC_ID,
         RAM_STATE_WRITE,
         RAM_STATE_READ,
+        RAM_STATE_XIP,
         RAM_STATE_SERVICE_TASKS,
 
         RAM_STATE_ERROR,
