@@ -1,0 +1,84 @@
+# How to create an MPLAB-X project and synchronize it with a GitHub account
+# Create an empty project on GitHub. The project must not contain .gitignore or README files
+# Open the project in MPLAB-X and add .gitignore file
+# Right click on the project, Versioning, Initialize Git Repository
+# Right click on the project, Git, Add
+# Right click on the project, Git, Comment
+# Right click on the project, Git, Remote, Push
+# Now you are ready to use Git normally
+
+# Exclude MPLAB-X related folders and sub-folders
+firmware/SmartGlasses.X/.generated_files
+firmware/SmartGlasses.X/build
+firmware/SmartGlasses.X/debug
+firmware/SmartGlasses.X/dist/
+firmware/SmartGlasses.X/nbproject/*
+firmware/SmartGlasses.X/queuelogs
+# Force include
+!firmware/SmartGlasses.X/nbproject/configurations.xml
+!firmware/SmartGlasses.X/nbproject/project.xml
+
+# Exclude Harmony backup files
+firmware/SmartGlasses.X/SmartGlasses.mc3.*
+
+# Exclude MPLAB-X logs
+firmware/SmartGlasses.X/defmplabxtrace.log
+firmware/SmartGlasses.X/defmplabxtrace.log.inx
+
+# Exclude MAC backup files .DS_Store
+firmware/src/.DS_Store
+firmware/src/config/.DS_Store
+firmware/src/stream/.DS_Store
+
+
+# Auto generate files
+firmware/src/web_pages/*
+firmware/src/mpfs_net_img.c
+firmware/src/mpfs_net_img.bin
+firmware/src/http_net_print.c
+firmware/src/http_net_print.idx
+firmware/src/http_net_print.h
+firmware/src/custom_http_net_app.c
+s
+
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+*.su
+
+# Others
+*.d
+*.map
+*.zip
+*.bin
+*.o.d.tmp
+*.mk
