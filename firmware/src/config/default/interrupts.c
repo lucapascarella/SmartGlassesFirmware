@@ -70,6 +70,8 @@
 void ToF_Right_Handler (void);
 void ToF_Left_Handler (void);
 void TIMER_3_Handler (void);
+void SPI1_RX_Handler (void);
+void SPI1_TX_Handler (void);
 void UART1_FAULT_Handler (void);
 void UART1_RX_Handler (void);
 void UART1_TX_Handler (void);
@@ -100,6 +102,16 @@ void ToF_Left_Handler (void)
 void TIMER_3_Handler (void)
 {
     TIMER_3_InterruptHandler();
+}
+
+void SPI1_RX_Handler (void)
+{
+    SPI1_RX_InterruptHandler();
+}
+
+void SPI1_TX_Handler (void)
+{
+    SPI1_TX_InterruptHandler();
 }
 
 void UART1_FAULT_Handler (void)

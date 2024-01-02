@@ -136,11 +136,6 @@ static const DRV_I2C_PLIB_INTERFACE drvI2C0PLibAPI = {
     /* I2C PLib Transfer Write Add function */
     .write_t = (DRV_I2C_PLIB_WRITE)I2C1_Write,
 
-#if defined (ENABLE_ADDRESS_FIRST)
-    /* I2C PLib Transfer Write Add function */
-    .write_addr_t = (DRV_I2C_PLIB_WRITE_FIRST)I2C1_WriteAddressFirst,
-#endif
-
     /* I2C PLib Transfer Forced Write Add function */
     .writeForced = (DRV_I2C_PLIB_WRITE)I2C1_WriteForced,
 
@@ -453,6 +448,8 @@ void SYS_Initialize ( void* data )
     TMR1_Initialize();
 
     SQI1_Initialize();
+
+	SPI1_Initialize();
 
     I2C1_Initialize();
 

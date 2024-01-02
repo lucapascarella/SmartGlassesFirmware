@@ -1,22 +1,27 @@
 /*******************************************************************************
- System Interrupts File
+  Resets (RCON) PLIB
 
-  Company:
+  Company
     Microchip Technology Inc.
 
-  File Name:
-    interrupt.h
+  File Name
+    plib_rcon.h
 
-  Summary:
-    Interrupt vectors mapping
+  Summary
+    RCON PLIB Header File.
 
-  Description:
-    This file contains declarations of device vectors used by Harmony 3
- *******************************************************************************/
+  Description
+    This file defines the interface to the RCON peripheral library.
+    This library provides access to and control of the associated Resets.
+
+  Remarks:
+    None.
+
+*******************************************************************************/
 
 // DOM-IGNORE-BEGIN
 /*******************************************************************************
-* Copyright (C) 2018 Microchip Technology Inc. and its subsidiaries.
+* Copyright (C) 2019 Microchip Technology Inc. and its subsidiaries.
 *
 * Subject to your compliance with these terms, you may use Microchip software
 * and any derivatives exclusively with Microchip products. It is your
@@ -36,41 +41,80 @@
 * FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
- *******************************************************************************/
+*******************************************************************************/
 // DOM-IGNORE-END
 
-#ifndef INTERRUPTS_H
-#define INTERRUPTS_H
+#ifndef PLIB_RCON_H      // Guards against multiple inclusion
+#define PLIB_RCON_H
 
 // *****************************************************************************
 // *****************************************************************************
 // Section: Included Files
 // *****************************************************************************
 // *****************************************************************************
-#include <stdint.h>
 
+#include <stdbool.h>
+#include <stddef.h>
+#include "device.h"
 
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus // Provide C++ Compatibility
+
+    extern "C" {
+
+#endif
+// DOM-IGNORE-END
 
 // *****************************************************************************
 // *****************************************************************************
-// Section: Handler Routines
+// Section: Data Types
 // *****************************************************************************
 // *****************************************************************************
 
-void EXTERNAL_1_InterruptHandler( void );
-void EXTERNAL_2_InterruptHandler( void );
-void TIMER_3_InterruptHandler( void );
-void SPI1_RX_InterruptHandler( void );
-void SPI1_TX_InterruptHandler( void );
-void UART1_FAULT_InterruptHandler( void );
-void UART1_RX_InterruptHandler( void );
-void UART1_TX_InterruptHandler( void );
-void I2C1_BUS_InterruptHandler( void );
-void I2C1_MASTER_InterruptHandler( void );
-void DRV_USBHS_InterruptHandler( void );
-void DRV_USBHS_DMAInterruptHandler( void );
-void SQI1_InterruptHandler( void );
+typedef enum
+{
+    RCON_RESET_CAUSE_POR = _RCON_POR_MASK,
 
+    RCON_RESET_CAUSE_BOR = _RCON_BOR_MASK,
 
+    RCON_RESET_CAUSE_IDLE = _RCON_IDLE_MASK,
 
-#endif // INTERRUPTS_H
+    RCON_RESET_CAUSE_SLEEP = _RCON_SLEEP_MASK,
+
+    RCON_RESET_CAUSE_WDTO = _RCON_WDTO_MASK,
+
+    RCON_RESET_CAUSE_DMTO = _RCON_DMTO_MASK,
+
+    RCON_RESET_CAUSE_SWR = _RCON_SWR_MASK,
+
+    RCON_RESET_CAUSE_EXTR = _RCON_EXTR_MASK,
+
+    RCON_RESET_CAUSE_CMR = _RCON_CMR_MASK,
+
+    RCON_RESET_CAUSE_BCFGFAIL = _RCON_BCFGFAIL_MASK,
+
+    RCON_RESET_CAUSE_BCFGERR = _RCON_BCFGERR_MASK,
+
+} RCON_RESET_CAUSE;
+
+// *****************************************************************************
+// *****************************************************************************
+// Section: Interface
+// *****************************************************************************
+// *****************************************************************************
+
+RCON_RESET_CAUSE RCON_ResetCauseGet( void );
+
+void RCON_ResetCauseClear( RCON_RESET_CAUSE cause );
+
+void RCON_SoftwareReset( void );
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+
+    }
+
+#endif
+// DOM-IGNORE-END
+
+#endif /* PLIB_RCON_H */
