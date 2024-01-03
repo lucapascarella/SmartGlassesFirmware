@@ -181,10 +181,10 @@ void VL53L5CX_Tasks(void) {
                 /* (Mandatory) Init VL53L5CX sensor */
                 status = vl53l5cx_init(&vl53l5cxData.Dev);
                 if (status == VL53L5CX_STATUS_OK) {
-                    logDebug("VL53L5CX ULD ready ! (Version : %s)\r\n", VL53L5CX_API_REVISION);
+                    logDebug("VL53L5CX ULD ready! (Version: %s)\r\n", VL53L5CX_API_REVISION);
                     vl53l5cxData.state = VL53L5CX_STATE_START_RANGING;
                 } else {
-                    logFatal("VL53L5CX ULD Loading failed\r\n");
+                    logFatal("VL53L5CX ULD loading failed\r\n");
                     vl53l5cxData.state = VL53L5CX_STATE_ERROR;
                 }
             } else {
@@ -212,9 +212,9 @@ void VL53L5CX_Tasks(void) {
                 /* As the sensor is set in 4x4 mode by default, we have a total 
                  * of 16 zones to print. For this example, only the data of first zone are 
                  * print */
-                logDebug("Print data no : %3u\r\n", vl53l5cxData.Dev.streamcount);
+                logDebug("Print data no: %3u\r\n", vl53l5cxData.Dev.streamcount);
                 for (i = 0; i < 16; i++) {
-                    logDebug("Zone : %3d, Status : %3u, Distance : %4d mm\r\n",
+                    logDebug("Zone: %3d, Status: %3u, Distance: %4d mm\r\n",
                             i,
                             vl53l5cxData.Results.target_status[VL53L5CX_NB_TARGET_PER_ZONE * i],
                             vl53l5cxData.Results.distance_mm[VL53L5CX_NB_TARGET_PER_ZONE * i]);
@@ -234,7 +234,7 @@ void VL53L5CX_Tasks(void) {
             /* The default state should never be executed. */
         default:
         {
-            /* TODO: Handle error in application's state machine. */
+            vTaskDelay(1000U / portTICK_PERIOD_MS);
             break;
         }
     }

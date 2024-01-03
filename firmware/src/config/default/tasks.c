@@ -176,13 +176,13 @@ void SYS_Tasks ( void )
 
 
 
-    (void) xTaskCreate( lSYS_FS_Tasks,
-        "SYS_FS_TASKS",
-        SYS_FS_STACK_SIZE,
-        (void*)NULL,
-        SYS_FS_PRIORITY,
-        (TaskHandle_t*)NULL
-    );
+//    (void) xTaskCreate( lSYS_FS_Tasks,
+//        "SYS_FS_TASKS",
+//        SYS_FS_STACK_SIZE,
+//        (void*)NULL,
+//        SYS_FS_PRIORITY,
+//        (TaskHandle_t*)NULL
+//    );
 
 
 
@@ -220,13 +220,13 @@ void SYS_Tasks ( void )
                 1,
                 &xAPP_Tasks);
 
-//    /* Create OS Thread for CDC_Tasks. */
-//    (void) xTaskCreate((TaskFunction_t) lCDC_Tasks,
-//                "CDC_Tasks",
-//                1024,
-//                NULL,
-//                1,
-//                &xCDC_Tasks);
+    /* Create OS Thread for CDC_Tasks. */
+    (void) xTaskCreate((TaskFunction_t) lCDC_Tasks,
+                "CDC_Tasks",
+                1024,
+                NULL,
+                1,
+                &xCDC_Tasks);
 
     /* Create OS Thread for VL53L5CX_Tasks. */
     (void) xTaskCreate((TaskFunction_t) lVL53L5CX_Tasks,

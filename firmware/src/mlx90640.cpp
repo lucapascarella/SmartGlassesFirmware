@@ -138,7 +138,7 @@ void MLX90640_Tasks(void) {
             /* The default state should never be executed. */
         default:
         {
-            /* TODO: Handle error in application's state machine. */
+            vTaskDelay(1000U / portTICK_PERIOD_MS);
             break;
         }
     }

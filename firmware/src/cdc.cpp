@@ -392,9 +392,10 @@ void CDC_Tasks(void) {
                         /* Send the received data to COM2 */
                         /* Else echo each received character by adding 1 */
                         for (i = 0; i < appCdcData.numBytesRead; i++) {
-                            if ((cdcReadBuffer[i] != 0x0A) && (cdcReadBuffer[i] != 0x0D)) {
-                                cdcWriteBuffer[i] = cdcReadBuffer[i] + 1;
-                            }
+                            //if ((cdcReadBuffer[i] != 0x0A) && (cdcReadBuffer[i] != 0x0D)) {
+                            //    cdcWriteBuffer[i] = cdcReadBuffer[i] + 1;
+                            //}
+                            cdcWriteBuffer[i] = cdcReadBuffer[i];
                         }
                         USB_DEVICE_CDC_Write(USB_DEVICE_CDC_INDEX_0, &COM1Write_Handle, cdcWriteBuffer, appCdcData.numBytesRead, USB_DEVICE_CDC_TRANSFER_FLAGS_DATA_COMPLETE);
                         break;
@@ -408,7 +409,9 @@ void CDC_Tasks(void) {
                         break;
                 }
                 break;
+
             default:
+                vTaskDelay(1000U / portTICK_PERIOD_MS);
                 break;
         }
     }

@@ -12,11 +12,6 @@
               <itemPath>../src/config/default/driver/i2c/drv_i2c.h</itemPath>
               <itemPath>../src/config/default/driver/i2c/drv_i2c_definitions.h</itemPath>
             </logicalFolder>
-            <logicalFolder name="is67" displayName="is67" projectFiles="true">
-              <itemPath>../src/config/default/driver/is67/drv_is67.h</itemPath>
-              <itemPath>../src/config/default/driver/is67/drv_is67_definitions.h</itemPath>
-              <itemPath>../src/config/default/driver/is67/src/drv_is67_local.h</itemPath>
-            </logicalFolder>
             <logicalFolder name="memory" displayName="memory" projectFiles="true">
               <itemPath>../src/config/default/driver/memory/src/drv_memory_file_system.h</itemPath>
               <itemPath>../src/config/default/driver/memory/src/drv_memory_local.h</itemPath>
@@ -256,7 +251,6 @@
       <itemPath>../src/cdc.h</itemPath>
       <itemPath>../src/mlx90640.h</itemPath>
       <itemPath>../src/vl53l5cx.h</itemPath>
-      <itemPath>../src/ram.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -462,7 +456,7 @@
         <platformTool>ICD5Tool</platformTool>
         <languageToolchain>XC32</languageToolchain>
         <languageToolchainVersion>4.35</languageToolchainVersion>
-        <platform>3</platform>
+        <platform>4</platform>
       </toolsSet>
       <packs>
         <pack name="PIC32MZ-EF_DFP" vendor="Microchip" version="1.4.168"/>
