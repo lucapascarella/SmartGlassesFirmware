@@ -78,11 +78,11 @@ void TMR8_Start(void);
 
 void TMR8_Stop(void);
 
-void TMR8_PeriodSet(uint16_t period);
+void TMR8_PeriodSet(uint32_t period);
 
-uint16_t TMR8_PeriodGet(void);
+uint32_t TMR8_PeriodGet(void);
 
-uint16_t TMR8_CounterGet(void);
+uint32_t TMR8_CounterGet(void);
 
 uint32_t TMR8_FrequencyGet(void);
 

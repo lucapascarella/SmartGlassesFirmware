@@ -466,7 +466,6 @@ void SYS_Initialize ( void* data )
 
     TMR8_Initialize();
 
-    TMR9_Initialize();
 
     I2C1_Initialize();
 

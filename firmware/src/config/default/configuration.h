@@ -193,7 +193,7 @@ extern "C" {
 // *****************************************************************************
 // *****************************************************************************
 /* Number of Endpoints used */
-#define DRV_USBHS_ENDPOINTS_NUMBER                        2
+#define DRV_USBHS_ENDPOINTS_NUMBER                        4
 
 /* The USB Device Layer will not initialize the USB Driver */
 #define USB_DEVICE_DRIVER_INITIALIZE_EXPLICIT

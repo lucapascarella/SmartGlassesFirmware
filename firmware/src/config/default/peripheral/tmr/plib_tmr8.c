@@ -65,19 +65,19 @@ void TMR8_Initialize(void)
     /*
     SIDL = 0
     TCKPS =7
-    T32   = 0
+    T32   = 1
     TCS = 0
     */
-    T8CONSET = 0x70;
+    T8CONSET = 0x78;
 
     /* Clear counter */
     TMR8 = 0x0;
 
     /*Set period */
-    PR8 = 39061U;
+    PR8 = 195311U;
 
-    /* Enable TMR Interrupt */
-    IEC1SET = _IEC1_T8IE_MASK;
+    /* Enable TMR Interrupt of odd numbered timer in 32-bit mode */
+    IEC1SET = _IEC1_T9IE_MASK;
 
 }
 
@@ -93,19 +93,19 @@ void TMR8_Stop (void)
     T8CONCLR = _T8CON_ON_MASK;
 }
 
-void TMR8_PeriodSet(uint16_t period)
+void TMR8_PeriodSet(uint32_t period)
 {
     PR8  = period;
 }
 
-uint16_t TMR8_PeriodGet(void)
+uint32_t TMR8_PeriodGet(void)
 {
-    return (uint16_t)PR8;
+    return PR8;
 }
 
-uint16_t TMR8_CounterGet(void)
+uint32_t TMR8_CounterGet(void)
 {
-    return (uint16_t)(TMR8);
+    return (TMR8);
 }
 
 
@@ -115,11 +115,11 @@ uint32_t TMR8_FrequencyGet(void)
 }
 
 
-void __attribute__((used)) TIMER_8_InterruptHandler (void)
+void __attribute__((used)) TIMER_9_InterruptHandler (void)
 {
     uint32_t status  = 0U;
-    status = IFS1bits.T8IF;
-    IFS1CLR = _IFS1_T8IF_MASK;
+    status = IFS1bits.T9IF;
+    IFS1CLR = _IFS1_T9IF_MASK;
 
     if((tmr8Obj.callback_fn != NULL))
     {
@@ -131,13 +131,13 @@ void __attribute__((used)) TIMER_8_InterruptHandler (void)
 
 void TMR8_InterruptEnable(void)
 {
-    IEC1SET = _IEC1_T8IE_MASK;
+    IEC1SET = _IEC1_T9IE_MASK;
 }
 
 
 void TMR8_InterruptDisable(void)
 {
-    IEC1CLR = _IEC1_T8IE_MASK;
+    IEC1CLR = _IEC1_T9IE_MASK;
 }
 
 

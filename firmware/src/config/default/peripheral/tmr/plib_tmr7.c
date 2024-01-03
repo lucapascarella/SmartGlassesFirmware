@@ -60,21 +60,21 @@ volatile static TMR_TIMER_OBJECT tmr7Obj;
 void TMR7_Initialize(void)
 {
     /* Disable Timer */
-    T7CONCLR = _T7CON_ON_MASK;
+    T7CONCLR = 0xFFFFFFFF; // Luca Needed for clear all bits
 
     /*
     SIDL = 0
-    TCKPS =0
+    TCKPS =4
     T32   = 0
     TCS = 0
     */
-    T7CONSET = 0x0;
+    T7CONSET = 0x40;
 
     /* Clear counter */
     TMR7 = 0x0;
 
     /*Set period */
-    PR7 = 9U;
+    PR7 = 624U;
 
     /* Enable TMR Interrupt */
     IEC1SET = _IEC1_T7IE_MASK;
@@ -111,7 +111,7 @@ uint16_t TMR7_CounterGet(void)
 
 uint32_t TMR7_FrequencyGet(void)
 {
-    return (100000000);
+    return (6250000);
 }
 
 

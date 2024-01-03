@@ -73,9 +73,73 @@ APP_DATA appData;
 // *****************************************************************************
 // *****************************************************************************
 
+/* This example demonstrates how a human readable table of run time stats
+information is generated from raw data provided by uxTaskGetSystemState().
+The human readable table is written to pcWriteBuffer.  (see the vTaskList()
+API function which actually does just this). */
+static void vTaskGetRunTimeStats(void) {
+    const char states[] = {'X', 'R', 'B', 'S', 'D', 'I'};
+    TaskStatus_t *pxTaskStatusArray;
+    volatile UBaseType_t uxArraySize, x;
+    uint32_t ulTotalRunTime, ulStatsAsPercentage;
+    uint8_t state;
 
-/* TODO:  Add any necessary local functions.
- */
+    /* Take a snapshot of the number of tasks in case it changes while this function is executing. */
+    uxArraySize = uxTaskGetNumberOfTasks();
+
+    /* Allocate a TaskStatus_t structure for each task. 
+     * An array could be allocated statically at compile time. */
+    pxTaskStatusArray = (TaskStatus_t*) pvPortMalloc(uxArraySize * sizeof (TaskStatus_t));
+
+    if (pxTaskStatusArray != NULL) {
+        /* Generate raw status information about each task. */
+        uxArraySize = uxTaskGetSystemState(pxTaskStatusArray, uxArraySize, &ulTotalRunTime);
+
+        /* For percentage calculations. */
+        ulTotalRunTime /= 100UL;
+
+        /* Avoid divide by zero errors. */
+        if (ulTotalRunTime > 0) {
+            /* For each populated position in the pxTaskStatusArray array,
+            format the raw data as human readable ASCII data. */
+            for (x = 0; x < uxArraySize; x++) {
+                /* What percentage of the total run time has the task used?
+                This will always be rounded down to the nearest integer.
+                ulTotalRunTimeDiv100 has already been divided by 100. */
+                ulStatsAsPercentage = pxTaskStatusArray[ x ].ulRunTimeCounter / ulTotalRunTime;
+                state = pxTaskStatusArray[ x ].eCurrentState;
+
+                if (ulStatsAsPercentage > 0UL) {
+                    logPrint("%c %2lu %2lu %-12s %9u %3u%% %6d %p\r\n",
+                            states[state],
+                            pxTaskStatusArray[ x ].uxBasePriority,
+                            pxTaskStatusArray[ x ].uxCurrentPriority,
+                            pxTaskStatusArray[ x ].pcTaskName,
+                            pxTaskStatusArray[ x ].ulRunTimeCounter,
+                            ulStatsAsPercentage,
+                            pxTaskStatusArray[ x ].usStackHighWaterMark * 4,
+                            pxTaskStatusArray[ x ].pxStackBase);
+                } else {
+                    /* If the percentage is zero here then the task has
+                    consumed less than 1% of the total run time. */
+                    logPrint("%c %2lu %2lu %-12s %9u  <1%% %6d %p\r\n",
+                            states[state],
+                            pxTaskStatusArray[ x ].uxBasePriority,
+                            pxTaskStatusArray[ x ].uxCurrentPriority,
+                            pxTaskStatusArray[ x ].pcTaskName,
+                            pxTaskStatusArray[ x ].ulRunTimeCounter,
+                            pxTaskStatusArray[ x ].usStackHighWaterMark * 4,
+                            pxTaskStatusArray[ x ].pxStackBase);
+                }
+
+                //pcWriteBuffer += strlen((char *) pcWriteBuffer);
+            }
+        }
+
+        /* The array is no longer needed, free the memory it consumes. */
+        vPortFree(pxTaskStatusArray);
+    }
+}
 
 
 // *****************************************************************************
@@ -128,6 +192,9 @@ void APP_Tasks(void) {
                 logDebug("\a\033[1;1H\033[2J");
                 logDebug("Hello World!\r\n");
 
+                // Enable 10kHz timer for FreeRTOS run time statistics
+                TMR7_Start();
+
                 // Enable 3V3
                 EN_3V3_OutputEnable();
                 EN_3V3_Set();
@@ -176,9 +243,15 @@ void APP_Tasks(void) {
 
         case APP_STATE_SERVICE_TASKS:
         {
-
+            if (SYS_DEBUG_ErrorLevelGet() >= SYS_ERROR_INFO) {
+                logPrint("S BP CP Task          Abs Tick  CPU  Bytes Stk Base\r\n");
+                logPrint("---------------------------------------------------\r\n");
+                vTaskGetRunTimeStats();
+                logPrint("---------------------------------------------------\r\n\r\n");
+                //myAllocX_PrintFreelist();
+            }
             //            LED_SYS_Toggle();
-            vTaskDelay(100U / portTICK_PERIOD_MS);
+            vTaskDelay(1000U / portTICK_PERIOD_MS);
             break;
         }
 

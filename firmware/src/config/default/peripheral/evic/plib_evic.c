@@ -62,7 +62,6 @@ void EVIC_Initialize( void )
     IPC3SET = 0x400U | 0x0U;  /* EXTERNAL_2:  Priority 1 / Subpriority 0 */
     IPC3SET = 0x40000U | 0x0U;  /* TIMER_3:  Priority 1 / Subpriority 0 */
     IPC8SET = 0x1cU | 0x0U;  /* TIMER_7:  Priority 7 / Subpriority 0 */
-    IPC9SET = 0x4U | 0x0U;  /* TIMER_8:  Priority 1 / Subpriority 0 */
     IPC10SET = 0x4U | 0x0U;  /* TIMER_9:  Priority 1 / Subpriority 0 */
     IPC27SET = 0x40000U | 0x0U;  /* SPI1_RX:  Priority 1 / Subpriority 0 */
     IPC27SET = 0x4000000U | 0x0U;  /* SPI1_TX:  Priority 1 / Subpriority 0 */
@@ -80,6 +79,12 @@ void EVIC_Initialize( void )
     /* Initialize External interrupt 2 callback object */
     extInt2CbObj.callback = NULL;
 
+    /* 
+     * Assign Shadow Register Set only to ISR with priority higher than FreeRTOS
+     * portSAVE_CONTEXT and portRESTORE_CONTEXT must not be used, instead use 
+     * __ISR(_TIMER_7_VECTOR, ipl7SRS) Handler(void) where ipl7SRS is aligned
+     */
+    PRISS = 0x70000000;
 }
 
 void EVIC_SourceEnable( INT_SOURCE source )

@@ -61,7 +61,6 @@ void EXTERNAL_1_InterruptHandler( void );
 void EXTERNAL_2_InterruptHandler( void );
 void TIMER_3_InterruptHandler( void );
 void TIMER_7_InterruptHandler( void );
-void TIMER_8_InterruptHandler( void );
 void TIMER_9_InterruptHandler( void );
 void SPI1_RX_InterruptHandler( void );
 void SPI1_TX_InterruptHandler( void );

@@ -124,24 +124,6 @@ IntVectorTIMER_3_Handler:
 //    nop
 //    portRESTORE_CONTEXT
 //    .end   IntVectorTIMER_7_Handler
-    .extern  TIMER_8_Handler
-
-    .section   .vector_36,code, keep
-    .equ     __vector_dispatch_36, IntVectorTIMER_8_Handler
-    .global  __vector_dispatch_36
-    .set     nomicromips
-    .set     noreorder
-    .set     nomips16
-    .set     noat
-    .ent  IntVectorTIMER_8_Handler
-
-IntVectorTIMER_8_Handler:
-    portSAVE_CONTEXT
-    la    s6,  TIMER_8_Handler
-    jalr  s6
-    nop
-    portRESTORE_CONTEXT
-    .end   IntVectorTIMER_8_Handler
     .extern  TIMER_9_Handler
 
     .section   .vector_40,code, keep
