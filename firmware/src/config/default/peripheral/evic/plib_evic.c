@@ -47,6 +47,8 @@
 
 volatile static EXT_INT_PIN_CALLBACK_OBJ extInt1CbObj;
 volatile static EXT_INT_PIN_CALLBACK_OBJ extInt2CbObj;
+volatile static EXT_INT_PIN_CALLBACK_OBJ extInt3CbObj;
+volatile static EXT_INT_PIN_CALLBACK_OBJ extInt4CbObj;
 // *****************************************************************************
 // *****************************************************************************
 // Section: IRQ Implementation
@@ -61,23 +63,29 @@ void EVIC_Initialize( void )
     IPC2SET = 0x4U | 0x0U;  /* EXTERNAL_1:  Priority 1 / Subpriority 0 */
     IPC3SET = 0x400U | 0x0U;  /* EXTERNAL_2:  Priority 1 / Subpriority 0 */
     IPC3SET = 0x40000U | 0x0U;  /* TIMER_3:  Priority 1 / Subpriority 0 */
+    IPC4SET = 0x40000U | 0x0U;  /* EXTERNAL_3:  Priority 1 / Subpriority 0 */
+    IPC5SET = 0x4000000U | 0x0U;  /* EXTERNAL_4:  Priority 1 / Subpriority 0 */
     IPC8SET = 0x1cU | 0x0U;  /* TIMER_7:  Priority 7 / Subpriority 0 */
     IPC10SET = 0x4U | 0x0U;  /* TIMER_9:  Priority 1 / Subpriority 0 */
-    IPC27SET = 0x40000U | 0x0U;  /* SPI1_RX:  Priority 1 / Subpriority 0 */
-    IPC27SET = 0x4000000U | 0x0U;  /* SPI1_TX:  Priority 1 / Subpriority 0 */
+    IPC27SET = 0x40000U | 0x10000U;  /* SPI1_RX:  Priority 1 / Subpriority 1 */
+    IPC27SET = 0x4000000U | 0x1000000U;  /* SPI1_TX:  Priority 1 / Subpriority 1 */
     IPC28SET = 0x4U | 0x0U;  /* UART1_FAULT:  Priority 1 / Subpriority 0 */
     IPC28SET = 0x400U | 0x0U;  /* UART1_RX:  Priority 1 / Subpriority 0 */
     IPC28SET = 0x40000U | 0x0U;  /* UART1_TX:  Priority 1 / Subpriority 0 */
     IPC28SET = 0x4000000U | 0x0U;  /* I2C1_BUS:  Priority 1 / Subpriority 0 */
     IPC29SET = 0x400U | 0x0U;  /* I2C1_MASTER:  Priority 1 / Subpriority 0 */
-    IPC33SET = 0x4U | 0x0U;  /* USB:  Priority 1 / Subpriority 0 */
-    IPC33SET = 0x400U | 0x0U;  /* USB_DMA:  Priority 1 / Subpriority 0 */
-    IPC42SET = 0x400U | 0x0U;  /* SQI1:  Priority 1 / Subpriority 0 */
+    IPC33SET = 0x8U | 0x0U;  /* USB:  Priority 2 / Subpriority 0 */
+    IPC33SET = 0x800U | 0x0U;  /* USB_DMA:  Priority 2 / Subpriority 0 */
+    IPC42SET = 0x800U | 0x0U;  /* SQI1:  Priority 2 / Subpriority 0 */
 
     /* Initialize External interrupt 1 callback object */
     extInt1CbObj.callback = NULL;
     /* Initialize External interrupt 2 callback object */
     extInt2CbObj.callback = NULL;
+    /* Initialize External interrupt 3 callback object */
+    extInt3CbObj.callback = NULL;
+    /* Initialize External interrupt 4 callback object */
+    extInt4CbObj.callback = NULL;
 
     /* 
      * Assign Shadow Register Set only to ISR with priority higher than FreeRTOS
@@ -185,6 +193,14 @@ bool EVIC_ExternalInterruptCallbackRegister(
             extInt2CbObj.callback = callback;
             extInt2CbObj.context  = context;
             break;
+        case EXTERNAL_INT_3:
+            extInt3CbObj.callback = callback;
+            extInt3CbObj.context  = context;
+            break;
+        case EXTERNAL_INT_4:
+            extInt4CbObj.callback = callback;
+            extInt4CbObj.context  = context;
+            break;
         default:
             status = false;
             break;
@@ -238,6 +254,54 @@ void __attribute__((used)) EXTERNAL_2_InterruptHandler(void)
     {
         context_var = extInt2CbObj.context;
         extInt2CbObj.callback (EXTERNAL_INT_2, context_var);
+    }
+}
+
+
+// *****************************************************************************
+/* Function:
+    void EXTERNAL_3_InterruptHandler(void)
+
+  Summary:
+    Interrupt Handler for External Interrupt pin 3.
+
+  Remarks:
+    It is an internal function called from ISR, user should not call it directly.
+*/
+void __attribute__((used)) EXTERNAL_3_InterruptHandler(void)
+{
+    uintptr_t context_var;
+
+    IFS0CLR = _IFS0_INT3IF_MASK;
+
+    if(extInt3CbObj.callback != NULL)
+    {
+        context_var = extInt3CbObj.context;
+        extInt3CbObj.callback (EXTERNAL_INT_3, context_var);
+    }
+}
+
+
+// *****************************************************************************
+/* Function:
+    void EXTERNAL_4_InterruptHandler(void)
+
+  Summary:
+    Interrupt Handler for External Interrupt pin 4.
+
+  Remarks:
+    It is an internal function called from ISR, user should not call it directly.
+*/
+void __attribute__((used)) EXTERNAL_4_InterruptHandler(void)
+{
+    uintptr_t context_var;
+
+    IFS0CLR = _IFS0_INT4IF_MASK;
+
+    if(extInt4CbObj.callback != NULL)
+    {
+        context_var = extInt4CbObj.context;
+        extInt4CbObj.callback (EXTERNAL_INT_4, context_var);
     }
 }
 

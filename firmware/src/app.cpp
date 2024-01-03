@@ -110,7 +110,7 @@ static void vTaskGetRunTimeStats(void) {
                 state = pxTaskStatusArray[ x ].eCurrentState;
 
                 if (ulStatsAsPercentage > 0UL) {
-                    logPrint("%c %2lu %2lu %-12s %9u %3u%% %6d %p\r\n",
+                    logPrint("%c %2lu %2lu %-15s %9u %3u%% %6d %p\r\n",
                             states[state],
                             pxTaskStatusArray[ x ].uxBasePriority,
                             pxTaskStatusArray[ x ].uxCurrentPriority,
@@ -122,7 +122,7 @@ static void vTaskGetRunTimeStats(void) {
                 } else {
                     /* If the percentage is zero here then the task has
                     consumed less than 1% of the total run time. */
-                    logPrint("%c %2lu %2lu %-12s %9u  <1%% %6d %p\r\n",
+                    logPrint("%c %2lu %2lu %-15s %9u  <1%% %6d %p\r\n",
                             states[state],
                             pxTaskStatusArray[ x ].uxBasePriority,
                             pxTaskStatusArray[ x ].uxCurrentPriority,
@@ -200,8 +200,8 @@ void APP_Tasks(void) {
                 EN_3V3_Set();
 
                 // Enable 1V8
-                //EN_1V8_OutputEnable();
-                //EN_1V8_Set();
+                EN_1V8_OutputEnable();
+                EN_1V8_Set();
 
 
                 //                appData.handle = DRV_AT24_Open(DRV_AT24_INDEX, DRV_IO_INTENT_READWRITE);
@@ -244,10 +244,10 @@ void APP_Tasks(void) {
         case APP_STATE_SERVICE_TASKS:
         {
             if (SYS_DEBUG_ErrorLevelGet() >= SYS_ERROR_INFO) {
-                logPrint("S BP CP Task          Abs Tick  CPU  Bytes Stk Base\r\n");
-                logPrint("---------------------------------------------------\r\n");
+                logPrint("S BP CP Task             Abs Tick  CPU  Bytes Stk Base\r\n");
+                logPrint("------------------------------------------------------\r\n");
                 vTaskGetRunTimeStats();
-                logPrint("---------------------------------------------------\r\n\r\n");
+                logPrint("------------------------------------------------------\r\n\r\n");
                 //myAllocX_PrintFreelist();
             }
             //            LED_SYS_Toggle();

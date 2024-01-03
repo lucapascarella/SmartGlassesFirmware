@@ -106,6 +106,42 @@ IntVectorTIMER_3_Handler:
     nop
     portRESTORE_CONTEXT
     .end   IntVectorTIMER_3_Handler
+    .extern  EXTERNAL_3_Handler
+
+    .section   .vector_18,code, keep
+    .equ     __vector_dispatch_18, IntVectorEXTERNAL_3_Handler
+    .global  __vector_dispatch_18
+    .set     nomicromips
+    .set     noreorder
+    .set     nomips16
+    .set     noat
+    .ent  IntVectorEXTERNAL_3_Handler
+
+IntVectorEXTERNAL_3_Handler:
+    portSAVE_CONTEXT
+    la    s6,  EXTERNAL_3_Handler
+    jalr  s6
+    nop
+    portRESTORE_CONTEXT
+    .end   IntVectorEXTERNAL_3_Handler
+    .extern  EXTERNAL_4_Handler
+
+    .section   .vector_23,code, keep
+    .equ     __vector_dispatch_23, IntVectorEXTERNAL_4_Handler
+    .global  __vector_dispatch_23
+    .set     nomicromips
+    .set     noreorder
+    .set     nomips16
+    .set     noat
+    .ent  IntVectorEXTERNAL_4_Handler
+
+IntVectorEXTERNAL_4_Handler:
+    portSAVE_CONTEXT
+    la    s6,  EXTERNAL_4_Handler
+    jalr  s6
+    nop
+    portRESTORE_CONTEXT
+    .end   IntVectorEXTERNAL_4_Handler
 //    .extern  TIMER_7_Handler
 //
 //    .section   .vector_32,code, keep

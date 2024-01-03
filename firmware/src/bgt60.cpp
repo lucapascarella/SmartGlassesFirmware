@@ -29,6 +29,10 @@
 
 #include "bgt60.h"
 
+#undef LOG_LEVEL
+#define LOG_LEVEL   LOG_DEBUG
+#include "log.h"
+
 // *****************************************************************************
 // *****************************************************************************
 // Section: Global Data Definitions
@@ -48,7 +52,7 @@
     This structure should be initialized by the BGT60_Initialize function.
 
     Application strings and buffers are be defined outside this structure.
-*/
+ */
 
 BGT60_DATA bgt60Data;
 
@@ -59,7 +63,7 @@ BGT60_DATA bgt60Data;
 // *****************************************************************************
 
 /* TODO:  Add any necessary callback functions.
-*/
+ */
 
 // *****************************************************************************
 // *****************************************************************************
@@ -69,7 +73,7 @@ BGT60_DATA bgt60Data;
 
 
 /* TODO:  Add any necessary local functions.
-*/
+ */
 
 
 // *****************************************************************************
@@ -86,8 +90,7 @@ BGT60_DATA bgt60Data;
     See prototype in bgt60.h.
  */
 
-void BGT60_Initialize ( void )
-{
+void BGT60_Initialize(void) {
     /* Place the App state machine in its initial state. */
     bgt60Data.state = BGT60_STATE_INIT;
 
@@ -98,7 +101,6 @@ void BGT60_Initialize ( void )
      */
 }
 
-
 /******************************************************************************
   Function:
     void BGT60_Tasks ( void )
@@ -107,20 +109,46 @@ void BGT60_Initialize ( void )
     See prototype in bgt60.h.
  */
 
-void BGT60_Tasks ( void )
-{
+void BGT60_Tasks(void) {
 
     /* Check the application's current state. */
-    switch ( bgt60Data.state )
-    {
-        /* Application's initial state. */
+    switch (bgt60Data.state) {
+            /* Application's initial state. */
         case BGT60_STATE_INIT:
         {
             bool appInitialized = true;
 
+            // Enable TXU0304 converter
+            EN_IO_OutputEnable();
+            EN_IO_Set();
 
-            if (appInitialized)
-            {
+            // Check SPI is free
+            while (SPI1_IsBusy()) {
+                vTaskDelay(100U / portTICK_PERIOD_MS);
+            }
+
+            CS_LEFT_OutputEnable();
+            CS_RIGHT_OutputEnable();
+
+            RST_LEFT_OutputEnable();
+            RST_RIGHT_OutputEnable();
+
+
+            while (true) {
+                // CS_LEFT_Toggle();
+                // CS_RIGHT_Toggle();
+                if (!SPI1_IsBusy()) {
+                    uint8_t data = 0xAA;
+                    SPI1_Write(&data, 1);
+                }
+
+                // RST_LEFT_Toggle();
+                // RST_RIGHT_Toggle();
+                vTaskDelay(100U / portTICK_PERIOD_MS);
+            }
+
+
+            if (appInitialized) {
 
                 bgt60Data.state = BGT60_STATE_SERVICE_TASKS;
             }
@@ -133,13 +161,13 @@ void BGT60_Tasks ( void )
             break;
         }
 
-        /* TODO: implement your application state machine.*/
+            /* TODO: implement your application state machine.*/
 
 
-        /* The default state should never be executed. */
+            /* The default state should never be executed. */
         default:
         {
-            /* TODO: Handle error in application's state machine. */
+            vTaskDelay(1000U / portTICK_PERIOD_MS);
             break;
         }
     }

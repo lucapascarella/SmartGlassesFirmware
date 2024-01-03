@@ -70,6 +70,8 @@
 void ToF_Right_Handler (void);
 void ToF_Left_Handler (void);
 void TIMER_3_Handler (void);
+void EXTERNAL_3_Handler (void);
+void EXTERNAL_4_Handler (void);
 void TIMER_7_Handler (void);
 void TIMER_9_Handler (void);
 void SPI1_RX_Handler (void);
@@ -104,6 +106,16 @@ void ToF_Left_Handler (void)
 void TIMER_3_Handler (void)
 {
     TIMER_3_InterruptHandler();
+}
+
+void EXTERNAL_3_Handler (void)
+{
+    EXTERNAL_3_InterruptHandler();
+}
+
+void EXTERNAL_4_Handler (void)
+{
+    EXTERNAL_4_InterruptHandler();
 }
 
 /*
