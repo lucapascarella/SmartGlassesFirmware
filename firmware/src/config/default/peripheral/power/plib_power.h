@@ -1,23 +1,27 @@
 /*******************************************************************************
- System Tasks Header File
+  Power PLIB
 
-  File Name:
-    sys_tasks.h
+  Company
+    Microchip Technology Inc.
 
-  Summary:
-    This file contains declarations for task handles.
+  File Name
+    plib_power.h
 
-  Description:
-    Task handles declared in this header file can be used by the application
-    to control the behavior of the tasks.
+  Summary
+    Power PLIB Header File.
+
+  Description
+    This file defines the interface to the DSCTRL peripheral library.
+    This library provides access to and control of the associated Resets.
 
   Remarks:
-    None
- *******************************************************************************/
+    None.
+
+*******************************************************************************/
 
 // DOM-IGNORE-BEGIN
 /*******************************************************************************
-* Copyright (C) 2023 Microchip Technology Inc. and its subsidiaries.
+* Copyright (C) 2019 Microchip Technology Inc. and its subsidiaries.
 *
 * Subject to your compliance with these terms, you may use Microchip software
 * and any derivatives exclusively with Microchip products. It is your
@@ -37,11 +41,11 @@
 * FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
- *******************************************************************************/
+*******************************************************************************/
 // DOM-IGNORE-END
 
-#ifndef SYS_TASKS_H
-#define SYS_TASKS_H
+#ifndef PLIB_POWER_H      // Guards against multiple inclusion
+#define PLIB_POWER_H
 
 // *****************************************************************************
 // *****************************************************************************
@@ -49,33 +53,45 @@
 // *****************************************************************************
 // *****************************************************************************
 
-#include "configuration.h"
-#include "definitions.h"
+#include <stdbool.h>
+#include <stddef.h>
+#include "device.h"
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus // Provide C++ Compatibility
+
+    extern "C" {
+
+#endif
+// DOM-IGNORE-END
 
 // *****************************************************************************
 // *****************************************************************************
-// Section: RTOS "Tasks" Handles
+// Section: Data Types
 // *****************************************************************************
 // *****************************************************************************
-/* Declaration of  APP_Tasks task handle */
-extern TaskHandle_t xAPP_Tasks;
 
-/* Declaration of  CDC_Tasks task handle */
-extern TaskHandle_t xCDC_Tasks;
+typedef enum {
 
-/* Declaration of  VL53L5CX_Tasks task handle */
-extern TaskHandle_t xVL53L5CX_Tasks;
+    LOW_POWER_IDLE_MODE,
+    LOW_POWER_SLEEP_MODE,
+    LOW_POWER_DREAM_MODE,
+} POWER_LOW_POWER_MODE;
 
-/* Declaration of  MLX90640_Tasks task handle */
-extern TaskHandle_t xMLX90640_Tasks;
+// *****************************************************************************
+// *****************************************************************************
+// Section: Interface
+// *****************************************************************************
+// *****************************************************************************
 
-/* Declaration of  BGT60_Tasks task handle */
-extern TaskHandle_t xBGT60_Tasks;
+void POWER_LowPowerModeEnter( POWER_LOW_POWER_MODE mode );
 
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
 
-/* Declaration of SYS_COMMAND task handle */
-extern TaskHandle_t xSYS_CMD_Tasks;
+    }
 
+#endif
+// DOM-IGNORE-END
 
-
-#endif //SYS_TASKS_H
+#endif /* PLIB_POWER_H */

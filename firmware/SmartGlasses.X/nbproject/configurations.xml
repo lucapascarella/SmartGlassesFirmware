@@ -67,8 +67,8 @@
           </logicalFolder>
           <logicalFolder name="osal" displayName="osal" projectFiles="true">
             <itemPath>../src/config/default/osal/osal_freertos.h</itemPath>
-            <itemPath>../src/config/default/osal/osal.h</itemPath>
             <itemPath>../src/config/default/osal/osal_definitions.h</itemPath>
+            <itemPath>../src/config/default/osal/osal.h</itemPath>
           </logicalFolder>
           <logicalFolder name="peripheral" displayName="peripheral" projectFiles="true">
             <logicalFolder name="cache" displayName="cache" projectFiles="true">
@@ -97,6 +97,9 @@
               <itemPath>../src/config/default/peripheral/ocmp/plib_ocmp4.h</itemPath>
               <itemPath>../src/config/default/peripheral/ocmp/plib_ocmp5.h</itemPath>
             </logicalFolder>
+            <logicalFolder name="power" displayName="power" projectFiles="true">
+              <itemPath>../src/config/default/peripheral/power/plib_power.h</itemPath>
+            </logicalFolder>
             <logicalFolder name="rcon" displayName="rcon" projectFiles="true">
               <itemPath>../src/config/default/peripheral/rcon/plib_rcon.h</itemPath>
             </logicalFolder>
@@ -116,6 +119,9 @@
             <logicalFolder name="tmr" displayName="tmr" projectFiles="true">
               <itemPath>../src/config/default/peripheral/tmr/plib_tmr3.h</itemPath>
               <itemPath>../src/config/default/peripheral/tmr/plib_tmr_common.h</itemPath>
+              <itemPath>../src/config/default/peripheral/tmr/plib_tmr9.h</itemPath>
+              <itemPath>../src/config/default/peripheral/tmr/plib_tmr8.h</itemPath>
+              <itemPath>../src/config/default/peripheral/tmr/plib_tmr7.h</itemPath>
             </logicalFolder>
             <logicalFolder name="tmr1" displayName="tmr1" projectFiles="true">
               <itemPath>../src/config/default/peripheral/tmr1/plib_tmr1.h</itemPath>
@@ -140,7 +146,6 @@
               <itemPath>../src/config/default/system/console/src/sys_console_local.h</itemPath>
             </logicalFolder>
             <logicalFolder name="debug" displayName="debug" projectFiles="true">
-              <itemPath>../src/config/default/system/debug/sys_debug.h</itemPath>
               <itemPath>../src/config/default/system/debug/src/sys_debug_local.h</itemPath>
             </logicalFolder>
             <logicalFolder name="fs" displayName="fs" projectFiles="true">
@@ -165,17 +170,11 @@
               <itemPath>../src/config/default/system/int/sys_int_mapping.h</itemPath>
               <itemPath>../src/config/default/system/int/sys_int.h</itemPath>
             </logicalFolder>
-            <logicalFolder name="reset" displayName="reset" projectFiles="true">
-              <itemPath>../src/config/default/system/reset/sys_reset.h</itemPath>
-            </logicalFolder>
             <logicalFolder name="time" displayName="time" projectFiles="true">
               <itemPath>../src/config/default/system/time/sys_time.h</itemPath>
               <itemPath>../src/config/default/system/time/src/sys_time_local.h</itemPath>
               <itemPath>../src/config/default/system/time/sys_time_definitions.h</itemPath>
             </logicalFolder>
-            <itemPath>../src/config/default/system/system.h</itemPath>
-            <itemPath>../src/config/default/system/system_module.h</itemPath>
-            <itemPath>../src/config/default/system/system_common.h</itemPath>
             <itemPath>../src/config/default/system/system_media.h</itemPath>
           </logicalFolder>
           <logicalFolder name="usb" displayName="usb" projectFiles="true">
@@ -196,15 +195,15 @@
             <itemPath>../src/config/default/usb/usb_host.h</itemPath>
             <itemPath>../src/config/default/usb/usb_chapter_9.h</itemPath>
           </logicalFolder>
-          <itemPath>../src/config/default/sys_tasks.h</itemPath>
-          <itemPath>../src/config/default/user.h</itemPath>
           <itemPath>../src/config/default/interrupts.h</itemPath>
           <itemPath>../src/config/default/toolchain_specifics.h</itemPath>
           <itemPath>../src/config/default/FreeRTOSConfig.h</itemPath>
           <itemPath>../src/config/default/device.h</itemPath>
-          <itemPath>../src/config/default/configuration.h</itemPath>
           <itemPath>../src/config/default/definitions.h</itemPath>
           <itemPath>../src/config/default/device_cache.h</itemPath>
+          <itemPath>../src/config/default/configuration.h</itemPath>
+          <itemPath>../src/config/default/sys_tasks.h</itemPath>
+          <itemPath>../src/config/default/user.h</itemPath>
         </logicalFolder>
       </logicalFolder>
       <logicalFolder name="FreeRTOS" displayName="FreeRTOS" projectFiles="true">
@@ -246,10 +245,11 @@
         <itemPath>../src/sensors/vl53l5cx_plugin_detection_thresholds.h</itemPath>
         <itemPath>../src/sensors/vl53l5cx_plugin_motion_indicator.h</itemPath>
       </logicalFolder>
-      <itemPath>../src/app.h</itemPath>
       <itemPath>../src/log.h</itemPath>
-      <itemPath>../src/cdc.h</itemPath>
+      <itemPath>../src/app.h</itemPath>
       <itemPath>../src/mlx90640.h</itemPath>
+      <itemPath>../src/bgt60.h</itemPath>
+      <itemPath>../src/cdc.h</itemPath>
       <itemPath>../src/vl53l5cx.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
@@ -313,6 +313,9 @@
               <itemPath>../src/config/default/peripheral/ocmp/plib_ocmp4.c</itemPath>
               <itemPath>../src/config/default/peripheral/ocmp/plib_ocmp5.c</itemPath>
             </logicalFolder>
+            <logicalFolder name="power" displayName="power" projectFiles="true">
+              <itemPath>../src/config/default/peripheral/power/plib_power.c</itemPath>
+            </logicalFolder>
             <logicalFolder name="rcon" displayName="rcon" projectFiles="true">
               <itemPath>../src/config/default/peripheral/rcon/plib_rcon.c</itemPath>
             </logicalFolder>
@@ -329,6 +332,9 @@
             </logicalFolder>
             <logicalFolder name="tmr" displayName="tmr" projectFiles="true">
               <itemPath>../src/config/default/peripheral/tmr/plib_tmr3.c</itemPath>
+              <itemPath>../src/config/default/peripheral/tmr/plib_tmr9.c</itemPath>
+              <itemPath>../src/config/default/peripheral/tmr/plib_tmr8.c</itemPath>
+              <itemPath>../src/config/default/peripheral/tmr/plib_tmr7.c</itemPath>
             </logicalFolder>
             <logicalFolder name="tmr1" displayName="tmr1" projectFiles="true">
               <itemPath>../src/config/default/peripheral/tmr1/plib_tmr1.c</itemPath>
@@ -373,9 +379,6 @@
             <logicalFolder name="int" displayName="int" projectFiles="true">
               <itemPath>../src/config/default/system/int/src/sys_int.c</itemPath>
             </logicalFolder>
-            <logicalFolder name="reset" displayName="reset" projectFiles="true">
-              <itemPath>../src/config/default/system/reset/sys_reset.c</itemPath>
-            </logicalFolder>
             <logicalFolder name="time" displayName="time" projectFiles="true">
               <itemPath>../src/config/default/system/time/src/sys_time.c</itemPath>
             </logicalFolder>
@@ -389,12 +392,12 @@
           </logicalFolder>
           <itemPath>../src/config/default/freertos_hooks.c</itemPath>
           <itemPath>../src/config/default/exceptions.c</itemPath>
-          <itemPath>../src/config/default/tasks.c</itemPath>
           <itemPath>../src/config/default/interrupts.c</itemPath>
           <itemPath>../src/config/default/usb_device_init_data.c</itemPath>
           <itemPath>../src/config/default/interrupts_a.S</itemPath>
           <itemPath>../src/config/default/initialization.c</itemPath>
           <itemPath>../src/config/default/exceptionsHandler.S</itemPath>
+          <itemPath>../src/config/default/tasks.c</itemPath>
         </logicalFolder>
       </logicalFolder>
       <logicalFolder name="FreeRTOS" displayName="FreeRTOS" projectFiles="true">
@@ -427,11 +430,12 @@
         <itemPath>../src/sensors/vl53l5cx_plugin_detection_thresholds.c</itemPath>
         <itemPath>../src/sensors/vl53l5cx_plugin_motion_indicator.c</itemPath>
       </logicalFolder>
-      <itemPath>../src/app.cpp</itemPath>
       <itemPath>../src/main.cpp</itemPath>
+      <itemPath>../src/app.cpp</itemPath>
+      <itemPath>../src/vl53l5cx.cpp</itemPath>
       <itemPath>../src/cdc.cpp</itemPath>
       <itemPath>../src/mlx90640.cpp</itemPath>
-      <itemPath>../src/vl53l5cx.cpp</itemPath>
+      <itemPath>../src/bgt60.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -440,6 +444,7 @@
       <itemPath>SmartGlasses.mc3</itemPath>
       <itemPath>../../.gitignore</itemPath>
       <itemPath>../../README.md</itemPath>
+      <itemPath>../../main.py</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
@@ -456,7 +461,7 @@
         <platformTool>ICD5Tool</platformTool>
         <languageToolchain>XC32</languageToolchain>
         <languageToolchainVersion>4.35</languageToolchainVersion>
-        <platform>4</platform>
+        <platform>3</platform>
       </toolsSet>
       <packs>
         <pack name="PIC32MZ-EF_DFP" vendor="Microchip" version="1.4.168"/>
@@ -498,7 +503,7 @@
         <property key="enable-unroll-loops" value="false"/>
         <property key="exclude-floating-point" value="false"/>
         <property key="extra-include-directories"
-                  value="../src;../src/config/default;../src/config/default/system/fs/fat_fs/file_system;../src/config/default/system/fs/fat_fs/hardware_access;../src/third_party/rtos/FreeRTOS/Source/include;../src/third_party/rtos/FreeRTOS/Source/portable/MPLAB/PIC32MZ"/>
+                  value="../src;../src/config/default;../src/config/default/system/fs/fat_fs/file_system;../src/config/default/system/fs/fat_fs/hardware_access;../src/config/default/system/fs/filex;../src/third_party/azure_rtos/filex/common/inc;../src/third_party/azure_rtos/filex/ports/generic/inc;../src/third_party/rtos/FreeRTOS/Source/include;../src/third_party/rtos/FreeRTOS/Source/portable/MPLAB/PIC32MZ"/>
         <property key="generate-16-bit-code" value="false"/>
         <property key="generate-micro-compressed-code" value="false"/>
         <property key="isolate-each-function" value="true"/>
@@ -507,7 +512,7 @@
         <property key="place-data-into-section" value="true"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
-        <property key="preprocessor-macros" value=""/>
+        <property key="preprocessor-macros" value="FX_INCLUDE_USER_DEFINE_FILE"/>
         <property key="strict-ansi" value="false"/>
         <property key="support-ansi" value="false"/>
         <property key="tentative-definitions" value="-fno-common"/>

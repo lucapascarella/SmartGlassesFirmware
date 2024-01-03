@@ -60,6 +60,67 @@
 // Section: RTOS "Tasks" Routine
 // *****************************************************************************
 // *****************************************************************************
+void _USB_DEVICE_Tasks(  void *pvParameters  )
+{
+    while(1)
+    {
+                /* USB Device layer tasks routine */
+        USB_DEVICE_Tasks(sysObj.usbDevObject0);
+        vTaskDelay(10 / portTICK_PERIOD_MS);
+    }
+}
+
+/* Handle for the APP_Tasks. */
+TaskHandle_t xAPP_Tasks;
+
+static void lAPP_Tasks(  void *pvParameters  )
+{   
+    while(true)
+    {
+        APP_Tasks();
+    }
+}
+/* Handle for the CDC_Tasks. */
+TaskHandle_t xCDC_Tasks;
+
+static void lCDC_Tasks(  void *pvParameters  )
+{   
+    while(true)
+    {
+        CDC_Tasks();
+    }
+}
+/* Handle for the VL53L5CX_Tasks. */
+TaskHandle_t xVL53L5CX_Tasks;
+
+static void lVL53L5CX_Tasks(  void *pvParameters  )
+{   
+    while(true)
+    {
+        VL53L5CX_Tasks();
+    }
+}
+/* Handle for the MLX90640_Tasks. */
+TaskHandle_t xMLX90640_Tasks;
+
+static void lMLX90640_Tasks(  void *pvParameters  )
+{   
+    while(true)
+    {
+        MLX90640_Tasks();
+    }
+}
+/* Handle for the BGT60_Tasks. */
+TaskHandle_t xBGT60_Tasks;
+
+static void lBGT60_Tasks(  void *pvParameters  )
+{   
+    while(true)
+    {
+        BGT60_Tasks();
+    }
+}
+
 TaskHandle_t xSYS_CMD_Tasks;
 void lSYS_CMD_Tasks(  void *pvParameters  )
 {
@@ -70,16 +131,6 @@ void lSYS_CMD_Tasks(  void *pvParameters  )
     }
 }
 
-
-void _USB_DEVICE_Tasks(  void *pvParameters  )
-{
-    while(1)
-    {
-                /* USB Device layer tasks routine */
-        USB_DEVICE_Tasks(sysObj.usbDevObject0);
-        vTaskDelay(10 / portTICK_PERIOD_MS);
-    }
-}
 
 void _DRV_USBHS_Tasks(  void *pvParameters  )
 {
@@ -102,49 +153,6 @@ static void lSYS_FS_Tasks(  void *pvParameters  )
 }
 
 
-/* Handle for the APP_Tasks. */
-TaskHandle_t xAPP_Tasks;
-
-static void lAPP_Tasks(  void *pvParameters  )
-{   
-    while(true)
-    {
-        APP_Tasks();
-    }
-}
-
-/* Handle for the CDC_Tasks. */
-TaskHandle_t xCDC_Tasks;
-
-static void lCDC_Tasks(  void *pvParameters  )
-{   
-    while(true)
-    {
-        CDC_Tasks();
-    }
-}
-
-/* Handle for the CDC_Tasks. */
-TaskHandle_t xVL53L5CX_Tasks;
-
-static void lVL53L5CX_Tasks(  void *pvParameters  )
-{   
-    while(true)
-    {
-        VL53L5CX_Tasks();
-    }
-}
-
-/* Handle for the MLX90640_Tasks. */
-TaskHandle_t xMLX90640_Tasks;
-
-static void lMLX90640_Tasks(  void *pvParameters  )
-{   
-    while(true)
-    {
-        MLX90640_Tasks();
-    }
-}
 
 
 
@@ -176,13 +184,13 @@ void SYS_Tasks ( void )
 
 
 
-//    (void) xTaskCreate( lSYS_FS_Tasks,
-//        "SYS_FS_TASKS",
-//        SYS_FS_STACK_SIZE,
-//        (void*)NULL,
-//        SYS_FS_PRIORITY,
-//        (TaskHandle_t*)NULL
-//    );
+    (void) xTaskCreate( lSYS_FS_Tasks,
+        "SYS_FS_TASKS",
+        SYS_FS_STACK_SIZE,
+        (void*)NULL,
+        SYS_FS_PRIORITY,
+        (TaskHandle_t*)NULL
+    );
 
 
 
@@ -230,7 +238,7 @@ void SYS_Tasks ( void )
 
     /* Create OS Thread for VL53L5CX_Tasks. */
     (void) xTaskCreate((TaskFunction_t) lVL53L5CX_Tasks,
-                "VL53L5CX",
+                "VL53L5CX_Tasks",
                 1024,
                 NULL,
                 1,
@@ -238,11 +246,19 @@ void SYS_Tasks ( void )
 
     /* Create OS Thread for MLX90640_Tasks. */
     (void) xTaskCreate((TaskFunction_t) lMLX90640_Tasks,
-                "MLX90640",
+                "MLX90640_Tasks",
                 1024,
                 NULL,
                 1,
                 &xMLX90640_Tasks);
+
+    /* Create OS Thread for BGT60_Tasks. */
+    (void) xTaskCreate((TaskFunction_t) lBGT60_Tasks,
+                "BGT60_Tasks",
+                1024,
+                NULL,
+                1,
+                &xBGT60_Tasks);
 
 
 

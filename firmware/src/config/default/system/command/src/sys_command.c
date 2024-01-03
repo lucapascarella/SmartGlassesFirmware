@@ -863,7 +863,7 @@ static void CommandReset(SYS_CMD_DEVICE_NODE* pCmdIO, int argc, char** argv)
     const void* cmdIoParam = pCmdIO->cmdIoParam;
     (*pCmdIO->pCmdApi->msg)(cmdIoParam, LINE_TERM " *** System Reboot ***\r\n" );
 
-    SYS_RESET_SoftwareReset();
+    //SYS_RESET_SoftwareReset();
 
 }
 

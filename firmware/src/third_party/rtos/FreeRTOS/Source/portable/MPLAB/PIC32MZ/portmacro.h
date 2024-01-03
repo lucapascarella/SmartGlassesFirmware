@@ -71,6 +71,9 @@ typedef unsigned long UBaseType_t;
 	#define portTICK_TYPE_IS_ATOMIC 1
 #endif
 /*-----------------------------------------------------------*/
+extern volatile unsigned long ulHighFrequencyTimerTicks;
+#define FREE_RTOS_TIMER_TICK    ulHighFrequencyTimerTicks
+/*-----------------------------------------------------------*/
 
 /* Hardware specifics. */
 #define portBYTE_ALIGNMENT			8

@@ -273,11 +273,16 @@ const DRV_USBHS_INIT drvUSBInit =
 
 // <editor-fold defaultstate="collapsed" desc="File System Initialization Data">
 
-
 const SYS_FS_MEDIA_MOUNT_DATA sysfsMountTable[SYS_FS_VOLUME_NUMBER] =
 {
-    {NULL}
+    {
+        .mountName = SYS_FS_MEDIA_IDX0_MOUNT_NAME_VOLUME_IDX0,
+        .devName   = SYS_FS_MEDIA_IDX0_DEVICE_NAME_VOLUME_IDX0,
+        .mediaType = SYS_FS_MEDIA_TYPE_IDX0,
+        .fsType   = SYS_FS_TYPE_IDX0
+    },
 };
+
 
 static const SYS_FS_FUNCTIONS FatFsFunctions =
 {
@@ -440,11 +445,14 @@ void SYS_Initialize ( void* data )
 
 	GPIO_Initialize();
 
+
     OCMP4_Initialize();
 
     OCMP5_Initialize();
 
     OCMP3_Initialize();
+
+    TMR7_Initialize();
 
 	UART1_Initialize();
 
@@ -455,6 +463,10 @@ void SYS_Initialize ( void* data )
     SQI1_Initialize();
 
 	SPI1_Initialize();
+
+    TMR8_Initialize();
+
+    TMR9_Initialize();
 
     I2C1_Initialize();
 
@@ -511,6 +523,7 @@ void SYS_Initialize ( void* data )
     CDC_Initialize();
     VL53L5CX_Initialize();
     MLX90640_Initialize();
+    BGT60_Initialize();
 
 
     EVIC_Initialize();

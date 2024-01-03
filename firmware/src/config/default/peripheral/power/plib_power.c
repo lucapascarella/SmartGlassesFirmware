@@ -1,23 +1,27 @@
 /*******************************************************************************
- System Tasks Header File
+  Resets (Power) PLIB
 
-  File Name:
-    sys_tasks.h
+  Company
+    Microchip Technology Inc.
 
-  Summary:
-    This file contains declarations for task handles.
+  File Name
+    plib_power.c
 
-  Description:
-    Task handles declared in this header file can be used by the application
-    to control the behavior of the tasks.
+  Summary
+    Power PLIB Implementation File.
+
+  Description
+    This file defines the interface to the DSCTRL peripheral library.
+    This library provides access to and control of the associated Resets.
 
   Remarks:
-    None
- *******************************************************************************/
+    None.
+
+*******************************************************************************/
 
 // DOM-IGNORE-BEGIN
 /*******************************************************************************
-* Copyright (C) 2023 Microchip Technology Inc. and its subsidiaries.
+* Copyright (C) 2019 Microchip Technology Inc. and its subsidiaries.
 *
 * Subject to your compliance with these terms, you may use Microchip software
 * and any derivatives exclusively with Microchip products. It is your
@@ -32,16 +36,13 @@
 *
 * IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE,
 * INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND
-* WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP HAS
+* WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER SOURCED, EVEN IF MICROCHIP HAS
 * BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE. TO THE
 * FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
- *******************************************************************************/
+*******************************************************************************/
 // DOM-IGNORE-END
-
-#ifndef SYS_TASKS_H
-#define SYS_TASKS_H
 
 // *****************************************************************************
 // *****************************************************************************
@@ -49,33 +50,47 @@
 // *****************************************************************************
 // *****************************************************************************
 
-#include "configuration.h"
-#include "definitions.h"
+#include "plib_power.h"
 
+#define WAIT asm volatile("wait")
 // *****************************************************************************
 // *****************************************************************************
-// Section: RTOS "Tasks" Handles
+// Section: Power Implementation
 // *****************************************************************************
 // *****************************************************************************
-/* Declaration of  APP_Tasks task handle */
-extern TaskHandle_t xAPP_Tasks;
+void POWER_LowPowerModeEnter (POWER_LOW_POWER_MODE mode)
+{
+    bool check = false;
+    /* Unlock system */
+    SYSKEY = 0x00000000U;
+    SYSKEY = 0xAA996655U;
+    SYSKEY = 0x556699AAU;
 
-/* Declaration of  CDC_Tasks task handle */
-extern TaskHandle_t xCDC_Tasks;
+    switch(mode)
+    {
+        case LOW_POWER_IDLE_MODE:
+                        OSCCONCLR = _OSCCON_SLPEN_MASK;
+                        break;
+        case LOW_POWER_SLEEP_MODE:
+                        OSCCONSET = _OSCCON_SLPEN_MASK;
+                        break;
+        case LOW_POWER_DREAM_MODE:
+                        OSCCONSET = _OSCCON_SLPEN_MASK | _OSCCON_DRMEN_MASK;
+                        break;
+        default:
+                        check = true;
+                        break;
+    }
+    
+    if(check == true)
+    {
+        return;
+    }
 
-/* Declaration of  VL53L5CX_Tasks task handle */
-extern TaskHandle_t xVL53L5CX_Tasks;
+    /* Lock system */
+    SYSKEY = 0x0;
 
-/* Declaration of  MLX90640_Tasks task handle */
-extern TaskHandle_t xMLX90640_Tasks;
+    /* enter into selected low power mode */
+    WAIT;
+}
 
-/* Declaration of  BGT60_Tasks task handle */
-extern TaskHandle_t xBGT60_Tasks;
-
-
-/* Declaration of SYS_COMMAND task handle */
-extern TaskHandle_t xSYS_CMD_Tasks;
-
-
-
-#endif //SYS_TASKS_H

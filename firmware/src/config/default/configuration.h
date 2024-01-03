@@ -93,7 +93,7 @@ extern "C" {
 
 #define SYS_CMD_ENABLE
 #define SYS_CMD_DEVICE_MAX_INSTANCES       SYS_CONSOLE_DEVICE_MAX_INSTANCES
-#define SYS_CMD_PRINT_BUFFER_SIZE          1024U
+#define SYS_CMD_PRINT_BUFFER_SIZE          2048U
 #define SYS_CMD_BUFFER_DMA_READY
 
 /* Command System Service RTOS Configurations*/
@@ -113,7 +113,8 @@ extern "C" {
 #define SYS_FS_MEDIA_NUMBER               (1U)
 #define SYS_FS_VOLUME_NUMBER              (1U)
 
-#define SYS_FS_AUTOMOUNT_ENABLE           false
+#define SYS_FS_AUTOMOUNT_ENABLE           true
+#define SYS_FS_CLIENT_NUMBER              1U
 #define SYS_FS_MAX_FILES                  (1U)
 #define SYS_FS_MAX_FILE_SYSTEM_TYPE       (1U)
 #define SYS_FS_MEDIA_MAX_BLOCK_SIZE       (512U)
@@ -136,6 +137,12 @@ extern "C" {
 
 
 
+#define SYS_FS_MEDIA_TYPE_IDX0 				SYS_FS_MEDIA_TYPE_SPIFLASH
+#define SYS_FS_TYPE_IDX0 					FAT
+					
+#define SYS_FS_MEDIA_IDX0_MOUNT_NAME_VOLUME_IDX0 			"/mnt/sst"
+#define SYS_FS_MEDIA_IDX0_DEVICE_NAME_VOLUME_IDX0			"/dev/mtda1"
+								
 
 #define SYS_CONSOLE_DEVICE_MAX_INSTANCES   			(1U)
 #define SYS_CONSOLE_UART_MAX_INSTANCES 	   			(1U)
@@ -186,7 +193,7 @@ extern "C" {
 // *****************************************************************************
 // *****************************************************************************
 /* Number of Endpoints used */
-#define DRV_USBHS_ENDPOINTS_NUMBER                        4
+#define DRV_USBHS_ENDPOINTS_NUMBER                        2
 
 /* The USB Device Layer will not initialize the USB Driver */
 #define USB_DEVICE_DRIVER_INITIALIZE_EXPLICIT
@@ -196,6 +203,9 @@ extern "C" {
 
 /* EP0 size in bytes */
 #define USB_DEVICE_EP0_BUFFER_SIZE                          64
+
+/* Enable SOF Events */
+#define USB_DEVICE_SOF_EVENT_ENABLE
 
 
 /* Maximum instances of CDC function driver */
@@ -231,6 +241,7 @@ extern "C" {
 
 
 #define ENABLE_ADDRESS_FIRST
+
 
 // *****************************************************************************
 // *****************************************************************************

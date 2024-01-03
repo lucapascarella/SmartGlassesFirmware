@@ -1,23 +1,25 @@
 /*******************************************************************************
- System Tasks Header File
+  Data Type definition of Timer PLIB
+
+  Company:
+    Microchip Technology Inc.
 
   File Name:
-    sys_tasks.h
+    plib_tmr9.h
 
   Summary:
-    This file contains declarations for task handles.
+    Data Type definition of the Timer Peripheral Interface Plib.
 
   Description:
-    Task handles declared in this header file can be used by the application
-    to control the behavior of the tasks.
+    This file defines the Data Types for the Timer Plib.
 
   Remarks:
-    None
- *******************************************************************************/
+    None.
 
-// DOM-IGNORE-BEGIN
+*******************************************************************************/
+
 /*******************************************************************************
-* Copyright (C) 2023 Microchip Technology Inc. and its subsidiaries.
+* Copyright (C) 2019 Microchip Technology Inc. and its subsidiaries.
 *
 * Subject to your compliance with these terms, you may use Microchip software
 * and any derivatives exclusively with Microchip products. It is your
@@ -37,45 +39,65 @@
 * FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
- *******************************************************************************/
+*******************************************************************************/
+
+#ifndef PLIB_TMR9_H
+#define PLIB_TMR9_H
+
+#include <stddef.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include "device.h"
+#include "plib_tmr_common.h"
+
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
+
+    extern "C" {
+
+#endif
 // DOM-IGNORE-END
 
-#ifndef SYS_TASKS_H
-#define SYS_TASKS_H
-
 // *****************************************************************************
 // *****************************************************************************
-// Section: Included Files
+// Section: Data Types
 // *****************************************************************************
 // *****************************************************************************
 
-#include "configuration.h"
-#include "definitions.h"
-
 // *****************************************************************************
 // *****************************************************************************
-// Section: RTOS "Tasks" Handles
+// Section: Interface Routines
 // *****************************************************************************
 // *****************************************************************************
-/* Declaration of  APP_Tasks task handle */
-extern TaskHandle_t xAPP_Tasks;
-
-/* Declaration of  CDC_Tasks task handle */
-extern TaskHandle_t xCDC_Tasks;
-
-/* Declaration of  VL53L5CX_Tasks task handle */
-extern TaskHandle_t xVL53L5CX_Tasks;
-
-/* Declaration of  MLX90640_Tasks task handle */
-extern TaskHandle_t xMLX90640_Tasks;
-
-/* Declaration of  BGT60_Tasks task handle */
-extern TaskHandle_t xBGT60_Tasks;
 
 
-/* Declaration of SYS_COMMAND task handle */
-extern TaskHandle_t xSYS_CMD_Tasks;
+// *****************************************************************************
+void TMR9_Initialize(void);
+
+void TMR9_Start(void);
+
+void TMR9_Stop(void);
+
+void TMR9_PeriodSet(uint16_t period);
+
+uint16_t TMR9_PeriodGet(void);
+
+uint16_t TMR9_CounterGet(void);
+
+uint32_t TMR9_FrequencyGet(void);
+
+void TMR9_InterruptEnable(void);
+
+void TMR9_InterruptDisable(void);
+
+void TMR9_CallbackRegister( TMR_CALLBACK callback_fn, uintptr_t context );
 
 
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
 
-#endif //SYS_TASKS_H
+    }
+#endif
+// DOM-IGNORE-END
+
+#endif /* PLIB_TMR9_H */

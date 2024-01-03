@@ -70,6 +70,9 @@
 void ToF_Right_Handler (void);
 void ToF_Left_Handler (void);
 void TIMER_3_Handler (void);
+void TIMER_7_Handler (void);
+void TIMER_8_Handler (void);
+void TIMER_9_Handler (void);
 void SPI1_RX_Handler (void);
 void SPI1_TX_Handler (void);
 void UART1_FAULT_Handler (void);
@@ -102,6 +105,33 @@ void ToF_Left_Handler (void)
 void TIMER_3_Handler (void)
 {
     TIMER_3_InterruptHandler();
+}
+
+/*
+ * 10kHz Timer based on TMR7
+ */
+volatile unsigned long ulHighFrequencyTimerTicks = 0;
+
+/*
+ * Implements Shadow Register Sets to speed up the interrupt handling
+ */
+void __ISR(_TIMER_7_VECTOR, ipl7SRS) TIMER_7_Handler(void) {
+    IFS1CLR = _IFS1_T7IF_MASK;
+    ulHighFrequencyTimerTicks++;
+}
+//void TIMER_7_Handler (void)
+//{
+//    TIMER_7_InterruptHandler();
+//}
+
+void TIMER_8_Handler (void)
+{
+    TIMER_8_InterruptHandler();
+}
+
+void TIMER_9_Handler (void)
+{
+    TIMER_9_InterruptHandler();
 }
 
 void SPI1_RX_Handler (void)

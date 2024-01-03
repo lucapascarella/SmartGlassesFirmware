@@ -62,7 +62,7 @@
 #define configUSE_QUEUE_SETS                    0
 #define configUSE_TIME_SLICING                  1
 #define configUSE_NEWLIB_REENTRANT              0
-#define configUSE_TASK_FPU_SUPPORT              1
+#define configUSE_TASK_FPU_SUPPORT              0
 
 
 /* Hook function related definitions. */
@@ -72,7 +72,7 @@
 #define configUSE_MALLOC_FAILED_HOOK            1
 
 /* Run time and task stats gathering related definitions. */
-#define configGENERATE_RUN_TIME_STATS           0
+#define configGENERATE_RUN_TIME_STATS           1
 #define configUSE_TRACE_FACILITY                0
 #define configUSE_STATS_FORMATTING_FUNCTIONS    0
 
@@ -110,7 +110,7 @@
 #define INCLUDE_vTaskDelay                      1
 #define INCLUDE_xTaskGetSchedulerState          0
 #define INCLUDE_xTaskGetCurrentTaskHandle       1
-#define INCLUDE_uxTaskGetStackHighWaterMark     0
+#define INCLUDE_uxTaskGetStackHighWaterMark     1
 #define INCLUDE_xTaskGetIdleTaskHandle          0
 #define INCLUDE_eTaskGetState                   0
 #define INCLUDE_xTimerPendFunctionCall          0
@@ -121,6 +121,15 @@
 #define INCLUDE_uxTaskGetStackHighWaterMark2    0
 #define INCLUDE_xTaskResumeFromISR              0
 
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()            (FREE_RTOS_TIMER_TICK = 0UL)
+#define portGET_RUN_TIME_COUNTER_VALUE()                    FREE_RTOS_TIMER_TICK
+
+#if defined(__DEBUG) || defined(__DEBUG_D) && defined(__XC32)
+    /* Define configASSERT() to disable interrupts and sit in a loop. */
+    #define configASSERT(x)         if( ( x ) == 0 ) { __builtin_software_breakpoint(); }
+#else
+    #define configASSERT(x)         if( ( x )  == 0 ) { for( ;; ); }
+#endif
 
 /* MISRAC 2012 deviation block end */
 #endif /* FREERTOS_CONFIG_H */
