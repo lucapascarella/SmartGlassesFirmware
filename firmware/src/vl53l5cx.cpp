@@ -156,7 +156,7 @@ void VL53L5CX_Tasks(void) {
 
         case VL53L5CX_STATE_POWER_ON:
             vl53l5cxData.Dev.platform.address = VL53L5CX_DEFAULT_I2C_ADDRESS;
-            vl53l5cxData.Dev.platform.device = VL53L5CX_LEFT;
+            vl53l5cxData.Dev.platform.device = VL53L5CX_RIGHT;
             vl53l5cxData.Dev.platform.drvI2CHandle = vl53l5cxData.drvI2CHandle;
 
             TOF_LPn_LEFT_Clear();

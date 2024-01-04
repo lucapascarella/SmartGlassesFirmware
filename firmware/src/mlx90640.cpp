@@ -117,14 +117,37 @@ void MLX90640_Tasks(void) {
         case MLX90640_STATE_INIT:
         {
             bool appInitialized = true;
-
-
             if (appInitialized) {
 
-                mlx90640Data.state = MLX90640_STATE_SERVICE_TASKS;
+                mlx90640Data.state = MLX90640_STATE_OPEN_DRV_I2C;
             }
             break;
         }
+
+        case MLX90640_STATE_OPEN_DRV_I2C:
+            mlx90640Data.drvI2CHandle = DRV_I2C_Open(DRV_I2C_INDEX_0, DRV_IO_INTENT_READWRITE);
+            if (mlx90640Data.drvI2CHandle != DRV_HANDLE_INVALID) {
+                logDebug("DRV_I2C MLX90640 opened\r\n");
+
+                uint8_t read_buffer[2];
+
+                uint8_t write_buffer[2];
+                write_buffer[1] = 24;
+                write_buffer[0] = 07 >> 8;
+
+                bool rtn = DRV_I2C_WriteReadTransfer(mlx90640Data.drvI2CHandle, MLX90640_I2C_ADDRESS, write_buffer, 2, read_buffer, 1);
+                if (rtn) {
+                    logDebug("DRV_I2C MLX90640 opened\r\n");
+                    mlx90640Data.state = MLX90640_STATE_SERVICE_TASKS;
+                } else {
+                    logFatal("Cannot open DRV_I2C for MLX90640\r\n");
+                    mlx90640Data.state = MLX90640_STATE_ERROR;
+                }
+            } else {
+                logFatal("Cannot open DRV_I2C for MLX90640\r\n");
+                mlx90640Data.state = MLX90640_STATE_ERROR;
+            }
+            break;
 
         case MLX90640_STATE_SERVICE_TASKS:
         {
