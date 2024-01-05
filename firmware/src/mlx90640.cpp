@@ -28,6 +28,7 @@
 // *****************************************************************************
 
 #include "mlx90640.h"
+#include "sensors/MLX90640_I2C_Driver.h"
 
 #undef LOG_LEVEL
 #define LOG_LEVEL   LOG_DEBUG
@@ -128,34 +129,99 @@ void MLX90640_Tasks(void) {
             mlx90640Data.drvI2CHandle = DRV_I2C_Open(DRV_I2C_INDEX_0, DRV_IO_INTENT_READWRITE);
             if (mlx90640Data.drvI2CHandle != DRV_HANDLE_INVALID) {
                 logDebug("DRV_I2C MLX90640 opened\r\n");
-
-                uint8_t read_buffer[2];
-
-                uint8_t write_buffer[2];
-                write_buffer[1] = 24;
-                write_buffer[0] = 07 >> 8;
-
-                bool rtn = DRV_I2C_WriteReadTransfer(mlx90640Data.drvI2CHandle, MLX90640_I2C_ADDRESS, write_buffer, 2, read_buffer, 1);
-                if (rtn) {
-                    logDebug("DRV_I2C MLX90640 opened\r\n");
-                    mlx90640Data.state = MLX90640_STATE_SERVICE_TASKS;
-                } else {
-                    logFatal("Cannot open DRV_I2C for MLX90640\r\n");
-                    mlx90640Data.state = MLX90640_STATE_ERROR;
-                }
+                MLX90640_I2CInit(mlx90640Data.drvI2CHandle);
+                MLX90640_I2CGeneralReset();
+                mlx90640Data.state = MLX90640_STATE_GET_CURR_RES;
             } else {
                 logFatal("Cannot open DRV_I2C for MLX90640\r\n");
                 mlx90640Data.state = MLX90640_STATE_ERROR;
             }
             break;
 
-        case MLX90640_STATE_SERVICE_TASKS:
+        case MLX90640_STATE_GET_CURR_RES:
         {
-            vTaskDelay(100U / portTICK_PERIOD_MS);
+            //MLX90640_SetResolution(MLX90640_I2C_ADDRESS, 0x00);
+            int current_resolution = MLX90640_GetCurResolution(MLX90640_I2C_ADDRESS);
+            uint8_t res_map[] = {16, 17, 18, 19}; // bits
+            logDebug("MLX90640 resolution %d bits\r\n", res_map[current_resolution]);
+            mlx90640Data.state = MLX90640_STATE_GET_REFRESH_RATE;
             break;
         }
 
-            /* TODO: implement your application state machine.*/
+        case MLX90640_STATE_GET_REFRESH_RATE:
+        {
+            //MLX90640_SetResolution(MLX90640_I2C_ADDRESS, 0x00);
+            int refresh_rate = MLX90640_GetRefreshRate(MLX90640_I2C_ADDRESS);
+            uint8_t res_map[] = {0, 1, 2, 4, 8, 16, 32, 64}; // Hz
+            logDebug("MLX90640 refresh rate %d Hz\r\n", res_map[refresh_rate ]);
+            mlx90640Data.state = MLX90640_STATE_GET_CURRENT_MODE;
+            break;
+        }
+
+        case MLX90640_STATE_GET_CURRENT_MODE:
+        {
+            //MLX90640_SetResolution(MLX90640_I2C_ADDRESS, 0x00);
+            int mode = MLX90640_GetCurMode(MLX90640_I2C_ADDRESS);
+            const char *res_map[] = {"interleaved", "chess"};
+            logDebug("MLX90640 reading mode %s\r\n", res_map[mode]);
+            mlx90640Data.state = MLX90640_STATE_DUMP_EEPROM;
+            break;
+        }
+
+        case MLX90640_STATE_DUMP_EEPROM:
+        {
+            int status = MLX90640_DumpEE(0x33, mlx90640Data.eeMLX90640);
+            if (!status) {
+                logDebug("MLX90640 EEPROM dump success\r\n");
+                mlx90640Data.state = MLX90640_STATE_EXTRACT_PARAMS;
+            } else {
+                logFatal("MLX90640 EEPROM error\r\n");
+                mlx90640Data.state = MLX90640_STATE_ERROR;
+            }
+        }
+
+        case MLX90640_STATE_EXTRACT_PARAMS:
+        {
+            int status = MLX90640_ExtractParameters(mlx90640Data.eeMLX90640, &mlx90640Data.mlx90640);
+            if (!status) {
+                logDebug("MLX90640 parameters extracted\r\n");
+                mlx90640Data.state = MLX90640_STATE_SERVICE_TASKS;
+            } else {
+                logFatal("MLX90640 cannot extract parameters\r\n");
+                mlx90640Data.state = MLX90640_STATE_ERROR;
+            }
+        }
+
+        case MLX90640_STATE_SERVICE_TASKS:
+        {
+            int status = MLX90640_SynchFrame(MLX90640_I2C_ADDRESS);
+            if (!status) {
+                status = MLX90640_GetFrameData(MLX90640_I2C_ADDRESS, mlx90640Data.mlx90640Frame);
+                if (status >= 0) {
+                    logDebug("MLX90640 read success 1\r\n");
+                    status = MLX90640_GetFrameData(MLX90640_I2C_ADDRESS, mlx90640Data.mlx90640Frame);
+                    if (status >= 0) {
+                        logDebug("MLX90640 read success 2\r\n");
+                        MLX90640_GetImage(mlx90640Data.mlx90640Frame, &mlx90640Data.mlx90640, mlx90640Data.mlx90640Image);
+                        float vdd = MLX90640_GetVdd(mlx90640Data.mlx90640Frame, &mlx90640Data.mlx90640); //vdd = 3.3
+                        logDebug("MLX90640 Vdd %.3f\r\n", vdd);
+                        
+                        
+                    } else {
+                        logFatal("MLX90640 read error %d\r\n", status);
+                        mlx90640Data.state = MLX90640_STATE_ERROR;
+                    }
+                } else {
+                    logFatal("MLX90640 read error\r\n");
+                    mlx90640Data.state = MLX90640_STATE_ERROR;
+                }
+            } else {
+                logFatal("MLX90640 sync error\r\n");
+                mlx90640Data.state = MLX90640_STATE_ERROR;
+            }
+            vTaskDelay(2000U / portTICK_PERIOD_MS);
+            break;
+        }
 
 
             /* The default state should never be executed. */

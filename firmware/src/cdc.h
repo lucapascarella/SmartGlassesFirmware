@@ -130,6 +130,8 @@ extern "C" {
 
         /* Device configured state */
         bool isConfigured;
+        
+        uint8_t frame[768];
 
     } APP_CDC_DATA;
 

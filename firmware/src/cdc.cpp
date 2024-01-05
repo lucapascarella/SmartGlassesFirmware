@@ -389,16 +389,27 @@ void CDC_Tasks(void) {
                         break;
 
                     case USBDEVICETASK_READDONECOM1_EVENT:
-                        /* Send the received data to COM2 */
-                        /* Else echo each received character by adding 1 */
-                        for (i = 0; i < appCdcData.numBytesRead; i++) {
-                            //if ((cdcReadBuffer[i] != 0x0A) && (cdcReadBuffer[i] != 0x0D)) {
-                            //    cdcWriteBuffer[i] = cdcReadBuffer[i] + 1;
-                            //}
-                            cdcWriteBuffer[i] = cdcReadBuffer[i];
+                        // Send a fake frame
+                    {
+                        if (appCdcData.numBytesRead > 0) {
+                            uint16_t frame_size = sizeof (appCdcData.frame) * sizeof (uint8_t);
+                            memset(appCdcData.frame, 0x00, frame_size);
+                            for (uint16_t j = 0; j < frame_size; j++) {
+                                appCdcData.frame[j] = rand() % 255;
+                            }
+                            USB_DEVICE_CDC_Write(USB_DEVICE_CDC_INDEX_0, &COM1Write_Handle, appCdcData.frame, frame_size, USB_DEVICE_CDC_TRANSFER_FLAGS_DATA_COMPLETE);
                         }
-                        USB_DEVICE_CDC_Write(USB_DEVICE_CDC_INDEX_0, &COM1Write_Handle, cdcWriteBuffer, appCdcData.numBytesRead, USB_DEVICE_CDC_TRANSFER_FLAGS_DATA_COMPLETE);
+                        ///* Send the received data to COM2 */
+                        ///* Else echo each received character by adding 1 */
+                        //for (i = 0; i < appCdcData.numBytesRead; i++) {
+                        //    //if ((cdcReadBuffer[i] != 0x0A) && (cdcReadBuffer[i] != 0x0D)) {
+                        //    //    cdcWriteBuffer[i] = cdcReadBuffer[i] + 1;
+                        //    //}
+                        //    cdcWriteBuffer[i] = cdcReadBuffer[i];
+                        //}
+                        //USB_DEVICE_CDC_Write(USB_DEVICE_CDC_INDEX_0, &COM1Write_Handle, cdcWriteBuffer, appCdcData.numBytesRead, USB_DEVICE_CDC_TRANSFER_FLAGS_DATA_COMPLETE);
                         break;
+                    }
 
                     case USBDEVICETASK_WRITEDONECOM1_EVENT:
                         /* Schedule a CDC read on COM1 */
