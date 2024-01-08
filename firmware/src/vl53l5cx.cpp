@@ -255,6 +255,7 @@ void VL53L5CX_Tasks(void) {
             /* The default state should never be executed. */
         default:
         {
+            logFatal("Unexpected case %d\r\n", vl53l5cxData.state);
             vTaskDelay(1000U / portTICK_PERIOD_MS);
             break;
         }

@@ -208,7 +208,7 @@ void MLX90640_Tasks(void) {
                     MLX90640_CalculateTo(mlx90640Data.mlx90640Frame, &mlx90640Data.mlx90640, emissivity, tr, mlx90640Data.mlx90640Image);
 
                     // Cast in byte size, for simple USB transfer
-                    for (uint16_t i = 0; i<sizeof (mlx90640Data.mlx90640Image); i++) {
+                    for (uint16_t i = 0; i<sizeof (mlx90640Data.frame); i++) {
                         mlx90640Data.frame[i] = (mlx90640Data.mlx90640Image[i] - 15) * 10; // Scale temperature, just for a better frame show
                     }
                     
