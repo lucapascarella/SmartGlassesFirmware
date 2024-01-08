@@ -235,11 +235,10 @@ void VL53L5CX_Tasks(void) {
 
                 for (uint16_t i = 0; i< sizeof (vl53l5cxData.frame); i++) {
                     if (vl53l5cxData.Results.distance_mm[i] > 2550) {
-                        vl53l5cxData.frame[i] = 255;
+                        vl53l5cxData.frame[i] = 255; // Hard cut at 2.5 m
                     } else {
                         vl53l5cxData.frame[i] = vl53l5cxData.Results.distance_mm[i] / 10;
                     }
-                    // vl53l5cxData.frame[i] = vl53l5cxData.Results.distance_mm[i] / 50;
                 }
 
                 CDC_send_data(vl53l5cxData.frame, sizeof (vl53l5cxData.frame));
