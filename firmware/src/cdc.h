@@ -52,7 +52,9 @@ extern "C" {
 #define  LED_Off()
 #define  LED_On()
 
-#define APP_READ_BUFFER_SIZE 512
+
+#define APP_CDC_DEV_IDX             USB_DEVICE_CDC_INDEX_0
+#define APP_READ_BUFFER_SIZE        512
 
     /* Application states
 
@@ -64,15 +66,41 @@ extern "C" {
         determine the behavior of the application at various times.
      */
 
-#define USBDEVICETASK_OPENUSB_STATE                1
-#define USBDEVICETASK_ATTACHUSB_STATE              2
-#define USBDEVICETASK_PROCESSUSBEVENTS_STATE       3
+    //#define USBDEVICETASK_OPENUSB_STATE                1
+    //    //#define USBDEVICETASK_ATTACHUSB_STATE              2
+    //#define USBDEVICETASK_PROCESSUSBEVENTS_STATE       3
+    //
+    //#define USBDEVICETASK_USBPOWERED_EVENT             1
+    //#define USBDEVICETASK_USBCONFIGURED_EVENT          2
+    //#define USBDEVICETASK_READDONECOM1_EVENT           3
+    //#define USBDEVICETASK_WRITEDONECOM1_EVENT          4
+    //#define USBDEVICETASK_SOF_EVENT                    5
 
-#define USBDEVICETASK_USBPOWERED_EVENT             1
-#define USBDEVICETASK_USBCONFIGURED_EVENT          2
-#define USBDEVICETASK_READDONECOM1_EVENT           3
-#define USBDEVICETASK_WRITEDONECOM1_EVENT          4
-#define USBDEVICETASK_SOF_EVENT                    5
+    typedef enum {
+        /* Application's state machine's initial state. */
+        APP_CDC_EVENT_OPEN = 0,
+        APP_CDC_EVENT_ATTACH,
+        APP_CDC_EVENT_DETACH,
+
+        APP_CDC_EVENT_CONFIGURE,
+        APP_CDC_EVENT_SOF,
+
+        APP_CDC_EVENT_READ_COMPLETE,
+        APP_USB_EVENT_WRITE_COMPLETE,
+
+        APP_CDC_EVENT_HANDSHAKE_WAIT_WELCOME,
+
+        APP_USN_EVENT_ERROR,
+
+    } APP_CDC_EVENTS;
+
+    typedef enum {
+        APP_CDC_HANDSHAKE_NOT_STARTED,
+        APP_CDC_HANDSHAKE_CLIENT_HELLO,
+        APP_CDC_HANDSHAKE_HOST_HELLO,
+        APP_CDC_HANDSHAKE_COMPLETED,
+
+    } APP_CDC_HANDSHAKE_STATES;
 
     /******************************************************
      * Application COM Port Object
@@ -94,7 +122,8 @@ extern "C" {
         /* Break data */
         uint16_t breakData;
 
-    } APP_COM_PORT_OBJECT;
+    } APP_CDC_OBJECT;
+
 
     // *****************************************************************************
 
@@ -111,26 +140,40 @@ extern "C" {
      */
 
     typedef struct {
+        uint8_t CACHE_ALIGN read_buffer[APP_READ_BUFFER_SIZE];
+        uint8_t CACHE_ALIGN write_buffer[APP_READ_BUFFER_SIZE];
+
+        USB_DEVICE_CDC_TRANSFER_HANDLE read_handle;
+        USB_DEVICE_CDC_TRANSFER_HANDLE write_handle;
+        
         /* Device layer handle returned by device layer open function */
-        USB_DEVICE_HANDLE deviceHandle;
+        USB_DEVICE_HANDLE device_handle;
 
         /* This demo supports 1 COM port */
-        APP_COM_PORT_OBJECT appCOMPortObjects[1];
+        APP_CDC_OBJECT appCOMPortObjects;
+
+        /* Handshake states */
+        APP_CDC_HANDSHAKE_STATES handshake_states;
+
+
+        QueueHandle_t event_queue;
 
         int numBytesRead;
+        int numBytesWritten;
+        uint16_t num_bytes_to_write;
 
         /* True if the switch press needs to be ignored*/
-        bool ignoreSwitchPress;
+        //        bool ignoreSwitchPress;
 
         /* Switch debounce timer */
-        unsigned int switchDebounceTimer;
+        //        unsigned int switchDebounceTimer;
 
         /* Switch debounce timer count */
-        unsigned int debounceCount;
+        //        unsigned int debounceCount;
 
         /* Device configured state */
         bool isConfigured;
-        
+
         uint8_t frame[768];
 
     } APP_CDC_DATA;
@@ -215,6 +258,8 @@ extern "C" {
      */
 
     void CDC_Tasks(void);
+
+    bool CDC_send_data(uint8_t *data_ptr, uint16_t data_size);
 
     //DOM-IGNORE-BEGIN
 #ifdef __cplusplus
