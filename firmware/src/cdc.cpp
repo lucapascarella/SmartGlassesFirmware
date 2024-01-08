@@ -198,14 +198,14 @@ USB_DEVICE_CDC_EVENT_RESPONSE APP_USBDeviceCDCEventHandler(USB_DEVICE_CDC_INDEX 
         case USB_DEVICE_CDC_EVENT_SET_CONTROL_LINE_STATE:
 
             /* This means the host is setting the control line state.
-             * Read the control line state. We will accept this request
-             * for now. */
-
+             * Read the control line state and acknowledge with USB_DEVICE_ControlStatus */
             controlLineStateData = (USB_CDC_CONTROL_LINE_STATE *) pData;
             appCdcDataObject->appCOMPortObjects.controlLineStateData.dtr = controlLineStateData->dtr;
             appCdcDataObject->appCOMPortObjects.controlLineStateData.carrier = controlLineStateData->carrier;
 
-            USB_DEVICE_ControlStatus(appCdcDataObject->device_handle, USB_DEVICE_CONTROL_STATUS_OK);
+            app_cdc_event = APP_CDC_EVENT_SET_CONTROL_LINE_STATE;
+            xQueueSendToBackFromISR(appCdcDataObject->event_queue, &app_cdc_event, &xHigherPriorityTaskWoken1);
+            portEND_SWITCHING_ISR(xHigherPriorityTaskWoken1);
             break;
 
         case USB_DEVICE_CDC_EVENT_SEND_BREAK:
@@ -403,6 +403,25 @@ void CDC_Tasks(void) {
                     break;
                 }
 
+                case APP_CDC_EVENT_SET_CONTROL_LINE_STATE:
+                {
+                    USB_DEVICE_ControlStatus(app_cdc_data.device_handle, USB_DEVICE_CONTROL_STATUS_OK);
+                    logDebug("Set control line state received\r\n");
+
+                    /* Activate/deactivate carrier (RTS)*/
+                    if (app_cdc_data.appCOMPortObjects.controlLineStateData.carrier) {
+                        logInfo("RTS set (COM opened)\r\n");
+                    } else {
+                        logWarning("RTS cleared (COM closed)\r\n");
+                        
+                        // Schedule a handshake
+                        APP_CDC_EVENTS event = APP_CDC_EVENT_HANDSHAKE_WAIT_WELCOME;
+                        xQueueSendToBack(app_cdc_data.event_queue, &event, portMAX_DELAY);
+                        logDebug("USB CDC queue handshake event\r\n");
+                    }
+                    break;
+                }
+
                     /*
                      * Data transfer handlers
                      */
@@ -417,14 +436,15 @@ void CDC_Tasks(void) {
                             USB_DEVICE_CDC_Write(APP_CDC_DEV_IDX, &app_cdc_data.write_handle, cdc_welcome_msg, strlen(cdc_welcome_msg), USB_DEVICE_CDC_TRANSFER_FLAGS_DATA_COMPLETE);
                             app_cdc_data.handshake_states = APP_CDC_HANDSHAKE_CLIENT_HELLO;
                             logDebug("CDC handshake, reply to welcome\r\n");
-                            
-//                            // TDOO. The following is only for testing
-//                            uint16_t frame_size = sizeof (app_cdc_data.frame) * sizeof (uint8_t);
-//                            memset(app_cdc_data.frame, 0x00, frame_size);
-//                            for (uint16_t j = 0; j < frame_size; j++) {
-//                                app_cdc_data.frame[j] = rand() % 255;
-//                            }
-//                            CDC_send_data(app_cdc_data.frame, frame_size);
+
+                            // TDOO. The following is only for testing
+                            uint16_t frame_size = sizeof (app_cdc_data.frame) * sizeof (uint8_t);
+                            memset(app_cdc_data.frame, 0x00, frame_size);
+                            for (uint16_t j = 0; j < frame_size; j++) {
+                                app_cdc_data.frame[j] = rand() % 255;
+                            }
+                            // USB_DEVICE_CDC_Write(APP_CDC_DEV_IDX, &app_cdc_data.write_handle, app_cdc_data.frame, frame_size, USB_DEVICE_CDC_TRANSFER_FLAGS_DATA_COMPLETE);
+                            CDC_send_data(app_cdc_data.frame, frame_size);
                         }
                     } else {
                         logDebug("CDC device read %d byte\r\n", app_cdc_data.numBytesRead);
@@ -466,7 +486,6 @@ void CDC_Tasks(void) {
                      */
                 case APP_CDC_EVENT_HANDSHAKE_WAIT_WELCOME:
                 {
-
                     // Schedule a CDC read for welcome response message
                     app_cdc_data.handshake_states = APP_CDC_HANDSHAKE_NOT_STARTED;
                     USB_DEVICE_CDC_Read(APP_CDC_DEV_IDX, &app_cdc_data.read_handle, app_cdc_data.read_buffer, APP_READ_BUFFER_SIZE);

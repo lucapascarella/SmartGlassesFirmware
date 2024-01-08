@@ -54,7 +54,7 @@ extern "C" {
 
 
 #define APP_CDC_DEV_IDX             USB_DEVICE_CDC_INDEX_0
-#define APP_READ_BUFFER_SIZE        512
+#define APP_READ_BUFFER_SIZE        1024
 
     /* Application states
 
@@ -84,6 +84,7 @@ extern "C" {
 
         APP_CDC_EVENT_CONFIGURE,
         APP_CDC_EVENT_SOF,
+        APP_CDC_EVENT_SET_CONTROL_LINE_STATE,
 
         APP_CDC_EVENT_READ_COMPLETE,
         APP_USB_EVENT_WRITE_COMPLETE,
@@ -145,7 +146,7 @@ extern "C" {
 
         USB_DEVICE_CDC_TRANSFER_HANDLE read_handle;
         USB_DEVICE_CDC_TRANSFER_HANDLE write_handle;
-        
+
         /* Device layer handle returned by device layer open function */
         USB_DEVICE_HANDLE device_handle;
 

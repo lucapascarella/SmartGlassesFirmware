@@ -198,19 +198,34 @@ void MLX90640_Tasks(void) {
             if (!status) {
                 status = MLX90640_GetFrameData(MLX90640_I2C_ADDRESS, mlx90640Data.mlx90640Frame);
                 if (status >= 0) {
-                    logDebug("MLX90640 read success 1\r\n");
-                    status = MLX90640_GetFrameData(MLX90640_I2C_ADDRESS, mlx90640Data.mlx90640Frame);
-                    if (status >= 0) {
-                        logDebug("MLX90640 read success 2\r\n");
-                        MLX90640_GetImage(mlx90640Data.mlx90640Frame, &mlx90640Data.mlx90640, mlx90640Data.mlx90640Image);
-                        float vdd = MLX90640_GetVdd(mlx90640Data.mlx90640Frame, &mlx90640Data.mlx90640); //vdd = 3.3
-                        logDebug("MLX90640 Vdd %.3f\r\n", vdd);
-                        
-                        
-                    } else {
-                        logFatal("MLX90640 read error %d\r\n", status);
-                        mlx90640Data.state = MLX90640_STATE_ERROR;
+                    //                    logTrace("MLX90640 read success 1\r\n");
+                    //                    status = MLX90640_GetFrameData(MLX90640_I2C_ADDRESS, mlx90640Data.mlx90640Frame);
+                    //                    if (status >= 0) {
+                    logTrace("MLX90640 read success 2\r\n");
+                    // MLX90640_GetImage(mlx90640Data.mlx90640Frame, &mlx90640Data.mlx90640, mlx90640Data.mlx90640Image);
+
+
+                    float tr = 23.15;
+                    float emissivity = 0.95;
+                    MLX90640_CalculateTo(mlx90640Data.mlx90640Frame, &mlx90640Data.mlx90640, emissivity, tr, mlx90640Data.mlx90640Image);
+
+
+
+                    float vdd = MLX90640_GetVdd(mlx90640Data.mlx90640Frame, &mlx90640Data.mlx90640); //vdd = 3.3
+                    logDebug("MLX90640 Vdd %.3f\r\n", vdd);
+
+                    // mlx90640Image
+
+                    for (uint16_t i = 0; i<sizeof (mlx90640Data.mlx90640Image); i++) {
+                        mlx90640Data.frame[i] = (mlx90640Data.mlx90640Image[i] - 20) * 10;
                     }
+
+                    CDC_send_data(mlx90640Data.frame, sizeof (mlx90640Data.frame));
+
+                    //                    } else {
+                    //                        logFatal("MLX90640 read error %d\r\n", status);
+                    //                        mlx90640Data.state = MLX90640_STATE_ERROR;
+                    //                    }
                 } else {
                     logFatal("MLX90640 read error\r\n");
                     mlx90640Data.state = MLX90640_STATE_ERROR;
@@ -219,7 +234,7 @@ void MLX90640_Tasks(void) {
                 logFatal("MLX90640 sync error\r\n");
                 mlx90640Data.state = MLX90640_STATE_ERROR;
             }
-            vTaskDelay(2000U / portTICK_PERIOD_MS);
+            vTaskDelay(250U / portTICK_PERIOD_MS);
             break;
         }
 
