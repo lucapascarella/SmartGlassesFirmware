@@ -450,27 +450,6 @@ void CDC_Tasks(void) {
                         logDebug("CDC device read %d byte\r\n", app_cdc_data.numBytesRead);
                     }
                     break;
-
-
-                    //                    if (app_cdc_data.numBytesRead > 0) {
-                    //                        switch (cdcReadBuffer[0]) {
-                    //                            case '1': // Thermal sensor
-                    //                            {
-                    //                                uint16_t frame_size = sizeof (app_cdc_data.frame) * sizeof (uint8_t);
-                    //                                memset(app_cdc_data.frame, 0x00, frame_size);
-                    //                                for (uint16_t j = 0; j < frame_size; j++) {
-                    //                                    app_cdc_data.frame[j] = rand() % 255;
-                    //                                }
-                    //                                USB_DEVICE_CDC_Write(APP_CDC_DEV_IDX, &cdc_write_handle, app_cdc_data.frame, frame_size, USB_DEVICE_CDC_TRANSFER_FLAGS_DATA_COMPLETE);
-                    //                                break;
-                    //                            }
-                    //                            case 'T': // ToF
-                    //                            {
-                    //                                //USB_DEVICE_CDC_Write(APP_CDC_DEV_IDX, &COM1Write_Handle, appCdcData.frame, frame_size, USB_DEVICE_CDC_TRANSFER_FLAGS_DATA_COMPLETE);
-                    //                                break;
-                    //                            }
-                    //                        }
-                    //                    }
                 }
 
                 case APP_USB_EVENT_WRITE_COMPLETE:

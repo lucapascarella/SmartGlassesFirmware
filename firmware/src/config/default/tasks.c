@@ -236,21 +236,21 @@ void SYS_Tasks ( void )
                 1,
                 &xCDC_Tasks);
 
-//    /* Create OS Thread for VL53L5CX_Tasks. */
-//    (void) xTaskCreate((TaskFunction_t) lVL53L5CX_Tasks,
-//                "VL53L5CX_Tasks",
-//                1024,
-//                NULL,
-//                1,
-//                &xVL53L5CX_Tasks);
-
-    /* Create OS Thread for MLX90640_Tasks. */
-    (void) xTaskCreate((TaskFunction_t) lMLX90640_Tasks,
-                "MLX90640_Tasks",
+    /* Create OS Thread for VL53L5CX_Tasks. */
+    (void) xTaskCreate((TaskFunction_t) lVL53L5CX_Tasks,
+                "VL53L5CX_Tasks",
                 1024,
                 NULL,
                 1,
-                &xMLX90640_Tasks);
+                &xVL53L5CX_Tasks);
+
+//    /* Create OS Thread for MLX90640_Tasks. */
+//    (void) xTaskCreate((TaskFunction_t) lMLX90640_Tasks,
+//                "MLX90640_Tasks",
+//                1024,
+//                NULL,
+//                1,
+//                &xMLX90640_Tasks);
 
     /* Create OS Thread for BGT60_Tasks. */
 //    (void) xTaskCreate((TaskFunction_t) lBGT60_Tasks,

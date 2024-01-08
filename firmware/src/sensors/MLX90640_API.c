@@ -59,6 +59,7 @@ int MLX90640_SynchFrame(uint8_t slaveAddr) {
         }
         //dataReady = statusRegister & 0x0008;
         dataReady = MLX90640_GET_DATA_READY(statusRegister);
+        vTaskDelay(10U / portTICK_PERIOD_MS);
     }
 
     return MLX90640_NO_ERROR;

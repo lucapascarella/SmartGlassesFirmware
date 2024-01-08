@@ -182,7 +182,7 @@ void VL53L5CX_Tasks(void) {
                 status = vl53l5cx_init(&vl53l5cxData.Dev);
                 if (status == VL53L5CX_STATUS_OK) {
                     logDebug("VL53L5CX ULD ready! (Version: %s)\r\n", VL53L5CX_API_REVISION);
-                    vl53l5cxData.state = VL53L5CX_STATE_START_RANGING;
+                    vl53l5cxData.state = VL53L5CX_STATE_GET_RESOLUTION;
                 } else {
                     logFatal("VL53L5CX ULD loading failed\r\n");
                     vl53l5cxData.state = VL53L5CX_STATE_ERROR;
@@ -192,6 +192,18 @@ void VL53L5CX_Tasks(void) {
                 vl53l5cxData.state = VL53L5CX_STATE_ERROR;
             }
             break;
+
+
+        case VL53L5CX_STATE_GET_RESOLUTION:
+        {
+            vl53l5cx_set_resolution(&vl53l5cxData.Dev, VL53L5CX_RESOLUTION_8X8);
+
+            uint8_t resolution;
+            vl53l5cx_get_resolution(&vl53l5cxData.Dev, &resolution);
+            logInfo("VL53L5CX resolution %d\r\n", resolution);
+            vl53l5cxData.state = VL53L5CX_STATE_START_RANGING;
+            break;
+        }
 
         case VL53L5CX_STATE_START_RANGING:
             status = vl53l5cx_start_ranging(&vl53l5cxData.Dev);
@@ -220,14 +232,24 @@ void VL53L5CX_Tasks(void) {
                             vl53l5cxData.Results.distance_mm[VL53L5CX_NB_TARGET_PER_ZONE * i]);
                 }
                 logDebug("\r\n");
-                loop++;
+
+                for (uint16_t i = 0; i< sizeof (vl53l5cxData.frame); i++) {
+                    if (vl53l5cxData.Results.distance_mm[i] > 2550) {
+                        vl53l5cxData.frame[i] = 255;
+                    } else {
+                        vl53l5cxData.frame[i] = vl53l5cxData.Results.distance_mm[i] / 10;
+                    }
+                    // vl53l5cxData.frame[i] = vl53l5cxData.Results.distance_mm[i] / 50;
+                }
+
+                CDC_send_data(vl53l5cxData.frame, sizeof (vl53l5cxData.frame));
             }
 
             /* Wait a few ms to avoid too high polling (function in platform
              * file, not in API) */
-            WaitMs(&(vl53l5cxData.Dev.platform), 5);
+            // WaitMs(&(vl53l5cxData.Dev.platform), 5);
 
-            vTaskDelay(100U / portTICK_PERIOD_MS);
+            vTaskDelay(500U / portTICK_PERIOD_MS);
             break;
         }
 

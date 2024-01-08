@@ -130,6 +130,7 @@ void MLX90640_Tasks(void) {
             if (mlx90640Data.drvI2CHandle != DRV_HANDLE_INVALID) {
                 logDebug("DRV_I2C MLX90640 opened\r\n");
                 MLX90640_I2CInit(mlx90640Data.drvI2CHandle);
+                vTaskDelay(1000U / portTICK_PERIOD_MS);
                 MLX90640_I2CGeneralReset();
                 mlx90640Data.state = MLX90640_STATE_GET_CURR_RES;
             } else {
@@ -140,7 +141,6 @@ void MLX90640_Tasks(void) {
 
         case MLX90640_STATE_GET_CURR_RES:
         {
-            //MLX90640_SetResolution(MLX90640_I2C_ADDRESS, 0x00);
             int current_resolution = MLX90640_GetCurResolution(MLX90640_I2C_ADDRESS);
             uint8_t res_map[] = {16, 17, 18, 19}; // bits
             logDebug("MLX90640 resolution %d bits\r\n", res_map[current_resolution]);
@@ -150,7 +150,7 @@ void MLX90640_Tasks(void) {
 
         case MLX90640_STATE_GET_REFRESH_RATE:
         {
-            //MLX90640_SetResolution(MLX90640_I2C_ADDRESS, 0x00);
+            MLX90640_SetRefreshRate(MLX90640_I2C_ADDRESS, 3);
             int refresh_rate = MLX90640_GetRefreshRate(MLX90640_I2C_ADDRESS);
             uint8_t res_map[] = {0, 1, 2, 4, 8, 16, 32, 64}; // Hz
             logDebug("MLX90640 refresh rate %d Hz\r\n", res_map[refresh_rate ]);
@@ -160,7 +160,6 @@ void MLX90640_Tasks(void) {
 
         case MLX90640_STATE_GET_CURRENT_MODE:
         {
-            //MLX90640_SetResolution(MLX90640_I2C_ADDRESS, 0x00);
             int mode = MLX90640_GetCurMode(MLX90640_I2C_ADDRESS);
             const char *res_map[] = {"interleaved", "chess"};
             logDebug("MLX90640 reading mode %s\r\n", res_map[mode]);
@@ -194,47 +193,36 @@ void MLX90640_Tasks(void) {
 
         case MLX90640_STATE_SERVICE_TASKS:
         {
-            int status = MLX90640_SynchFrame(MLX90640_I2C_ADDRESS);
+            float tr = 23.15;
+            float emissivity = 0.95;
+            int status = MLX90640_SynchFrame(MLX90640_I2C_ADDRESS); // Uses vTaskDelay
             if (!status) {
                 status = MLX90640_GetFrameData(MLX90640_I2C_ADDRESS, mlx90640Data.mlx90640Frame);
-                if (status >= 0) {
-                    //                    logTrace("MLX90640 read success 1\r\n");
-                    //                    status = MLX90640_GetFrameData(MLX90640_I2C_ADDRESS, mlx90640Data.mlx90640Frame);
-                    //                    if (status >= 0) {
-                    logTrace("MLX90640 read success 2\r\n");
-                    // MLX90640_GetImage(mlx90640Data.mlx90640Frame, &mlx90640Data.mlx90640, mlx90640Data.mlx90640Image);
-
-
-                    float tr = 23.15;
-                    float emissivity = 0.95;
+                if (status == 0) {
+                    // First half frame
+                    logTrace("MLX90640 read succeed for interleave 0\r\n");
+                    MLX90640_CalculateTo(mlx90640Data.mlx90640Frame, &mlx90640Data.mlx90640, emissivity, tr, mlx90640Data.mlx90640Image);
+                } else if (status == 1) {
+                    // Second half frame
+                    logTrace("MLX90640 read succeed for interleave 1\r\n");
                     MLX90640_CalculateTo(mlx90640Data.mlx90640Frame, &mlx90640Data.mlx90640, emissivity, tr, mlx90640Data.mlx90640Image);
 
-
-
-                    float vdd = MLX90640_GetVdd(mlx90640Data.mlx90640Frame, &mlx90640Data.mlx90640); //vdd = 3.3
-                    logDebug("MLX90640 Vdd %.3f\r\n", vdd);
-
-                    // mlx90640Image
-
+                    // Cast in byte size, for simple USB transfer
                     for (uint16_t i = 0; i<sizeof (mlx90640Data.mlx90640Image); i++) {
-                        mlx90640Data.frame[i] = (mlx90640Data.mlx90640Image[i] - 20) * 10;
+                        mlx90640Data.frame[i] = (mlx90640Data.mlx90640Image[i] - 15) * 10; // Scale temperature, just for a better frame show
                     }
-
+                    
+                    // Transmit to USB Host
                     CDC_send_data(mlx90640Data.frame, sizeof (mlx90640Data.frame));
-
-                    //                    } else {
-                    //                        logFatal("MLX90640 read error %d\r\n", status);
-                    //                        mlx90640Data.state = MLX90640_STATE_ERROR;
-                    //                    }
                 } else {
-                    logFatal("MLX90640 read error\r\n");
+                    logFatal("MLX90640 read error, %d\r\n", status);
                     mlx90640Data.state = MLX90640_STATE_ERROR;
                 }
             } else {
                 logFatal("MLX90640 sync error\r\n");
                 mlx90640Data.state = MLX90640_STATE_ERROR;
             }
-            vTaskDelay(250U / portTICK_PERIOD_MS);
+            //vTaskDelay(250U / portTICK_PERIOD_MS);
             break;
         }
 
