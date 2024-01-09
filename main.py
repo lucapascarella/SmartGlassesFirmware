@@ -9,6 +9,44 @@ import cv2
 from serial.serialutil import SerialException
 
 
+def show_temperature(serial_port, timeout):
+    serial_data = serial_port.read(24 * 32)
+    if len(serial_data) > 0:
+        print("Serial data received, {} bytes".format(len(serial_data)))
+        frame_linear = np.frombuffer(serial_data, dtype=np.uint8)
+        frame = np.rot90(frame_linear.reshape((24, 32)))
+
+        scale_percent = 10  # scale factor
+        dim = (int(frame.shape[1] * scale_percent), int(frame.shape[0] * scale_percent))
+        frame_resized = cv2.resize(frame, dim, interpolation=cv2.INTER_AREA)
+
+        cv2.imshow("Thermal Camera", frame_resized)
+        # waits for user to press any key (this is necessary to avoid Python kernel form crashing)
+        cv2.waitKey(100)
+    else:
+        # cv2.destroyAllWindows()
+        print("Timeout {} sec occurred during read".format(timeout))
+
+
+def show_distance(serial_port, timeout):
+    serial_data = serial_port.read(8 * 8)
+    if len(serial_data) > 0:
+        print("Serial data received, {} bytes".format(len(serial_data)))
+        frame_linear = np.frombuffer(serial_data, dtype=np.uint8)
+        frame = frame_linear.reshape((8, 8)).transpose()
+
+        scale_percent = 3000  # percent of original size
+        dim = (int(frame.shape[1] * scale_percent / 100), int(frame.shape[0] * scale_percent / 100))
+        frame_resized = cv2.resize(frame, dim, interpolation=cv2.INTER_AREA)
+
+        cv2.imshow("Distance", frame_resized)
+        # waits for user to press any key (this is necessary to avoid Python kernel form crashing)
+        cv2.waitKey(100)
+    else:
+        # cv2.destroyAllWindows()
+        print("Timeout {} sec occurred during read".format(timeout))
+
+
 def save_frame(filename: str, img: np.array) -> None:
     cv2.imwrite(filename, img)
 
@@ -47,38 +85,10 @@ def main(flags: Dict[str, str]) -> bool:
                 print("Handshake, welcome received!")
         else:
             # Temperature measurement
-            serial_data = serial_port.read(24 * 32)
-            if len(serial_data) > 0:
-                print("Serial data received, {} bytes".format(len(serial_data)))
-                frame_linear = np.frombuffer(serial_data, dtype=np.uint8)
-                frame = np.rot90(frame_linear.reshape((24, 32)))
-
-                scale_percent = 10  # scale factor
-                dim = (int(frame.shape[1] * scale_percent), int(frame.shape[0] * scale_percent))
-                frame_resized = cv2.resize(frame, dim, interpolation=cv2.INTER_AREA)
-
-                cv2.imshow("Thermal Camera", frame_resized)
-                # waits for user to press any key (this is necessary to avoid Python kernel form crashing)
-                cv2.waitKey(100)
+            show_temperature(serial_port, timeout)
 
             # Distance measurement
-            # serial_data = serial_port.read(8 * 8)
-            # if len(serial_data) > 0:
-            #     print("Serial data received, {} bytes".format(len(serial_data)))
-            #     frame_linear = np.frombuffer(serial_data, dtype=np.uint8)
-            #     frame = frame_linear.reshape((8, 8)).transpose()
-            #
-            #     scale_percent = 3000  # percent of original size
-            #     dim = (int(frame.shape[1] * scale_percent / 100), int(frame.shape[0] * scale_percent / 100))
-            #     frame_resized = cv2.resize(frame, dim, interpolation=cv2.INTER_AREA)
-            #
-            #     cv2.imshow("Distance", frame_resized)
-            #     # waits for user to press any key (this is necessary to avoid Python kernel form crashing)
-            #     cv2.waitKey(100)
-
-            else:
-                cv2.destroyAllWindows()
-                print("Timeout {} sec occurred during read".format(timeout))
+            # show_distance(serial_port, timeout)
 
     print("Closing connection with {}".format(serial_port.portstr))
     serial_port.close()
@@ -94,7 +104,7 @@ if __name__ == '__main__':
     print("*** Started ***")
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("-p", "--port", help="Port name", type=str, default="/dev/cu.usbmodem111301")
+    parser.add_argument("-p", "--port", help="Port name", type=str, default="/dev/cu.usbmodem1101")
     parser.add_argument("-b", "--baud_rate", help="Baud rate in bps", type=str, default="115200")
     parser.add_argument("-s", "--byte_size", help="Byte size", type=str, default="8")
     parser.add_argument("-t", "--timeout", help="Timeout", type=str, default="10")
