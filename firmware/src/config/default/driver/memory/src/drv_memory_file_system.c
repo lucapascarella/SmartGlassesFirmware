@@ -61,16 +61,16 @@ static const SYS_FS_MEDIA_FUNCTIONS memoryMediaFunctions =
 {
     .mediaStatusGet     = DRV_MEMORY_IsAttached,
     .mediaGeometryGet   = DRV_MEMORY_GeometryGet,
-    .sectorRead         = DRV_MEMORY_Read,
-    .sectorWrite        = DRV_MEMORY_EraseWrite,
+    .sectorRead         = DRV_MEMORY_AsyncRead,
+    .sectorWrite        = DRV_MEMORY_AsyncEraseWrite,
     .eventHandlerset    = DRV_MEMORY_TransferHandlerSet,
     .commandStatusGet   = (CommandStatusGetType)DRV_MEMORY_CommandStatusGet,
-    .Read               = DRV_MEMORY_Read,
-    .erase              = DRV_MEMORY_Erase,
+    .Read               = DRV_MEMORY_AsyncRead,
+    .erase              = DRV_MEMORY_AsyncErase,
     .addressGet         = DRV_MEMORY_AddressGet,
     .open               = DRV_MEMORY_Open,
     .close              = DRV_MEMORY_Close,
-    .tasks              = NULL,
+    .tasks              = DRV_MEMORY_Tasks,
 };
 
 /* MISRAC 2012 deviation block end */

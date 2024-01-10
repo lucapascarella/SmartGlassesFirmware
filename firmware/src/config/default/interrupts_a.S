@@ -70,6 +70,24 @@ IntVectorToF_Right_Handler:
     nop
     portRESTORE_CONTEXT
     .end   IntVectorToF_Right_Handler
+    .extern  TIMER_2_Handler
+
+    .section   .vector_9,code, keep
+    .equ     __vector_dispatch_9, IntVectorTIMER_2_Handler
+    .global  __vector_dispatch_9
+    .set     nomicromips
+    .set     noreorder
+    .set     nomips16
+    .set     noat
+    .ent  IntVectorTIMER_2_Handler
+
+IntVectorTIMER_2_Handler:
+    portSAVE_CONTEXT
+    la    s6,  TIMER_2_Handler
+    jalr  s6
+    nop
+    portRESTORE_CONTEXT
+    .end   IntVectorTIMER_2_Handler
     .extern  ToF_Left_Handler
 
     .section   .vector_13,code, keep
@@ -340,22 +358,4 @@ IntVectorUSB_DMA_Handler:
     nop
     portRESTORE_CONTEXT
     .end   IntVectorUSB_DMA_Handler
-    .extern  SQI1_Handler
-
-    .section   .vector_169,code, keep
-    .equ     __vector_dispatch_169, IntVectorSQI1_Handler
-    .global  __vector_dispatch_169
-    .set     nomicromips
-    .set     noreorder
-    .set     nomips16
-    .set     noat
-    .ent  IntVectorSQI1_Handler
-
-IntVectorSQI1_Handler:
-    portSAVE_CONTEXT
-    la    s6,  SQI1_Handler
-    jalr  s6
-    nop
-    portRESTORE_CONTEXT
-    .end   IntVectorSQI1_Handler
 

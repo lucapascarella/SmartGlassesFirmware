@@ -58,6 +58,7 @@
 // *****************************************************************************
 
 void EXTERNAL_1_InterruptHandler( void );
+void TIMER_2_InterruptHandler( void );
 void EXTERNAL_2_InterruptHandler( void );
 void TIMER_3_InterruptHandler( void );
 void EXTERNAL_3_InterruptHandler( void );
@@ -73,7 +74,6 @@ void I2C1_BUS_InterruptHandler( void );
 void I2C1_MASTER_InterruptHandler( void );
 void DRV_USBHS_InterruptHandler( void );
 void DRV_USBHS_DMAInterruptHandler( void );
-void SQI1_InterruptHandler( void );
 
 
 

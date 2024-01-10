@@ -1,27 +1,26 @@
 /*******************************************************************************
-  Resets (Power) PLIB
+  DMA System Service Library Implementation Source File
 
   Company
     Microchip Technology Inc.
 
   File Name
-    plib_power.c
+    sys_dma.c
 
   Summary
-    Power PLIB Implementation File.
+    DMA system service library interface implementation.
 
   Description
-    This file defines the interface to the DSCTRL peripheral library.
-    This library provides access to and control of the associated Resets.
+    This file implements the interface to the DMA system service library.
 
   Remarks:
-    None.
+    DMA controller initialize will be done from within the MCC.
 
 *******************************************************************************/
 
 // DOM-IGNORE-BEGIN
 /*******************************************************************************
-* Copyright (C) 2019 Microchip Technology Inc. and its subsidiaries.
+* Copyright (C) 2018 Microchip Technology Inc. and its subsidiaries.
 *
 * Subject to your compliance with these terms, you may use Microchip software
 * and any derivatives exclusively with Microchip products. It is your
@@ -36,7 +35,7 @@
 *
 * IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE,
 * INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND
-* WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER SOURCED, EVEN IF MICROCHIP HAS
+* WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP HAS
 * BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE. TO THE
 * FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
@@ -44,53 +43,55 @@
 *******************************************************************************/
 // DOM-IGNORE-END
 
+
 // *****************************************************************************
 // *****************************************************************************
 // Section: Included Files
 // *****************************************************************************
 // *****************************************************************************
 
-#include "plib_power.h"
+#include "system/dma/sys_dma.h"
 
-#define WAIT asm volatile("wait")
-// *****************************************************************************
-// *****************************************************************************
-// Section: Power Implementation
-// *****************************************************************************
-// *****************************************************************************
-void POWER_LowPowerModeEnter (POWER_LOW_POWER_MODE mode)
+
+//******************************************************************************
+/* Function:
+    void SYS_DMA_AddressingModeSetup(SYS_DMA_CHANNEL channel, SYS_DMA_SOURCE_ADDRESSING_MODE sourceAddrMode, SYS_DMA_DESTINATION_ADDRESSING_MODE destAddrMode);
+
+  Summary:
+    Setup addressing mode of selected DMA channel.
+
+  Remarks:
+    Check sys_dma.h for more info.
+*/
+void SYS_DMA_AddressingModeSetup(SYS_DMA_CHANNEL channel, SYS_DMA_SOURCE_ADDRESSING_MODE sourceAddrMode, SYS_DMA_DESTINATION_ADDRESSING_MODE destAddrMode)
 {
-    bool check = false;
-    /* Unlock system */
-    SYSKEY = 0x00000000U;
-    SYSKEY = 0xAA996655U;
-    SYSKEY = 0x556699AAU;
-
-    switch(mode)
-    {
-        case LOW_POWER_IDLE_MODE:
-                        OSCCONCLR = _OSCCON_SLPEN_MASK;
-                        break;
-        case LOW_POWER_SLEEP_MODE:
-                        OSCCONSET = _OSCCON_SLPEN_MASK;
-                        break;
-        case LOW_POWER_DREAM_MODE:
-                        OSCCONSET = _OSCCON_SLPEN_MASK | _OSCCON_DRMEN_MASK;
-                        break;
-        default:
-                        check = true;
-                        break;
-    }
-    
-    if(check == true)
-    {
-        return;
-    }
-
-    /* Lock system */
-    SYSKEY = 0x0;
-
-    /* enter into selected low power mode */
-    //WAIT;
 }
 
+//******************************************************************************
+/* Function:
+    void SYS_DMA_DataWidthSetup(SYS_DMA_CHANNEL channel, SYS_DMA_WIDTH dataWidth);
+
+  Summary:
+    Setup data width of selected DMA channel.
+
+  Remarks:
+    Check sys_dma.h for more info.
+*/
+void SYS_DMA_DataWidthSetup(SYS_DMA_CHANNEL channel, SYS_DMA_WIDTH dataWidth)
+{
+}
+
+//******************************************************************************
+/* Function:
+   void SYS_DMA_ChannelTransfer(channel, srcAddr, destAddr, blockSize);
+
+  Summary:
+    Setup data width of selected DMA channel.
+
+  Remarks:
+    Check sys_dma.h for more info.
+*/
+bool SYS_DMA_ChannelTransfer (SYS_DMA_CHANNEL channel, const void *srcAddr, const void *destAddr, size_t blockSize)
+{
+    return true;
+}

@@ -61,6 +61,7 @@ void EVIC_Initialize( void )
 
     /* Set up priority and subpriority of enabled interrupts */
     IPC2SET = 0x4U | 0x0U;  /* EXTERNAL_1:  Priority 1 / Subpriority 0 */
+    IPC2SET = 0x400U | 0x0U;  /* TIMER_2:  Priority 1 / Subpriority 0 */
     IPC3SET = 0x400U | 0x0U;  /* EXTERNAL_2:  Priority 1 / Subpriority 0 */
     IPC3SET = 0x40000U | 0x0U;  /* TIMER_3:  Priority 1 / Subpriority 0 */
     IPC4SET = 0x40000U | 0x0U;  /* EXTERNAL_3:  Priority 1 / Subpriority 0 */
@@ -76,7 +77,6 @@ void EVIC_Initialize( void )
     IPC29SET = 0x400U | 0x0U;  /* I2C1_MASTER:  Priority 1 / Subpriority 0 */
     IPC33SET = 0x8U | 0x0U;  /* USB:  Priority 2 / Subpriority 0 */
     IPC33SET = 0x800U | 0x0U;  /* USB_DMA:  Priority 2 / Subpriority 0 */
-    IPC42SET = 0x800U | 0x0U;  /* SQI1:  Priority 2 / Subpriority 0 */
 
     /* Initialize External interrupt 1 callback object */
     extInt1CbObj.callback = NULL;

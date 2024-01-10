@@ -70,6 +70,15 @@ void _USB_DEVICE_Tasks(  void *pvParameters  )
     }
 }
 
+static void lDRV_MEMORY_0_Tasks(  void *pvParameters  )
+{
+    while(true)
+    {
+        DRV_MEMORY_Tasks(sysObj.drvMemory0);
+        vTaskDelay(DRV_MEMORY_RTOS_DELAY_IDX0 / portTICK_PERIOD_MS);
+    }
+}
+
 /* Handle for the APP_Tasks. */
 TaskHandle_t xAPP_Tasks;
 
@@ -78,46 +87,6 @@ static void lAPP_Tasks(  void *pvParameters  )
     while(true)
     {
         APP_Tasks();
-    }
-}
-/* Handle for the CDC_Tasks. */
-TaskHandle_t xCDC_Tasks;
-
-static void lCDC_Tasks(  void *pvParameters  )
-{   
-    while(true)
-    {
-        CDC_Tasks();
-    }
-}
-/* Handle for the VL53L5CX_Tasks. */
-TaskHandle_t xVL53L5CX_Tasks;
-
-static void lVL53L5CX_Tasks(  void *pvParameters  )
-{   
-    while(true)
-    {
-        VL53L5CX_Tasks();
-    }
-}
-/* Handle for the MLX90640_Tasks. */
-TaskHandle_t xMLX90640_Tasks;
-
-static void lMLX90640_Tasks(  void *pvParameters  )
-{   
-    while(true)
-    {
-        MLX90640_Tasks();
-    }
-}
-/* Handle for the BGT60_Tasks. */
-TaskHandle_t xBGT60_Tasks;
-
-static void lBGT60_Tasks(  void *pvParameters  )
-{   
-    while(true)
-    {
-        BGT60_Tasks();
     }
 }
 
@@ -195,7 +164,14 @@ void SYS_Tasks ( void )
 
 
     /* Maintain Device Drivers */
-    
+        (void)xTaskCreate( lDRV_MEMORY_0_Tasks,
+        "DRV_MEM_0_TASKS",
+        DRV_MEMORY_STACK_SIZE_IDX0,
+        (void*)NULL,
+        DRV_MEMORY_PRIORITY_IDX0,
+        (TaskHandle_t*)NULL
+    );
+
 
 
     /* Maintain Middleware & Other Libraries */
@@ -227,38 +203,6 @@ void SYS_Tasks ( void )
                 NULL,
                 1,
                 &xAPP_Tasks);
-
-    /* Create OS Thread for CDC_Tasks. */
-    (void) xTaskCreate((TaskFunction_t) lCDC_Tasks,
-                "CDC_Tasks",
-                1024,
-                NULL,
-                1,
-                &xCDC_Tasks);
-
-    /* Create OS Thread for VL53L5CX_Tasks. */
-//    (void) xTaskCreate((TaskFunction_t) lVL53L5CX_Tasks,
-//                "VL53L5CX_Tasks",
-//                1024,
-//                NULL,
-//                1,
-//                &xVL53L5CX_Tasks);
-
-    /* Create OS Thread for MLX90640_Tasks. */
-    (void) xTaskCreate((TaskFunction_t) lMLX90640_Tasks,
-                "MLX90640_Tasks",
-                1024,
-                NULL,
-                1,
-                &xMLX90640_Tasks);
-
-    /* Create OS Thread for BGT60_Tasks. */
-//    (void) xTaskCreate((TaskFunction_t) lBGT60_Tasks,
-//                "BGT60_Tasks",
-//                1024,
-//                NULL,
-//                1,
-//                &xBGT60_Tasks);
 
 
 

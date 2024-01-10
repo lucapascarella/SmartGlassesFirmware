@@ -7,21 +7,16 @@
       <logicalFolder name="config" displayName="config" projectFiles="true">
         <logicalFolder name="default" displayName="default" projectFiles="true">
           <logicalFolder name="driver" displayName="driver" projectFiles="true">
-            <logicalFolder name="i2c" displayName="i2c" projectFiles="true">
-              <itemPath>../src/config/default/driver/i2c/src/drv_i2c_local.h</itemPath>
-              <itemPath>../src/config/default/driver/i2c/drv_i2c.h</itemPath>
-              <itemPath>../src/config/default/driver/i2c/drv_i2c_definitions.h</itemPath>
+            <logicalFolder name="at24" displayName="at24" projectFiles="true">
+              <itemPath>../src/config/default/driver/at24/drv_at24_definitions.h</itemPath>
+              <itemPath>../src/config/default/driver/at24/drv_at24.h</itemPath>
+              <itemPath>../src/config/default/driver/at24/src/drv_at24_local.h</itemPath>
             </logicalFolder>
             <logicalFolder name="memory" displayName="memory" projectFiles="true">
               <itemPath>../src/config/default/driver/memory/src/drv_memory_file_system.h</itemPath>
               <itemPath>../src/config/default/driver/memory/src/drv_memory_local.h</itemPath>
               <itemPath>../src/config/default/driver/memory/drv_memory.h</itemPath>
               <itemPath>../src/config/default/driver/memory/drv_memory_definitions.h</itemPath>
-            </logicalFolder>
-            <logicalFolder name="sst26" displayName="sst26" projectFiles="true">
-              <itemPath>../src/config/default/driver/sst26/drv_sst26.h</itemPath>
-              <itemPath>../src/config/default/driver/sst26/drv_sst26_definitions.h</itemPath>
-              <itemPath>../src/config/default/driver/sst26/src/drv_sst26_local.h</itemPath>
             </logicalFolder>
             <logicalFolder name="usb" displayName="usb" projectFiles="true">
               <logicalFolder name="usbhs" displayName="usbhs" projectFiles="true">
@@ -103,6 +98,9 @@
             <logicalFolder name="rcon" displayName="rcon" projectFiles="true">
               <itemPath>../src/config/default/peripheral/rcon/plib_rcon.h</itemPath>
             </logicalFolder>
+            <logicalFolder name="rng" displayName="rng" projectFiles="true">
+              <itemPath>../src/config/default/peripheral/rng/plib_rng.h</itemPath>
+            </logicalFolder>
             <logicalFolder name="rtcc" displayName="rtcc" projectFiles="true">
               <itemPath>../src/config/default/peripheral/rtcc/plib_rtcc.h</itemPath>
             </logicalFolder>
@@ -112,19 +110,12 @@
                 <itemPath>../src/config/default/peripheral/spi/spi_master/plib_spi1_master.h</itemPath>
               </logicalFolder>
             </logicalFolder>
-            <logicalFolder name="sqi" displayName="sqi" projectFiles="true">
-              <itemPath>../src/config/default/peripheral/sqi/plib_sqi1.h</itemPath>
-              <itemPath>../src/config/default/peripheral/sqi/plib_sqi_common.h</itemPath>
-            </logicalFolder>
             <logicalFolder name="tmr" displayName="tmr" projectFiles="true">
               <itemPath>../src/config/default/peripheral/tmr/plib_tmr3.h</itemPath>
               <itemPath>../src/config/default/peripheral/tmr/plib_tmr_common.h</itemPath>
               <itemPath>../src/config/default/peripheral/tmr/plib_tmr8.h</itemPath>
               <itemPath>../src/config/default/peripheral/tmr/plib_tmr7.h</itemPath>
-            </logicalFolder>
-            <logicalFolder name="tmr1" displayName="tmr1" projectFiles="true">
-              <itemPath>../src/config/default/peripheral/tmr1/plib_tmr1.h</itemPath>
-              <itemPath>../src/config/default/peripheral/tmr1/plib_tmr1_common.h</itemPath>
+              <itemPath>../src/config/default/peripheral/tmr/plib_tmr2.h</itemPath>
             </logicalFolder>
             <logicalFolder name="uart" displayName="uart" projectFiles="true">
               <itemPath>../src/config/default/peripheral/uart/plib_uart1.h</itemPath>
@@ -147,27 +138,32 @@
             <logicalFolder name="debug" displayName="debug" projectFiles="true">
               <itemPath>../src/config/default/system/debug/src/sys_debug_local.h</itemPath>
             </logicalFolder>
+            <logicalFolder name="dma" displayName="dma" projectFiles="true">
+              <itemPath>../src/config/default/system/dma/sys_dma_mapping.h</itemPath>
+              <itemPath>../src/config/default/system/dma/sys_dma.h</itemPath>
+            </logicalFolder>
             <logicalFolder name="fs" displayName="fs" projectFiles="true">
-              <logicalFolder name="fat_fs" displayName="fat_fs" projectFiles="true">
-                <logicalFolder name="file_system" displayName="file_system" projectFiles="true">
-                  <itemPath>../src/config/default/system/fs/fat_fs/file_system/ff.h</itemPath>
-                  <itemPath>../src/config/default/system/fs/fat_fs/file_system/ffconf.h</itemPath>
-                </logicalFolder>
-                <logicalFolder name="hardware_access"
-                               displayName="hardware_access"
-                               projectFiles="true">
-                  <itemPath>../src/config/default/system/fs/fat_fs/hardware_access/diskio.h</itemPath>
-                </logicalFolder>
+              <logicalFolder name="littlefs" displayName="littlefs" projectFiles="true">
+                <itemPath>../src/config/default/system/fs/littlefs/lfs_bdio.h</itemPath>
+                <itemPath>../src/config/default/system/fs/littlefs/lfs.h</itemPath>
+                <itemPath>../src/config/default/system/fs/littlefs/lfs_util.h</itemPath>
               </logicalFolder>
-              <itemPath>../src/config/default/system/fs/sys_fs_fat_interface.h</itemPath>
               <itemPath>../src/config/default/system/fs/sys_fs_media_manager.h</itemPath>
               <itemPath>../src/config/default/system/fs/src/sys_fs_local.h</itemPath>
               <itemPath>../src/config/default/system/fs/src/sys_fs_media_manager_local.h</itemPath>
               <itemPath>../src/config/default/system/fs/sys_fs.h</itemPath>
+              <itemPath>../src/config/default/system/fs/sys_fs_littlefs_interface.h</itemPath>
             </logicalFolder>
             <logicalFolder name="int" displayName="int" projectFiles="true">
               <itemPath>../src/config/default/system/int/sys_int_mapping.h</itemPath>
               <itemPath>../src/config/default/system/int/sys_int.h</itemPath>
+            </logicalFolder>
+            <logicalFolder name="ports" displayName="ports" projectFiles="true">
+              <itemPath>../src/config/default/system/ports/sys_ports_mapping.h</itemPath>
+              <itemPath>../src/config/default/system/ports/sys_ports.h</itemPath>
+            </logicalFolder>
+            <logicalFolder name="reset" displayName="reset" projectFiles="true">
+              <itemPath>../src/config/default/system/reset/sys_reset.h</itemPath>
             </logicalFolder>
             <logicalFolder name="time" displayName="time" projectFiles="true">
               <itemPath>../src/config/default/system/time/sys_time.h</itemPath>
@@ -235,23 +231,8 @@
           </logicalFolder>
         </logicalFolder>
       </logicalFolder>
-      <logicalFolder name="f1" displayName="sensors" projectFiles="true">
-        <itemPath>../src/sensors/MCP9000.h</itemPath>
-        <itemPath>../src/sensors/vl53l5cx_api.h</itemPath>
-        <itemPath>../src/sensors/platform.h</itemPath>
-        <itemPath>../src/sensors/vl53l5cx_buffers.h</itemPath>
-        <itemPath>../src/sensors/vl53l5cx_plugin_xtalk.h</itemPath>
-        <itemPath>../src/sensors/vl53l5cx_plugin_detection_thresholds.h</itemPath>
-        <itemPath>../src/sensors/vl53l5cx_plugin_motion_indicator.h</itemPath>
-        <itemPath>../src/sensors/MLX90640_API.h</itemPath>
-        <itemPath>../src/sensors/MLX90640_I2C_Driver.h</itemPath>
-      </logicalFolder>
       <itemPath>../src/log.h</itemPath>
       <itemPath>../src/app.h</itemPath>
-      <itemPath>../src/mlx90640.h</itemPath>
-      <itemPath>../src/bgt60.h</itemPath>
-      <itemPath>../src/cdc.h</itemPath>
-      <itemPath>../src/vl53l5cx.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -268,15 +249,12 @@
       <logicalFolder name="config" displayName="config" projectFiles="true">
         <logicalFolder name="default" displayName="default" projectFiles="true">
           <logicalFolder name="driver" displayName="driver" projectFiles="true">
-            <logicalFolder name="i2c" displayName="i2c" projectFiles="true">
-              <itemPath>../src/config/default/driver/i2c/src/drv_i2c.c</itemPath>
+            <logicalFolder name="at24" displayName="at24" projectFiles="true">
+              <itemPath>../src/config/default/driver/at24/src/drv_at24.c</itemPath>
             </logicalFolder>
             <logicalFolder name="memory" displayName="memory" projectFiles="true">
               <itemPath>../src/config/default/driver/memory/src/drv_memory.c</itemPath>
               <itemPath>../src/config/default/driver/memory/src/drv_memory_file_system.c</itemPath>
-            </logicalFolder>
-            <logicalFolder name="sst26" displayName="sst26" projectFiles="true">
-              <itemPath>../src/config/default/driver/sst26/src/drv_sst26.c</itemPath>
             </logicalFolder>
             <logicalFolder name="usb" displayName="usb" projectFiles="true">
               <logicalFolder name="usbhs" displayName="usbhs" projectFiles="true">
@@ -320,6 +298,9 @@
             <logicalFolder name="rcon" displayName="rcon" projectFiles="true">
               <itemPath>../src/config/default/peripheral/rcon/plib_rcon.c</itemPath>
             </logicalFolder>
+            <logicalFolder name="rng" displayName="rng" projectFiles="true">
+              <itemPath>../src/config/default/peripheral/rng/plib_rng.c</itemPath>
+            </logicalFolder>
             <logicalFolder name="rtcc" displayName="rtcc" projectFiles="true">
               <itemPath>../src/config/default/peripheral/rtcc/plib_rtcc.c</itemPath>
             </logicalFolder>
@@ -328,16 +309,11 @@
                 <itemPath>../src/config/default/peripheral/spi/spi_master/plib_spi1_master.c</itemPath>
               </logicalFolder>
             </logicalFolder>
-            <logicalFolder name="sqi" displayName="sqi" projectFiles="true">
-              <itemPath>../src/config/default/peripheral/sqi/plib_sqi1.c</itemPath>
-            </logicalFolder>
             <logicalFolder name="tmr" displayName="tmr" projectFiles="true">
               <itemPath>../src/config/default/peripheral/tmr/plib_tmr3.c</itemPath>
               <itemPath>../src/config/default/peripheral/tmr/plib_tmr8.c</itemPath>
               <itemPath>../src/config/default/peripheral/tmr/plib_tmr7.c</itemPath>
-            </logicalFolder>
-            <logicalFolder name="tmr1" displayName="tmr1" projectFiles="true">
-              <itemPath>../src/config/default/peripheral/tmr1/plib_tmr1.c</itemPath>
+              <itemPath>../src/config/default/peripheral/tmr/plib_tmr2.c</itemPath>
             </logicalFolder>
             <logicalFolder name="uart" displayName="uart" projectFiles="true">
               <itemPath>../src/config/default/peripheral/uart/plib_uart1.c</itemPath>
@@ -360,24 +336,25 @@
             <logicalFolder name="debug" displayName="debug" projectFiles="true">
               <itemPath>../src/config/default/system/debug/src/sys_debug.c</itemPath>
             </logicalFolder>
+            <logicalFolder name="dma" displayName="dma" projectFiles="true">
+              <itemPath>../src/config/default/system/dma/sys_dma.c</itemPath>
+            </logicalFolder>
             <logicalFolder name="fs" displayName="fs" projectFiles="true">
-              <logicalFolder name="fat_fs" displayName="fat_fs" projectFiles="true">
-                <logicalFolder name="file_system" displayName="file_system" projectFiles="true">
-                  <itemPath>../src/config/default/system/fs/fat_fs/file_system/ffunicode.c</itemPath>
-                  <itemPath>../src/config/default/system/fs/fat_fs/file_system/ff.c</itemPath>
-                </logicalFolder>
-                <logicalFolder name="hardware_access"
-                               displayName="hardware_access"
-                               projectFiles="true">
-                  <itemPath>../src/config/default/system/fs/fat_fs/hardware_access/diskio.c</itemPath>
-                </logicalFolder>
+              <logicalFolder name="littlefs" displayName="littlefs" projectFiles="true">
+                <itemPath>../src/config/default/system/fs/littlefs/lfs_bdio.c</itemPath>
+                <itemPath>../src/config/default/system/fs/littlefs/lfs.c</itemPath>
+                <itemPath>../src/config/default/system/fs/littlefs/LICENSE.md</itemPath>
+                <itemPath>../src/config/default/system/fs/littlefs/lfs_util.c</itemPath>
               </logicalFolder>
               <itemPath>../src/config/default/system/fs/src/sys_fs_media_manager.c</itemPath>
               <itemPath>../src/config/default/system/fs/src/sys_fs.c</itemPath>
-              <itemPath>../src/config/default/system/fs/src/sys_fs_fat_interface.c</itemPath>
+              <itemPath>../src/config/default/system/fs/src/sys_fs_littlefs_interface.c</itemPath>
             </logicalFolder>
             <logicalFolder name="int" displayName="int" projectFiles="true">
               <itemPath>../src/config/default/system/int/src/sys_int.c</itemPath>
+            </logicalFolder>
+            <logicalFolder name="reset" displayName="reset" projectFiles="true">
+              <itemPath>../src/config/default/system/reset/sys_reset.c</itemPath>
             </logicalFolder>
             <logicalFolder name="time" displayName="time" projectFiles="true">
               <itemPath>../src/config/default/system/time/src/sys_time.c</itemPath>
@@ -422,22 +399,8 @@
           <itemPath>../src/third_party/rtos/FreeRTOS/Source/timers.c</itemPath>
         </logicalFolder>
       </logicalFolder>
-      <logicalFolder name="f1" displayName="sensors" projectFiles="true">
-        <itemPath>../src/sensors/MCP9000.c</itemPath>
-        <itemPath>../src/sensors/vl53l5cx_api.c</itemPath>
-        <itemPath>../src/sensors/platform.c</itemPath>
-        <itemPath>../src/sensors/vl53l5cx_plugin_xtalk.c</itemPath>
-        <itemPath>../src/sensors/vl53l5cx_plugin_detection_thresholds.c</itemPath>
-        <itemPath>../src/sensors/vl53l5cx_plugin_motion_indicator.c</itemPath>
-        <itemPath>../src/sensors/MLX90640_API.c</itemPath>
-        <itemPath>../src/sensors/MLX90640_I2C_Driver.c</itemPath>
-      </logicalFolder>
-      <itemPath>../src/main.cpp</itemPath>
-      <itemPath>../src/app.cpp</itemPath>
-      <itemPath>../src/vl53l5cx.cpp</itemPath>
-      <itemPath>../src/cdc.cpp</itemPath>
-      <itemPath>../src/mlx90640.cpp</itemPath>
-      <itemPath>../src/bgt60.cpp</itemPath>
+      <itemPath>../src/app.c</itemPath>
+      <itemPath>../src/main.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -463,7 +426,7 @@
         <platformTool>ICD5Tool</platformTool>
         <languageToolchain>XC32</languageToolchain>
         <languageToolchainVersion>4.35</languageToolchainVersion>
-        <platform>4</platform>
+        <platform>3</platform>
       </toolsSet>
       <packs>
         <pack name="PIC32MZ-EF_DFP" vendor="Microchip" version="1.4.168"/>
@@ -496,15 +459,16 @@
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
       <C32>
-        <property key="additional-warnings" value="true"/>
+        <property key="additional-warnings" value="false"/>
         <property key="addresss-attribute-use" value="false"/>
+        <property key="appendMe" value="-Wno-format -std=c99 -std=gnu99"/>
         <property key="enable-app-io" value="false"/>
         <property key="enable-omit-frame-pointer" value="false"/>
         <property key="enable-symbols" value="true"/>
         <property key="enable-unroll-loops" value="false"/>
         <property key="exclude-floating-point" value="false"/>
         <property key="extra-include-directories"
-                  value="../src;../src/config/default;../src/config/default/system/fs/fat_fs/file_system;../src/config/default/system/fs/fat_fs/hardware_access;../src/config/default/system/fs/filex;../src/third_party/azure_rtos/filex/common/inc;../src/third_party/azure_rtos/filex/ports/generic/inc;../src/third_party/rtos/FreeRTOS/Source/include;../src/third_party/rtos/FreeRTOS/Source/portable/MPLAB/PIC32MZ"/>
+                  value="../src;../src/config/default;../src/config/default/system/fs/fat_fs/file_system;../src/config/default/system/fs/fat_fs/hardware_access;../src/config/default/system/fs/filex;../src/config/default/system/fs/littlefs;../src/third_party/azure_rtos/filex/common/inc;../src/third_party/azure_rtos/filex/ports/generic/inc;../src/third_party/rtos/FreeRTOS/Source/include;../src/third_party/rtos/FreeRTOS/Source/portable/MPLAB/PIC32MZ"/>
         <property key="generate-16-bit-code" value="false"/>
         <property key="generate-micro-compressed-code" value="false"/>
         <property key="isolate-each-function" value="true"/>
@@ -522,11 +486,13 @@
         <property key="use-cci" value="false"/>
         <property key="use-iar" value="false"/>
         <property key="use-indirect-calls" value="false"/>
+        <appendMe value="-Wno-format -std=c99 -std=gnu99"/>
       </C32>
       <C32-AR>
         <property key="additional-options-chop-files" value="false"/>
       </C32-AR>
       <C32-AS>
+        <property key="appendMe" value=""/>
         <property key="assembler-symbols" value=""/>
         <property key="enable-symbols" value="true"/>
         <property key="exclude-floating-point-library" value="false"/>
@@ -556,6 +522,7 @@
         <property key="additional-options-use-response-files" value="false"/>
         <property key="additional-options-write-sla" value="false"/>
         <property key="allocate-dinit" value="false"/>
+        <property key="appendMe" value=""/>
         <property key="code-dinit" value="false"/>
         <property key="ebase-addr" value=""/>
         <property key="enable-check-sections" value="false"/>
@@ -572,7 +539,7 @@
         <property key="generate-16-bit-code" value="false"/>
         <property key="generate-cross-reference-file" value="false"/>
         <property key="generate-micro-compressed-code" value="false"/>
-        <property key="heap-size" value="80000"/>
+        <property key="heap-size" value="50000"/>
         <property key="input-libraries" value=""/>
         <property key="kseg-length" value=""/>
         <property key="kseg-origin" value=""/>
@@ -595,6 +562,7 @@
       <C32CPP>
         <property key="additional-warnings" value="false"/>
         <property key="addresss-attribute-use" value="false"/>
+        <property key="appendMe" value=""/>
         <property key="check-new" value="false"/>
         <property key="eh-specs" value="true"/>
         <property key="enable-app-io" value="false"/>
@@ -666,7 +634,7 @@
         <property key="INTERRUPT CONTROL" value="true"/>
         <property key="OUTPUT COMPARE 1" value="true"/>
         <property key="OUTPUT COMPARE 2" value="true"/>
-        <property key="OUTPUT COMPARE 3" value="true"/>
+        <property key="OUTPUT COMPARE 3" value="false"/>
         <property key="OUTPUT COMPARE 4" value="true"/>
         <property key="OUTPUT COMPARE 5" value="true"/>
         <property key="OUTPUT COMPARE 6" value="true"/>
@@ -676,8 +644,8 @@
         <property key="PARALLEL MASTER/SLAVE PORT" value="true"/>
         <property key="REAL TIME CLOCK" value="true"/>
         <property key="REFERENCE CLOCK1" value="true"/>
-        <property key="REFERENCE CLOCK2" value="true"/>
-        <property key="REFERENCE CLOCK3" value="true"/>
+        <property key="REFERENCE CLOCK2" value="false"/>
+        <property key="REFERENCE CLOCK3" value="false"/>
         <property key="REFERENCE CLOCK4" value="true"/>
         <property key="SPI/I2S 1" value="true"/>
         <property key="SPI/I2S 2" value="true"/>
@@ -686,7 +654,7 @@
         <property key="SecureSegment.SegmentProgramming" value="FullChipProgramming"/>
         <property key="TIMER1" value="true"/>
         <property key="TIMER2" value="true"/>
-        <property key="TIMER3" value="true"/>
+        <property key="TIMER3" value="false"/>
         <property key="TIMER4" value="true"/>
         <property key="TIMER5" value="true"/>
         <property key="TIMER6" value="true"/>
@@ -699,7 +667,7 @@
                   value="ToolFirmwareOption.UseLatest"/>
         <property key="ToolFirmwareToolPack"
                   value="Press to select which tool pack to use"/>
-        <property key="UART1" value="true"/>
+        <property key="UART1" value="false"/>
         <property key="UART2" value="true"/>
         <property key="UART3" value="true"/>
         <property key="UART4" value="true"/>
@@ -733,6 +701,8 @@
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="1d000000-1d1fffff"/>
         <property key="poweroptions.powerenable" value="false"/>
+        <property key="programmerToGoFilePath"
+                  value="C:/Users/lucap/MPLABXProjects/SmartGlasses/firmware/SmartGlasses.X/debug/default/SmartGlasses_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.pgcconfig" value="pull down"/>
@@ -913,7 +883,7 @@
         <property key="INTERRUPT CONTROL" value="true"/>
         <property key="OUTPUT COMPARE 1" value="true"/>
         <property key="OUTPUT COMPARE 2" value="true"/>
-        <property key="OUTPUT COMPARE 3" value="true"/>
+        <property key="OUTPUT COMPARE 3" value="false"/>
         <property key="OUTPUT COMPARE 4" value="true"/>
         <property key="OUTPUT COMPARE 5" value="true"/>
         <property key="OUTPUT COMPARE 6" value="true"/>
@@ -923,8 +893,8 @@
         <property key="PARALLEL MASTER/SLAVE PORT" value="true"/>
         <property key="REAL TIME CLOCK" value="true"/>
         <property key="REFERENCE CLOCK1" value="true"/>
-        <property key="REFERENCE CLOCK2" value="true"/>
-        <property key="REFERENCE CLOCK3" value="true"/>
+        <property key="REFERENCE CLOCK2" value="false"/>
+        <property key="REFERENCE CLOCK3" value="false"/>
         <property key="REFERENCE CLOCK4" value="true"/>
         <property key="RIExTrigs.Five" value="OFF"/>
         <property key="RIExTrigs.Four" value="OFF"/>
@@ -941,7 +911,7 @@
         <property key="SecureSegment.SegmentProgramming" value="FullChipProgramming"/>
         <property key="TIMER1" value="true"/>
         <property key="TIMER2" value="true"/>
-        <property key="TIMER3" value="true"/>
+        <property key="TIMER3" value="false"/>
         <property key="TIMER4" value="true"/>
         <property key="TIMER5" value="true"/>
         <property key="TIMER6" value="true"/>
@@ -955,7 +925,7 @@
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
         <property key="ToolFirmwareToolPack"
                   value="Press to select which tool pack to use"/>
-        <property key="UART1" value="true"/>
+        <property key="UART1" value="false"/>
         <property key="UART2" value="true"/>
         <property key="UART3" value="true"/>
         <property key="UART4" value="true"/>

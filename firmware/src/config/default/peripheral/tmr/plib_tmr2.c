@@ -1,21 +1,19 @@
 /*******************************************************************************
-  Resets (Power) PLIB
+  TMR Peripheral Library Interface Source File
 
   Company
     Microchip Technology Inc.
 
   File Name
-    plib_power.c
+    plib_tmr2.c
 
   Summary
-    Power PLIB Implementation File.
+    TMR2 peripheral library source file.
 
   Description
-    This file defines the interface to the DSCTRL peripheral library.
-    This library provides access to and control of the associated Resets.
-
-  Remarks:
-    None.
+    This file implements the interface to the TMR peripheral library.  This
+    library provides access to and control of the associated peripheral
+    instance.
 
 *******************************************************************************/
 
@@ -36,7 +34,7 @@
 *
 * IN NO EVENT WILL MICROCHIP BE LIABLE FOR ANY INDIRECT, SPECIAL, PUNITIVE,
 * INCIDENTAL OR CONSEQUENTIAL LOSS, DAMAGE, COST OR EXPENSE OF ANY KIND
-* WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER SOURCED, EVEN IF MICROCHIP HAS
+* WHATSOEVER RELATED TO THE SOFTWARE, HOWEVER CAUSED, EVEN IF MICROCHIP HAS
 * BEEN ADVISED OF THE POSSIBILITY OR THE DAMAGES ARE FORESEEABLE. TO THE
 * FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
@@ -44,53 +42,108 @@
 *******************************************************************************/
 // DOM-IGNORE-END
 
+
 // *****************************************************************************
 // *****************************************************************************
 // Section: Included Files
 // *****************************************************************************
 // *****************************************************************************
 
-#include "plib_power.h"
+#include "device.h"
+#include "plib_tmr2.h"
+#include "interrupts.h"
 
-#define WAIT asm volatile("wait")
-// *****************************************************************************
-// *****************************************************************************
-// Section: Power Implementation
-// *****************************************************************************
-// *****************************************************************************
-void POWER_LowPowerModeEnter (POWER_LOW_POWER_MODE mode)
+
+volatile static TMR_TIMER_OBJECT tmr2Obj;
+
+
+void TMR2_Initialize(void)
 {
-    bool check = false;
-    /* Unlock system */
-    SYSKEY = 0x00000000U;
-    SYSKEY = 0xAA996655U;
-    SYSKEY = 0x556699AAU;
+    /* Disable Timer */
+    T2CONCLR = _T2CON_ON_MASK;
 
-    switch(mode)
-    {
-        case LOW_POWER_IDLE_MODE:
-                        OSCCONCLR = _OSCCON_SLPEN_MASK;
-                        break;
-        case LOW_POWER_SLEEP_MODE:
-                        OSCCONSET = _OSCCON_SLPEN_MASK;
-                        break;
-        case LOW_POWER_DREAM_MODE:
-                        OSCCONSET = _OSCCON_SLPEN_MASK | _OSCCON_DRMEN_MASK;
-                        break;
-        default:
-                        check = true;
-                        break;
-    }
-    
-    if(check == true)
-    {
-        return;
-    }
+    /*
+    SIDL = 0
+    TCKPS =0
+    T32   = 0
+    TCS = 0
+    */
+    T2CONSET = 0x0;
 
-    /* Lock system */
-    SYSKEY = 0x0;
+    /* Clear counter */
+    TMR2 = 0x0;
 
-    /* enter into selected low power mode */
-    //WAIT;
+    /*Set period */
+    PR2 = 9999U;
+
+    /* Enable TMR Interrupt */
+    IEC0SET = _IEC0_T2IE_MASK;
+
 }
 
+
+void TMR2_Start(void)
+{
+    T2CONSET = _T2CON_ON_MASK;
+}
+
+
+void TMR2_Stop (void)
+{
+    T2CONCLR = _T2CON_ON_MASK;
+}
+
+void TMR2_PeriodSet(uint16_t period)
+{
+    PR2  = period;
+}
+
+uint16_t TMR2_PeriodGet(void)
+{
+    return (uint16_t)PR2;
+}
+
+uint16_t TMR2_CounterGet(void)
+{
+    return (uint16_t)(TMR2);
+}
+
+
+uint32_t TMR2_FrequencyGet(void)
+{
+    return (100000000);
+}
+
+
+void __attribute__((used)) TIMER_2_InterruptHandler (void)
+{
+    uint32_t status  = 0U;
+    status = IFS0bits.T2IF;
+    IFS0CLR = _IFS0_T2IF_MASK;
+
+    if((tmr2Obj.callback_fn != NULL))
+    {
+        uintptr_t context = tmr2Obj.context;
+        tmr2Obj.callback_fn(status, context);
+    }
+}
+
+
+void TMR2_InterruptEnable(void)
+{
+    IEC0SET = _IEC0_T2IE_MASK;
+}
+
+
+void TMR2_InterruptDisable(void)
+{
+    IEC0CLR = _IEC0_T2IE_MASK;
+}
+
+
+void TMR2_CallbackRegister( TMR_CALLBACK callback_fn, uintptr_t context )
+{
+    /* Save callback_fn and context in local memory */
+    tmr2Obj.callback_fn = callback_fn;
+    tmr2Obj.context = context;
+}

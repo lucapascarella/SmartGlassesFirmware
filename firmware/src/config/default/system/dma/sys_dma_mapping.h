@@ -1,23 +1,24 @@
 /*******************************************************************************
- System Tasks Header File
+  DMA System Service Mapping File
+
+  Company:
+    Microchip Technology Inc.
 
   File Name:
-    sys_tasks.h
+    sys_dma_mapping.h
 
   Summary:
-    This file contains declarations for task handles.
+    DMA System Service mapping file.
 
   Description:
-    Task handles declared in this header file can be used by the application
-    to control the behavior of the tasks.
+    This header file contains the mapping of the APIs defined in the API header
+    to either the function implementations or macro implementation or the
+    specific variant implementation.
+*******************************************************************************/
 
-  Remarks:
-    None
- *******************************************************************************/
-
-// DOM-IGNORE-BEGIN
-/*******************************************************************************
-* Copyright (C) 2023 Microchip Technology Inc. and its subsidiaries.
+//DOM-IGNORE-BEGIN
+/******************************************************************************
+* Copyright (C) 2018 Microchip Technology Inc. and its subsidiaries.
 *
 * Subject to your compliance with these terms, you may use Microchip software
 * and any derivatives exclusively with Microchip products. It is your
@@ -37,33 +38,23 @@
 * FULLEST EXTENT ALLOWED BY LAW, MICROCHIP'S TOTAL LIABILITY ON ALL CLAIMS IN
 * ANY WAY RELATED TO THIS SOFTWARE WILL NOT EXCEED THE AMOUNT OF FEES, IF ANY,
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
- *******************************************************************************/
-// DOM-IGNORE-END
+*******************************************************************************/
+//DOM-IGNORE-END
 
-#ifndef SYS_TASKS_H
-#define SYS_TASKS_H
+#ifndef SYS_DMA_MAPPING_H
+#define SYS_DMA_MAPPING_H
+
 
 // *****************************************************************************
 // *****************************************************************************
-// Section: Included Files
+// Section: DMA System Service Mapping
 // *****************************************************************************
 // *****************************************************************************
 
-#include "configuration.h"
-#include "definitions.h"
+#define SYS_DMA_ChannelCallbackRegister(channel, eventHandler, context)
 
-// *****************************************************************************
-// *****************************************************************************
-// Section: RTOS "Tasks" Handles
-// *****************************************************************************
-// *****************************************************************************
-/* Declaration of  APP_Tasks task handle */
-extern TaskHandle_t xAPP_Tasks;
+#define SYS_DMA_ChannelIsBusy(channel)
 
+#define SYS_DMA_ChannelDisable(channel)
 
-/* Declaration of SYS_COMMAND task handle */
-extern TaskHandle_t xSYS_CMD_Tasks;
-
-
-
-#endif //SYS_TASKS_H
+#endif // SYS_DMA_MAPPING_H

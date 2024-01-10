@@ -68,6 +68,7 @@
 // *****************************************************************************
 // *****************************************************************************
 void ToF_Right_Handler (void);
+void TIMER_2_Handler (void);
 void ToF_Left_Handler (void);
 void TIMER_3_Handler (void);
 void EXTERNAL_3_Handler (void);
@@ -83,7 +84,6 @@ void I2C1_BUS_Handler (void);
 void I2C1_MASTER_Handler (void);
 void USB_Handler (void);
 void USB_DMA_Handler (void);
-void SQI1_Handler (void);
 
 
 // *****************************************************************************
@@ -96,6 +96,11 @@ void SQI1_Handler (void);
 void ToF_Right_Handler (void)
 {
     EXTERNAL_1_InterruptHandler();
+}
+
+void TIMER_2_Handler (void)
+{
+    TIMER_2_InterruptHandler();
 }
 
 void ToF_Left_Handler (void)
@@ -183,11 +188,6 @@ void USB_Handler (void)
 void USB_DMA_Handler (void)
 {
     DRV_USBHS_DMAInterruptHandler();
-}
-
-void SQI1_Handler (void)
-{
-    SQI1_InterruptHandler();
 }
 
 

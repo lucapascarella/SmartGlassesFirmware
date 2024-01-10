@@ -1,5 +1,5 @@
 /*******************************************************************************
-  MPLAB Harmony Advanced Exceptions Source File
+  MPLAB Harmony Filtering Advanced Exception Source File
 
   File Name:
     exceptions.c
@@ -9,10 +9,18 @@
     handler provided by the XC32 compiler.
 
   Description:
-    This file redefines the default _weak_  exception handler with a more debug
-    friendly one. If an unexpected exception occurs the code will stop in a
-    while(1) loop.  The debugger can be halted and variables can be examined to
-    determine the cause and address where the exception occurred.
+    The standard exception handling provided by the compiler's installation is
+    insufficient to handle overflow exception that can happen inside of assembly
+    IIR routines.
+
+    Exceptions are handled by the default code by simply throwing the application
+    into a while (1) loop, which simply ends all processing of the application.
+    This new code attempts to return control back to the application.
+
+    If an overflow exception is trapped, a fall-back return value is written to
+    the $v0 register for use by the IIR primitive that generated the overflow.
+    The application can use +1 (0x7FFF) or Zero, or random noise as the fall-back
+    return value.
  *******************************************************************************/
 
  // DOM-IGNORE-BEGIN
@@ -39,6 +47,7 @@
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
 *******************************************************************************/
 // DOM-IGNORE-END
+
 // *****************************************************************************
 // *****************************************************************************
 // Section: Exception handling
@@ -48,6 +57,10 @@
 #include "device.h"
 #include "definitions.h"
 #include <stdio.h>
+
+#undef LOG_LEVEL
+#define LOG_LEVEL   LOG_DEBUG
+#include "log.h"
 
 //Get stack pointer value
 #ifndef GET_EXCEP_SP
@@ -126,7 +139,7 @@ static uintptr_t return_address; // Return Address (ra)
     Refer to the XC32 User's Guide for additional information.
  */
 
-void __attribute__((nomips16, noreturn)) _general_exception_handler (XCPT_FRAME* const pXFrame)
+void __attribute__((nomips16, weak)) _general_exception_handler (XCPT_FRAME* const pXFrame)
 {
     exception_address = pXFrame->epc;
     exception_code = pXFrame->cause;   // capture exception type
@@ -136,6 +149,14 @@ void __attribute__((nomips16, noreturn)) _general_exception_handler (XCPT_FRAME*
     GET_EXCEP_SP(stack_pointer_value);
     bad_virtual_address = _CP0_GET_BADVADDR();
     return_address     = pXFrame->ra;
+
+    if (exception_code == EXCEP_Overflow)
+    {// Provide fallback return value for filtering primitive throwing an overflow exception.
+        pXFrame->v0 = 0x7FFFU;  // set function output to maximum (saturation)
+        pXFrame->v1 = 0x7FFFU;  // set intermediate results to maximum (saturation)
+        pXFrame->epc = pXFrame->epc + 4U; // set return from exception to next instruction (skip)
+        return;
+    }
 
     (void)printf("**EXCEPTION:*\r\n"
            " ECode: %d, EAddr: 0x%08X, CPO Status: 0x%08X\r\n"
@@ -164,7 +185,7 @@ void __attribute__((nomips16, noreturn)) _general_exception_handler (XCPT_FRAME*
     Refer to the XC32 User's Guide for additional information.
  */
 
-void  __attribute__((noreturn)) _bootstrap_exception_handler(void)
+void  __attribute__((noreturn, weak)) _bootstrap_exception_handler(void)
 {
     /* Mask off the ExcCode Field from the Cause Register
     Refer to the MIPs Software User's manual */
@@ -178,7 +199,6 @@ void  __attribute__((noreturn)) _bootstrap_exception_handler(void)
         #endif
     }
 }
-
 /*******************************************************************************
   Function:
     void _cache_err_exception_handler ( void )
@@ -193,7 +213,7 @@ void  __attribute__((noreturn)) _bootstrap_exception_handler(void)
     Refer to the XC32 User's Guide for additional information.
  */
 
-void  __attribute__((noreturn)) _cache_err_exception_handler(void)
+void  __attribute__((noreturn, weak)) _cache_err_exception_handler(void)
 {
     /* Mask off the ExcCode Field from the Cause Register
     Refer to the MIPs Software User's manual */
@@ -223,7 +243,7 @@ void  __attribute__((noreturn)) _cache_err_exception_handler(void)
     Refer to the XC32 User's Guide for additional information.
  */
 
-void  __attribute__((noreturn)) _simple_tlb_refill_exception_handler(void)
+void  __attribute__((noreturn, weak)) _simple_tlb_refill_exception_handler(void)
 {
     /* Mask off the ExcCode Field from the Cause Register
     Refer to the MIPs Software User's manual */

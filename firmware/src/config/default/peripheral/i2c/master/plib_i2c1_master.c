@@ -203,18 +203,6 @@ static void I2C1_TransferSM(void)
         case I2C_STATE_WRITE:
             if (((I2C1STAT & _I2C1STAT_ACKSTAT_MASK) == 0U) || (forcedWrite == true))
             {
-                size_t addressCount = i2c1Obj.addressCount;
-                if (addressCount < i2c1Obj.writeAddressSize)
-                {
-                    if ((I2C1STAT & _I2C1STAT_TBF_MASK) == 0U)
-                    {
-                        /* Transmit the data from addressBuffer[] */
-                        I2C1TRN = i2c1Obj.addressBuffer[addressCount];
-                        i2c1Obj.addressCount++;
-                    }
-                } 
-                else
-                {
                     size_t writeCount = i2c1Obj.writeCount;
 
                     /* ACK received */
@@ -258,7 +246,6 @@ static void I2C1_TransferSM(void)
                         }
                     }
                 }
-            }
             else
             {
                 /* NAK received. Generate Stop Condition. */
@@ -382,11 +369,6 @@ bool I2C1_Read(uint16_t address, uint8_t* rdata, size_t rlength)
         i2c1Obj.readSize            = rlength;
         i2c1Obj.writeBuffer         = NULL;
         i2c1Obj.writeSize           = 0;
-#if defined (ENABLE_ADDRESS_FIRST)
-        i2c1Obj.addressBuffer       = NULL;
-        i2c1Obj.writeAddressSize    = 0;
-        i2c1Obj.addressCount        = 0;
-#endif
         i2c1Obj.writeCount          = 0;
         i2c1Obj.readCount           = 0;
         i2c1Obj.transferType        = I2C_TRANSFER_TYPE_READ;
@@ -415,11 +397,6 @@ bool I2C1_Write(uint16_t address, uint8_t* wdata, size_t wlength)
         i2c1Obj.readSize            = 0;
         i2c1Obj.writeBuffer         = wdata;
         i2c1Obj.writeSize           = wlength;
-#if defined (ENABLE_ADDRESS_FIRST)
-        i2c1Obj.addressBuffer       = NULL;
-        i2c1Obj.writeAddressSize    = 0;
-        i2c1Obj.addressCount        = 0;
-#endif
         i2c1Obj.writeCount          = 0;
         i2c1Obj.readCount           = 0;
         i2c1Obj.transferType        = I2C_TRANSFER_TYPE_WRITE;
@@ -434,38 +411,6 @@ bool I2C1_Write(uint16_t address, uint8_t* wdata, size_t wlength)
     }
     return statusWrite;
 }
-
-#if defined (ENABLE_ADDRESS_FIRST)
-bool I2C1_WriteAddressFirst(uint16_t address, uint8_t* adata, size_t alength, uint8_t* wdata, size_t wlength)
-{
-    bool statusWrite = false;
-    uint32_t tempVar = I2C1STAT;
-    /* State machine must be idle and I2C module should not have detected a start bit on the bus */
-    if((i2c1Obj.state == I2C_STATE_IDLE) && (( tempVar & _I2C1STAT_S_MASK) == 0U))
-    {
-        i2c1Obj.address             = address;
-        i2c1Obj.readBuffer          = NULL;
-        i2c1Obj.readSize            = 0;
-        i2c1Obj.writeBuffer         = wdata;
-        i2c1Obj.writeSize           = wlength;
-        i2c1Obj.addressBuffer       = adata;
-        i2c1Obj.writeAddressSize    = alength;
-        i2c1Obj.addressCount        = 0;
-        i2c1Obj.writeCount          = 0;
-        i2c1Obj.readCount           = 0;
-        i2c1Obj.transferType        = I2C_TRANSFER_TYPE_WRITE;
-        i2c1Obj.error               = I2C_ERROR_NONE;
-        i2c1Obj.state               = I2C_STATE_ADDR_BYTE_1_SEND;
-        i2c1Obj.forcedWrite         = false;
-
-        I2C1CONSET                  = _I2C1CON_SEN_MASK;
-        IEC3SET                     = _IEC3_I2C1MIE_MASK;
-        IEC3SET                     = _IEC3_I2C1BIE_MASK;
-        statusWrite = true;
-    }
-    return statusWrite;
-}
-#endif
 
 bool I2C1_WriteForced(uint16_t address, uint8_t* wdata, size_t wlength)
 {
@@ -481,11 +426,6 @@ bool I2C1_WriteForced(uint16_t address, uint8_t* wdata, size_t wlength)
         i2c1Obj.readSize            = 0;
         i2c1Obj.writeBuffer         = wdata;
         i2c1Obj.writeSize           = wlength;
-#if defined (ENABLE_ADDRESS_FIRST)
-        i2c1Obj.addressBuffer       = NULL;
-        i2c1Obj.writeAddressSize    = 0;
-        i2c1Obj.addressCount        = 0;
-#endif
         i2c1Obj.writeCount          = 0;
         i2c1Obj.readCount           = 0;
         i2c1Obj.transferType        = I2C_TRANSFER_TYPE_WRITE;
@@ -515,11 +455,6 @@ bool I2C1_WriteRead(uint16_t address, uint8_t* wdata, size_t wlength, uint8_t* r
         i2c1Obj.readSize            = rlength;
         i2c1Obj.writeBuffer         = wdata;
         i2c1Obj.writeSize           = wlength;
-#if defined (ENABLE_ADDRESS_FIRST)
-        i2c1Obj.addressBuffer       = NULL;
-        i2c1Obj.writeAddressSize    = 0;
-        i2c1Obj.addressCount        = 0;
-#endif
         i2c1Obj.writeCount          = 0;
         i2c1Obj.readCount           = 0;
         i2c1Obj.transferType        = I2C_TRANSFER_TYPE_WRITE;

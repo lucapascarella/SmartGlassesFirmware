@@ -122,107 +122,84 @@
 /* MISRA C-2012 Rule 11.1 */
 /* MISRA C-2012 Rule 11.3 */
 /* MISRA C-2012 Rule 11.8 */
-// <editor-fold defaultstate="collapsed" desc="DRV_I2C Instance 0 Initialization Data">
-
-/* I2C Client Objects Pool */
-static DRV_I2C_CLIENT_OBJ drvI2C0ClientObjPool[DRV_I2C_CLIENTS_NUMBER_IDX0];
-
-/* I2C PLib Interface Initialization */
-static const DRV_I2C_PLIB_INTERFACE drvI2C0PLibAPI = {
-
-    /* I2C PLib Transfer Read Add function */
-    .read_t = (DRV_I2C_PLIB_READ)I2C1_Read,
-
-    /* I2C PLib Transfer Write Add function */
-    .write_t = (DRV_I2C_PLIB_WRITE)I2C1_Write,
-
-#if defined (ENABLE_ADDRESS_FIRST)
-    /* I2C PLib Transfer Write Add function */
-    .write_addr_t = (DRV_I2C_PLIB_WRITE_FIRST)I2C1_WriteAddressFirst,
-#endif
-
-    /* I2C PLib Transfer Forced Write Add function */
-    .writeForced = (DRV_I2C_PLIB_WRITE)I2C1_WriteForced,
-
-    /* I2C PLib Transfer Write Read Add function */
-    .writeRead = (DRV_I2C_PLIB_WRITE_READ)I2C1_WriteRead,
-
-    /*I2C PLib Transfer Abort function */
-    .transferAbort = (DRV_I2C_PLIB_TRANSFER_ABORT)I2C1_TransferAbort,
-
-    /* I2C PLib Transfer Status function */
-    .errorGet = (DRV_I2C_PLIB_ERROR_GET)I2C1_ErrorGet,
-
-    /* I2C PLib Transfer Setup function */
-    .transferSetup = (DRV_I2C_PLIB_TRANSFER_SETUP)I2C1_TransferSetup,
-
-    /* I2C PLib Callback Register */
-    .callbackRegister = (DRV_I2C_PLIB_CALLBACK_REGISTER)I2C1_CallbackRegister,
-};
-
-
-/* I2C Driver Initialization Data */
-static const DRV_I2C_INIT drvI2C0InitData =
-{
-    /* I2C PLib API */
-    .i2cPlib = &drvI2C0PLibAPI,
-
-    /* I2C Number of clients */
-    .numClients = DRV_I2C_CLIENTS_NUMBER_IDX0,
-
-    /* I2C Client Objects Pool */
-    .clientObjPool = (uintptr_t)&drvI2C0ClientObjPool[0],
-
-    /* I2C Clock Speed */
-    .clockSpeed = DRV_I2C_CLOCK_SPEED_IDX0,
-};
-// </editor-fold>
-
 // <editor-fold defaultstate="collapsed" desc="DRV_MEMORY Instance 0 Initialization Data">
 
-static uint8_t gDrvMemory0EraseBuffer[DRV_SST26_ERASE_BUFFER_SIZE] CACHE_ALIGN;
 
 static DRV_MEMORY_CLIENT_OBJECT gDrvMemory0ClientObject[DRV_MEMORY_CLIENTS_NUMBER_IDX0];
 
+static DRV_MEMORY_BUFFER_OBJECT gDrvMemory0BufferObject[DRV_MEMORY_BUF_Q_SIZE_IDX0];
 
 static const DRV_MEMORY_DEVICE_INTERFACE drvMemory0DeviceAPI = {
-    .Open               = DRV_SST26_Open,
-    .Close              = DRV_SST26_Close,
-    .Status             = DRV_SST26_Status,
-    .SectorErase        = DRV_SST26_SectorErase,
-    .Read               = DRV_SST26_Read,
-    .PageWrite          = DRV_SST26_PageWrite,
+    .Open               = DRV_AT24_Open,
+    .Close              = DRV_AT24_Close,
+    .Status             = DRV_AT24_Status,
+    .SectorErase        = NULL,
+    .Read               = DRV_AT24_Read,
+    .PageWrite          = DRV_AT24_PageWrite,
     .EventHandlerSet    = NULL,
-    .GeometryGet        = (DRV_MEMORY_DEVICE_GEOMETRY_GET)DRV_SST26_GeometryGet,
-    .TransferStatusGet  = (DRV_MEMORY_DEVICE_TRANSFER_STATUS_GET)DRV_SST26_TransferStatusGet
+    .GeometryGet        = (DRV_MEMORY_DEVICE_GEOMETRY_GET)DRV_AT24_GeometryGet,
+    .TransferStatusGet  = (DRV_MEMORY_DEVICE_TRANSFER_STATUS_GET)DRV_AT24_TransferStatusGet
 };
 static const DRV_MEMORY_INIT drvMemory0InitData =
 {
-    .memDevIndex                = DRV_SST26_INDEX,
+    .memDevIndex                = DRV_AT24_INDEX,
     .memoryDevice               = &drvMemory0DeviceAPI,
     .isMemDevInterruptEnabled   = false,
-    .memDevStatusPollUs         = 500,
     .isFsEnabled                = true,
     .deviceMediaType            = (uint8_t)SYS_FS_MEDIA_TYPE_SPIFLASH,
-    .ewBuffer                   = &gDrvMemory0EraseBuffer[0],
+    .ewBuffer                   = NULL,
     .clientObjPool              = (uintptr_t)&gDrvMemory0ClientObject[0],
+    .bufferObj                  = (uintptr_t)&gDrvMemory0BufferObject[0],
+    .queueSize                  = DRV_MEMORY_BUF_Q_SIZE_IDX0,
     .nClientsMax                = DRV_MEMORY_CLIENTS_NUMBER_IDX0
 };
 
 // </editor-fold>
-// <editor-fold defaultstate="collapsed" desc="DRV_SST26 Initialization Data">
+// <editor-fold defaultstate="collapsed" desc="DRV_AT24 Initialization Data">
 
-static const DRV_SST26_PLIB_INTERFACE drvSST26PlibAPI = {
-    .DMATransfer       = SQI1_DMATransfer,
-    .RegisterCallback  = SQI1_RegisterCallback,
+/* I2C PLIB Interface Initialization for AT24 Driver */
+static const DRV_AT24_PLIB_INTERFACE drvAT24PlibAPI = {
+
+    /* I2C PLIB WriteRead function */
+    .writeRead = (DRV_AT24_PLIB_WRITE_READ)I2C1_WriteRead,
+
+    /* I2C PLIB Write function */
+    .write_t = (DRV_AT24_PLIB_WRITE)I2C1_Write,
+
+    /* I2C PLIB Read function */
+    .read_t = (DRV_AT24_PLIB_READ)I2C1_Read,
+
+    /* I2C PLIB Transfer Status function */
+    .isBusy = (DRV_AT24_PLIB_IS_BUSY)I2C1_IsBusy,
+
+    /* I2C PLIB Error Status function */
+    .errorGet = (DRV_AT24_PLIB_ERROR_GET)I2C1_ErrorGet,
+
+    /* I2C PLIB Callback Register */
+    .callbackRegister = (DRV_AT24_PLIB_CALLBACK_REGISTER)I2C1_CallbackRegister,
 };
 
-static const DRV_SST26_INIT drvSST26InitData =
+/* AT24 Driver Initialization Data */
+static const DRV_AT24_INIT drvAT24InitData =
 {
-    .sst26Plib      = &drvSST26PlibAPI,
+    /* I2C PLIB API  interface*/
+    .i2cPlib = &drvAT24PlibAPI,
+
+    /* 7-bit I2C Slave address */
+    .slaveAddress = 0x50,
+
+    /* EEPROM Page Size in bytes */
+    .pageSize = DRV_AT24_EEPROM_PAGE_SIZE,
+
+    /* Total size of the EEPROM in bytes */
+    .flashSize = DRV_AT24_EEPROM_FLASH_SIZE,
+
+    /* AT24 Number of clients */
+    .numClients = DRV_AT24_CLIENTS_NUMBER_IDX,
+
+    .blockStartAddress =    0x0,
 };
 // </editor-fold>
-
 
 
 
@@ -273,63 +250,58 @@ const DRV_USBHS_INIT drvUSBInit =
 
 // <editor-fold defaultstate="collapsed" desc="File System Initialization Data">
 
-const SYS_FS_MEDIA_MOUNT_DATA sysfsMountTable[SYS_FS_VOLUME_NUMBER] =
+
+ const SYS_FS_MEDIA_MOUNT_DATA sysfsMountTable[SYS_FS_VOLUME_NUMBER] =
 {
-    {
-        .mountName = SYS_FS_MEDIA_IDX0_MOUNT_NAME_VOLUME_IDX0,
-        .devName   = SYS_FS_MEDIA_IDX0_DEVICE_NAME_VOLUME_IDX0,
-        .mediaType = SYS_FS_MEDIA_TYPE_IDX0,
-        .fsType   = SYS_FS_TYPE_IDX0
-    },
+    {NULL}
 };
 
 
-static const SYS_FS_FUNCTIONS FatFsFunctions =
+
+static const SYS_FS_FUNCTIONS LittleFSFunctions =
 {
-    .mount             = FATFS_mount,
-    .unmount           = FATFS_unmount,
-    .open              = FATFS_open,
-    .read_t              = FATFS_read,
-    .close             = FATFS_close,
-    .seek              = FATFS_lseek,
-    .fstat             = FATFS_stat,
-    .getlabel          = FATFS_getlabel,
-    .currWD            = FATFS_getcwd,
-    .getstrn           = FATFS_gets,
-    .openDir           = FATFS_opendir,
-    .readDir           = FATFS_readdir,
-    .closeDir          = FATFS_closedir,
-    .chdir             = FATFS_chdir,
-    .chdrive           = FATFS_chdrive,
-    .write_t             = FATFS_write,
-    .tell              = FATFS_tell,
-    .eof               = FATFS_eof,
-    .size              = FATFS_size,
-    .mkdir             = FATFS_mkdir,
-    .remove_t            = FATFS_unlink,
-    .setlabel          = FATFS_setlabel,
-    .truncate          = FATFS_truncate,
-    .chmode            = FATFS_chmod,
-    .chtime            = FATFS_utime,
-    .rename_t            = FATFS_rename,
-    .sync              = FATFS_sync,
-    .putchr            = FATFS_putc,
-    .putstrn           = FATFS_puts,
-    .formattedprint    = FATFS_printf,
-    .testerror         = FATFS_error,
-    .formatDisk        = (FORMAT_DISK)FATFS_mkfs,
-    .partitionDisk     = FATFS_fdisk,
-    .getCluster        = FATFS_getclusters
+    .mount             = LITTLEFS_mount,
+    .unmount           = LITTLEFS_unmount,
+    .open              = LITTLEFS_open,
+    .read_t              = LITTLEFS_read,
+    .close             = LITTLEFS_close,
+    .seek              = LITTLEFS_lseek,
+    .fstat             = LITTLEFS_stat,
+    .getlabel          = NULL,
+    .currWD            = NULL,
+    .getstrn           = NULL,
+    .openDir           = LITTLEFS_opendir,
+    .readDir           = LITTLEFS_readdir,
+    .closeDir          = LITTLEFS_closedir,
+    .chdir             = NULL,
+    .chdrive           = NULL,
+    .tell              = LITTLEFS_tell,
+    .eof               = LITTLEFS_eof,
+    .size              = LITTLEFS_size,
+    .write_t             = LITTLEFS_write,
+    .mkdir             = LITTLEFS_mkdir,
+    .remove_t            = LITTLEFS_remove,
+    .rename_t            = LITTLEFS_rename,
+    .truncate          = LITTLEFS_truncate,
+    .formatDisk        = (FORMAT_DISK)LITTLEFS_mkfs,
+    .sync              = LITTLEFS_sync,
+    .setlabel          = NULL,
+    .chmode            = NULL,
+    .chtime            = NULL,
+    .putchr            = NULL,
+    .putstrn           = NULL,
+    .formattedprint    = NULL,
+    .testerror         = NULL,
+    .partitionDisk     = NULL,
+    .getCluster        = NULL
 };
-
-
 
 
 static const SYS_FS_REGISTRATION_TABLE sysFSInit [ SYS_FS_MAX_FILE_SYSTEM_TYPE ] =
 {
     {
-        .nativeFileSystemType = FAT,
-        .nativeFileSystemFunctions = &FatFsFunctions
+        .nativeFileSystemType = LITTLEFS,
+        .nativeFileSystemFunctions = &LittleFSFunctions
     }
 };
 // </editor-fold>
@@ -344,17 +316,17 @@ static const SYS_FS_REGISTRATION_TABLE sysFSInit [ SYS_FS_MAX_FILE_SYSTEM_TYPE ]
 // <editor-fold defaultstate="collapsed" desc="SYS_TIME Initialization Data">
 
 static const SYS_TIME_PLIB_INTERFACE sysTimePlibAPI = {
-    .timerCallbackSet = (SYS_TIME_PLIB_CALLBACK_REGISTER)TMR1_CallbackRegister,
-    .timerStart = (SYS_TIME_PLIB_START)TMR1_Start,
-    .timerStop = (SYS_TIME_PLIB_STOP)TMR1_Stop ,
-    .timerFrequencyGet = (SYS_TIME_PLIB_FREQUENCY_GET)TMR1_FrequencyGet,
-    .timerPeriodSet = (SYS_TIME_PLIB_PERIOD_SET)TMR1_PeriodSet,
+    .timerCallbackSet = (SYS_TIME_PLIB_CALLBACK_REGISTER)TMR2_CallbackRegister,
+    .timerStart = (SYS_TIME_PLIB_START)TMR2_Start,
+    .timerStop = (SYS_TIME_PLIB_STOP)TMR2_Stop ,
+    .timerFrequencyGet = (SYS_TIME_PLIB_FREQUENCY_GET)TMR2_FrequencyGet,
+    .timerPeriodSet = (SYS_TIME_PLIB_PERIOD_SET)TMR2_PeriodSet,
 };
 
 static const SYS_TIME_INIT sysTimeInitData =
 {
     .timePlib = &sysTimePlibAPI,
-    .hwTimerIntNum = 4,
+    .hwTimerIntNum = 9,
 };
 
 // </editor-fold>
@@ -456,11 +428,11 @@ void SYS_Initialize ( void* data )
 
 	UART1_Initialize();
 
+    TMR2_Initialize();
+
     TMR3_Initialize();
 
-    TMR1_Initialize();
-
-    SQI1_Initialize();
+	RNG_Initialize();
 
 	SPI1_Initialize();
 
@@ -477,33 +449,30 @@ void SYS_Initialize ( void* data )
     /* MISRA C-2012 Rule 11.3 - Deviation record ID - H3_MISRAC_2012_R_11_3_DR_1 */
     /* MISRA C-2012 Rule 11.8 - Deviation record ID - H3_MISRAC_2012_R_11_8_DR_1 */
 
-    /* Initialize I2C0 Driver Instance */
-    sysObj.drvI2C0 = DRV_I2C_Initialize(DRV_I2C_INDEX_0, (SYS_MODULE_INIT *)&drvI2C0InitData);
-
 
     sysObj.drvMemory0 = DRV_MEMORY_Initialize((SYS_MODULE_INDEX)DRV_MEMORY_INDEX_0, (SYS_MODULE_INIT *)&drvMemory0InitData);
 
-    sysObj.drvSST26 = DRV_SST26_Initialize((SYS_MODULE_INDEX)DRV_SST26_INDEX, (SYS_MODULE_INIT *)&drvSST26InitData);
+    sysObj.drvAT24 = DRV_AT24_Initialize(DRV_AT24_INDEX, (SYS_MODULE_INIT *)&drvAT24InitData);
 
 
-    /* MISRA C-2012 Rule 11.3, 11.8 deviated below. Deviation record ID -  
-     H3_MISRAC_2012_R_11_3_DR_1 & H3_MISRAC_2012_R_11_8_DR_1*/
-        
-    sysObj.sysTime = SYS_TIME_Initialize(SYS_TIME_INDEX_0, (SYS_MODULE_INIT *)&sysTimeInitData);
-
-    /* MISRAC 2012 deviation block end */
     /* MISRA C-2012 Rule 11.3, 11.8 deviated below. Deviation record ID -  
     H3_MISRAC_2012_R_11_3_DR_1 & H3_MISRAC_2012_R_11_8_DR_1*/
+        
+    sysObj.sysTime = SYS_TIME_Initialize(SYS_TIME_INDEX_0, (SYS_MODULE_INIT *)&sysTimeInitData);
+    
+    /* MISRAC 2012 deviation block end */
+    /* MISRA C-2012 Rule 11.3, 11.8 deviated below. Deviation record ID -  
+     H3_MISRAC_2012_R_11_3_DR_1 & H3_MISRAC_2012_R_11_8_DR_1*/
         sysObj.sysConsole0 = SYS_CONSOLE_Initialize(SYS_CONSOLE_INDEX_0, (SYS_MODULE_INIT *)&sysConsole0Init);
    /* MISRAC 2012 deviation block end */
     SYS_CMD_Initialize((SYS_MODULE_INIT*)&sysCmdInit);
-        
+
     /* MISRA C-2012 Rule 11.3, 11.8 deviated below. Deviation record ID -  
      H3_MISRAC_2012_R_11_3_DR_1 & H3_MISRAC_2012_R_11_8_DR_1*/
         
     sysObj.sysDebug = SYS_DEBUG_Initialize(SYS_DEBUG_INDEX_0, (SYS_MODULE_INIT*)&debugInit);
 
-   /* MISRAC 2012 deviation block end */
+    /* MISRAC 2012 deviation block end */
 
 
     /* Initialize the USB device layer */
@@ -519,10 +488,6 @@ void SYS_Initialize ( void* data )
 
     /* MISRAC 2012 deviation block end */
     APP_Initialize();
-    CDC_Initialize();
-    VL53L5CX_Initialize();
-    MLX90640_Initialize();
-    BGT60_Initialize();
 
 
     EVIC_Initialize();
