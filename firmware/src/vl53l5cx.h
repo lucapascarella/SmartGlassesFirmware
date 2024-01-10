@@ -66,9 +66,10 @@ extern "C" {
         VL53L5CX_STATE_INIT = 0,
         VL53L5CX_STATE_OPEN_DRV_I2C,
         VL53L5CX_STATE_POWER_ON,
+        VL53L5CX_STATE_GET_RESOLUTION,
         VL53L5CX_STATE_START_RANGING,
         VL53L5CX_STATE_SERVICE_TASKS,
-                
+
         VL53L5CX_STATE_ERROR,
 
     } VL53L5CX_STATES;
@@ -96,6 +97,9 @@ extern "C" {
         DRV_HANDLE drvI2CHandle;
         VL53L5CX_Configuration Dev; /* Sensor configuration */
         VL53L5CX_ResultsData Results; /* Results data from VL53L5CX */
+
+        uint8_t frame [(VL53L5CX_RESOLUTION_8X8
+                *VL53L5CX_NB_TARGET_PER_ZONE)];
 
     } VL53L5CX_DATA;
 

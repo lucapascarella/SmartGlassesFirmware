@@ -70,7 +70,8 @@ void I2C1_Initialize(void)
     /* Disable the I2C Bus collision interrupt */
     IEC3CLR = _IEC3_I2C1BIE_MASK;
 
-    I2C1BRG = 117;
+//    I2C1BRG = 117; // 400 kHz
+    I2C1BRG = 42; // 1000 kHz
 
     I2C1CONCLR = _I2C1CON_SIDL_MASK;
     I2C1CONCLR = _I2C1CON_DISSLW_MASK;

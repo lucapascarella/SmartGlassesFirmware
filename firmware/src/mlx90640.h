@@ -34,6 +34,8 @@
 #include "configuration.h"
 #include "definitions.h"
 
+#include "sensors/MLX90640_API.h"
+
 // DOM-IGNORE-BEGIN
 #ifdef __cplusplus  // Provide C++ Compatibility
 
@@ -66,6 +68,11 @@ extern "C" {
         /* Application's state machine's initial state. */
         MLX90640_STATE_INIT = 0,
         MLX90640_STATE_OPEN_DRV_I2C,
+        MLX90640_STATE_GET_CURR_RES,
+        MLX90640_STATE_GET_REFRESH_RATE,
+        MLX90640_STATE_GET_CURRENT_MODE,
+        MLX90640_STATE_DUMP_EEPROM,
+        MLX90640_STATE_EXTRACT_PARAMS,
         MLX90640_STATE_SERVICE_TASKS,
 
         MLX90640_STATE_ERROR,
@@ -91,7 +98,11 @@ extern "C" {
         /* The application's current state */
         MLX90640_STATES state;
         DRV_HANDLE drvI2CHandle;
-
+        uint16_t mlx90640Frame[834];
+        uint16_t eeMLX90640[832];
+        paramsMLX90640 mlx90640;
+        float mlx90640Image[768];
+        uint8_t frame[768];
     } MLX90640_DATA;
 
     // *****************************************************************************

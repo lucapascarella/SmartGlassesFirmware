@@ -243,6 +243,8 @@
         <itemPath>../src/sensors/vl53l5cx_plugin_xtalk.h</itemPath>
         <itemPath>../src/sensors/vl53l5cx_plugin_detection_thresholds.h</itemPath>
         <itemPath>../src/sensors/vl53l5cx_plugin_motion_indicator.h</itemPath>
+        <itemPath>../src/sensors/MLX90640_API.h</itemPath>
+        <itemPath>../src/sensors/MLX90640_I2C_Driver.h</itemPath>
       </logicalFolder>
       <itemPath>../src/log.h</itemPath>
       <itemPath>../src/app.h</itemPath>
@@ -427,6 +429,8 @@
         <itemPath>../src/sensors/vl53l5cx_plugin_xtalk.c</itemPath>
         <itemPath>../src/sensors/vl53l5cx_plugin_detection_thresholds.c</itemPath>
         <itemPath>../src/sensors/vl53l5cx_plugin_motion_indicator.c</itemPath>
+        <itemPath>../src/sensors/MLX90640_API.c</itemPath>
+        <itemPath>../src/sensors/MLX90640_I2C_Driver.c</itemPath>
       </logicalFolder>
       <itemPath>../src/main.cpp</itemPath>
       <itemPath>../src/app.cpp</itemPath>
@@ -456,10 +460,10 @@
         <targetDevice>PIC32MZ2048EFM064</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>snap</platformTool>
+        <platformTool>ICD5Tool</platformTool>
         <languageToolchain>XC32</languageToolchain>
         <languageToolchainVersion>4.35</languageToolchainVersion>
-        <platform>3</platform>
+        <platform>4</platform>
       </toolsSet>
       <packs>
         <pack name="PIC32MZ-EF_DFP" vendor="Microchip" version="1.4.168"/>
@@ -494,7 +498,6 @@
       <C32>
         <property key="additional-warnings" value="true"/>
         <property key="addresss-attribute-use" value="false"/>
-        <property key="appendMe" value=""/>
         <property key="enable-app-io" value="false"/>
         <property key="enable-omit-frame-pointer" value="false"/>
         <property key="enable-symbols" value="true"/>
@@ -524,7 +527,6 @@
         <property key="additional-options-chop-files" value="false"/>
       </C32-AR>
       <C32-AS>
-        <property key="appendMe" value=""/>
         <property key="assembler-symbols" value=""/>
         <property key="enable-symbols" value="true"/>
         <property key="exclude-floating-point-library" value="false"/>
@@ -554,7 +556,6 @@
         <property key="additional-options-use-response-files" value="false"/>
         <property key="additional-options-write-sla" value="false"/>
         <property key="allocate-dinit" value="false"/>
-        <property key="appendMe" value=""/>
         <property key="code-dinit" value="false"/>
         <property key="ebase-addr" value=""/>
         <property key="enable-check-sections" value="false"/>
@@ -571,7 +572,7 @@
         <property key="generate-16-bit-code" value="false"/>
         <property key="generate-cross-reference-file" value="false"/>
         <property key="generate-micro-compressed-code" value="false"/>
-        <property key="heap-size" value="50000"/>
+        <property key="heap-size" value="80000"/>
         <property key="input-libraries" value=""/>
         <property key="kseg-length" value=""/>
         <property key="kseg-origin" value=""/>
@@ -594,7 +595,6 @@
       <C32CPP>
         <property key="additional-warnings" value="false"/>
         <property key="addresss-attribute-use" value="false"/>
-        <property key="appendMe" value=""/>
         <property key="check-new" value="false"/>
         <property key="eh-specs" value="true"/>
         <property key="enable-app-io" value="false"/>
@@ -733,8 +733,6 @@
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="1d000000-1d1fffff"/>
         <property key="poweroptions.powerenable" value="false"/>
-        <property key="programmerToGoFilePath"
-                  value="C:/Users/lucap/MPLABXProjects/SmartGlasses/firmware/SmartGlasses.X/debug/default/SmartGlasses_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.pgcconfig" value="pull down"/>

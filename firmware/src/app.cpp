@@ -251,7 +251,7 @@ void APP_Tasks(void) {
                 //myAllocX_PrintFreelist();
             }
             //            LED_SYS_Toggle();
-            vTaskDelay(1000U / portTICK_PERIOD_MS);
+            vTaskDelay(60000U / portTICK_PERIOD_MS);
             break;
         }
 
