@@ -71,44 +71,44 @@ APP_DATA appData;
 // *****************************************************************************
 // Event Processing Technique. Event is received when operation is done.
 
-void APP_SysFSEventHandler(SYS_FS_EVENT event, void* eventData, uintptr_t context) {
-    switch (event) {
-        case SYS_FS_EVENT_MOUNT:
-        {
-            if (strcmp((const char *) eventData, "/mnt/sst") == 0) {
-                logDebug("Mounted\r\n");
-            }
-            break;
-        }
-
-        case SYS_FS_EVENT_MOUNT_WITH_NO_FILESYSTEM:
-        {
-            if (strcmp((const char *) eventData, "/mnt/sst") == 0) {
-                logWarning("No file system\r\n");
-            }
-            break;
-        }
-
-        case SYS_FS_EVENT_UNMOUNT:
-        {
-            if (strcmp((const char *) eventData, "/mnt/sst") == 0) {
-                logDebug("Unmounted\r\n");
-            }
-            break;
-        }
-
-        case SYS_FS_EVENT_ERROR:
-        default:
-        {
-            if (SYS_FS_Error() == SYS_FS_ERROR_NO_FILESYSTEM) {
-                logError("No file system\r\n");
-            } else {
-                logError("Mount error\r\n");
-            }
-            break;
-        }
-    }
-}
+//void APP_SysFSEventHandler(SYS_FS_EVENT event, void* eventData, uintptr_t context) {
+//    switch (event) {
+//        case SYS_FS_EVENT_MOUNT:
+//        {
+//            if (strcmp((const char *) eventData, "/mnt/sst") == 0) {
+//                logDebug("Mounted\r\n");
+//            }
+//            break;
+//        }
+//
+//        case SYS_FS_EVENT_MOUNT_WITH_NO_FILESYSTEM:
+//        {
+//            if (strcmp((const char *) eventData, "/mnt/sst") == 0) {
+//                logWarning("No file system\r\n");
+//            }
+//            break;
+//        }
+//
+//        case SYS_FS_EVENT_UNMOUNT:
+//        {
+//            if (strcmp((const char *) eventData, "/mnt/sst") == 0) {
+//                logDebug("Unmounted\r\n");
+//            }
+//            break;
+//        }
+//
+//        case SYS_FS_EVENT_ERROR:
+//        default:
+//        {
+//            if (SYS_FS_Error() == SYS_FS_ERROR_NO_FILESYSTEM) {
+//                logError("No file system\r\n");
+//            } else {
+//                logError("Mount error\r\n");
+//            }
+//            break;
+//        }
+//    }
+//}
 
 
 
@@ -246,25 +246,6 @@ void APP_Tasks(void) {
                 // Enable 1V8
                 EN_1V8_OutputEnable();
                 EN_1V8_Set();
-
-
-                //                appData.handle = DRV_AT24_Open(DRV_AT24_INDEX, DRV_IO_INTENT_READWRITE);
-                //                if (appData.handle != DRV_HANDLE_INVALID) {
-                //                    DRV_AT24_EventHandlerSet(appData.handle, transferEventHandler, (const uintptr_t) &appData.mem);
-                //                    memset(&appData.geometry, 0x00, sizeof (appData.geometry));
-                //                    bool rtn = DRV_AT24_GeometryGet(appData.handle, &appData.geometry);
-                //                    if (rtn) {
-                //                        uint32_t readBlockSize = appData.geometry.readBlockSize;
-                //                        uint32_t nReadBlocks = appData.geometry.readNumBlocks;
-                //                        uint32_t nReadRegions = appData.geometry.readNumRegions;
-                //                        uint32_t size = readBlockSize * nReadBlocks * nReadRegions;
-                //                        logDebug("Detected %d bytes EEPROM\r\n", size);
-                //                    } else {
-                //                        logFatal("Cannot detect size of EEPROM\r\n");
-                //                    }
-                //                }
-
-                //MCP9800_Initialize();
 
 
                 /* Active low output */
