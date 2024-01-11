@@ -26,9 +26,11 @@ firmware/SmartGlasses.X/defmplabxtrace.log
 firmware/SmartGlasses.X/defmplabxtrace.log.inx
 
 # Exclude MAC backup files .DS_Store
+firmware/.DS_Store
 firmware/src/.DS_Store
 firmware/src/config/.DS_Store
 firmware/src/stream/.DS_Store
+firmware/SmartGlasses.X/.DS_Store
 
 
 # Auto generate files
