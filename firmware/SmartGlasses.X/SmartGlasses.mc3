@@ -1106,9 +1106,9 @@
         &lt;ElementPosition dnOrder=&quot;23&quot; id=&quot;tmr7&quot; x=&quot;776&quot; y=&quot;461&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;24&quot; id=&quot;tmr8&quot; x=&quot;776&quot; y=&quot;526&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;25&quot; id=&quot;tmr9&quot; x=&quot;777&quot; y=&quot;591&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;26&quot; id=&quot;uart1&quot; x=&quot;89&quot; y=&quot;373&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;26&quot; id=&quot;uart1&quot; x=&quot;80&quot; y=&quot;573&quot;/&gt;
         &lt;ElementPosition dnOrder=&quot;27&quot; id=&quot;usb_device&quot; x=&quot;43&quot; y=&quot;176&quot;/&gt;
-        &lt;ElementPosition dnOrder=&quot;28&quot; id=&quot;usb_device_cdc&quot; x=&quot;203&quot; y=&quot;48&quot;/&gt;
+        &lt;ElementPosition dnOrder=&quot;28&quot; id=&quot;usb_device_cdc&quot; x=&quot;44&quot; y=&quot;368&quot;/&gt;
       &lt;/ElementPositions&gt;
     &lt;/ComponentGraph&gt;
   &lt;/UserData&gt;
@@ -10757,7 +10757,29 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;sys_console&gt;
   &lt;sys_console dnOrder=&quot;0&quot; id=&quot;SYS_CONSOLE_UART_CONNECTION_COUNTER&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;sys_console&quot; value=&quot;0&quot;/&gt;
+    &lt;/Values&gt;
+  &lt;/sys_console&gt;
+&lt;/sys_console&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="sys_console" name="SYS_CONSOLE_USB_CONNECTION_COUNTER"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;sys_console&gt;
+  &lt;sys_console dnOrder=&quot;0&quot; id=&quot;SYS_CONSOLE_USB_CONNECTION_COUNTER&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
       &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;sys_console&quot; value=&quot;1&quot;/&gt;
+    &lt;/Values&gt;
+  &lt;/sys_console&gt;
+&lt;/sys_console&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="sys_console" name="SYS_CONSOLE_USB_READ_WRITE_BUFFER_SIZE"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;sys_console&gt;
+  &lt;sys_console dnOrder=&quot;0&quot; id=&quot;SYS_CONSOLE_USB_READ_WRITE_BUFFER_SIZE&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;sys_console&quot; value=&quot;512&quot;/&gt;
     &lt;/Values&gt;
   &lt;/sys_console&gt;
 &lt;/sys_console&gt;
@@ -10768,13 +10790,13 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;sys_console_0&gt;
   &lt;sys_console_0 dnOrder=&quot;0&quot;&gt;
     &lt;Attachments dnOrder=&quot;0&quot;&gt;
-      &lt;DirectDependency dnOrder=&quot;0&quot; id=&quot;sys_console_UART_dependency&quot;&gt;
+      &lt;DirectDependency dnOrder=&quot;0&quot; id=&quot;sys_console_USB_DEVICE_CDC_dependency&quot;&gt;
         &lt;Attributes dnOrder=&quot;0&quot;&gt;
           &lt;String dnOrder=&quot;0&quot; id=&quot;targetComponentID&quot;&gt;
-            &lt;Value dnOrder=&quot;0&quot;&gt;uart1&lt;/Value&gt;
+            &lt;Value dnOrder=&quot;0&quot;&gt;usb_device_cdc_0&lt;/Value&gt;
           &lt;/String&gt;
           &lt;String dnOrder=&quot;1&quot; id=&quot;targetAttachmentID&quot;&gt;
-            &lt;Value dnOrder=&quot;0&quot;&gt;UART1_UART&lt;/Value&gt;
+            &lt;Value dnOrder=&quot;0&quot;&gt;USB&amp;amp;#160;Device&lt;/Value&gt;
           &lt;/String&gt;
         &lt;/Attributes&gt;
       &lt;/DirectDependency&gt;
@@ -10792,7 +10814,18 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;sys_console_0&gt;
   &lt;sys_console_0 dnOrder=&quot;0&quot; id=&quot;SYS_CONSOLE_DEVICE&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;sys_console_0&quot; value=&quot;UART1&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;sys_console_0&quot; value=&quot;USB_DEVICE_CDC_0&quot;/&gt;
+    &lt;/Values&gt;
+  &lt;/sys_console_0&gt;
+&lt;/sys_console_0&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="sys_console_0" name="SYS_CONSOLE_DEVICE_INDEX"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;sys_console_0&gt;
+  &lt;sys_console_0 dnOrder=&quot;0&quot; id=&quot;SYS_CONSOLE_DEVICE_INDEX&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;sys_console_0&quot; value=&quot;0&quot;/&gt;
     &lt;/Values&gt;
   &lt;/sys_console_0&gt;
 &lt;/sys_console_0&gt;
@@ -10803,7 +10836,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;sys_console_0&gt;
   &lt;sys_console_0 dnOrder=&quot;0&quot; id=&quot;SYS_CONSOLE_DEVICE_SET&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;sys_console_0&quot; value=&quot;UART&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;sys_console_0&quot; value=&quot;USB_CDC&quot;/&gt;
     &lt;/Values&gt;
   &lt;/sys_console_0&gt;
 &lt;/sys_console_0&gt;
@@ -10821,12 +10854,68 @@
 </value>
       </entry>
       <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="sys_console_0" name="SYS_CONSOLE_DEVICE_USB_INDEX"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;sys_console_0&gt;
+  &lt;sys_console_0 dnOrder=&quot;0&quot; id=&quot;SYS_CONSOLE_DEVICE_USB_INDEX&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;sys_console&quot; value=&quot;0&quot;/&gt;
+    &lt;/Values&gt;
+  &lt;/sys_console_0&gt;
+&lt;/sys_console_0&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="sys_console_0" name="SYS_CONSOLE_RX_BUFFER_SIZE"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;sys_console_0&gt;
+  &lt;sys_console_0 dnOrder=&quot;0&quot; id=&quot;SYS_CONSOLE_RX_BUFFER_SIZE&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;visible&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+    &lt;Values dnOrder=&quot;1&quot;&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;2048&quot;/&gt;
+    &lt;/Values&gt;
+  &lt;/sys_console_0&gt;
+&lt;/sys_console_0&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="sys_console_0" name="SYS_CONSOLE_SYS_RTOS_TASK"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;sys_console_0&gt;
+  &lt;sys_console_0 dnOrder=&quot;0&quot; id=&quot;SYS_CONSOLE_SYS_RTOS_TASK&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+  &lt;/sys_console_0&gt;
+&lt;/sys_console_0&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="sys_console_0" name="SYS_CONSOLE_TX_BUFFER_SIZE"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;sys_console_0&gt;
+  &lt;sys_console_0 dnOrder=&quot;0&quot; id=&quot;SYS_CONSOLE_TX_BUFFER_SIZE&quot;&gt;
+    &lt;Attributes dnOrder=&quot;0&quot;&gt;
+      &lt;Boolean dnOrder=&quot;0&quot; id=&quot;visible&quot;&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+      &lt;/Boolean&gt;
+    &lt;/Attributes&gt;
+    &lt;Values dnOrder=&quot;1&quot;&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;2048&quot;/&gt;
+    &lt;/Values&gt;
+  &lt;/sys_console_0&gt;
+&lt;/sys_console_0&gt;
+</value>
+      </entry>
+      <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="sys_console_0" name="SYS_CONSOLE_UART_DEFINITIONS_HEADER"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;sys_console_0&gt;
   &lt;sys_console_0 dnOrder=&quot;0&quot; id=&quot;SYS_CONSOLE_UART_DEFINITIONS_HEADER&quot;&gt;
     &lt;Attributes dnOrder=&quot;0&quot;&gt;
       &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
-        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;false&lt;/Value&gt;
       &lt;/Boolean&gt;
     &lt;/Attributes&gt;
   &lt;/sys_console_0&gt;
@@ -10839,7 +10928,7 @@
   &lt;sys_console_0 dnOrder=&quot;0&quot; id=&quot;SYS_CONSOLE_UART_HEADER&quot;&gt;
     &lt;Attributes dnOrder=&quot;0&quot;&gt;
       &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
-        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;false&lt;/Value&gt;
       &lt;/Boolean&gt;
     &lt;/Attributes&gt;
   &lt;/sys_console_0&gt;
@@ -10852,7 +10941,7 @@
   &lt;sys_console_0 dnOrder=&quot;0&quot; id=&quot;SYS_CONSOLE_UART_SOURCE&quot;&gt;
     &lt;Attributes dnOrder=&quot;0&quot;&gt;
       &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
-        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;false&lt;/Value&gt;
       &lt;/Boolean&gt;
     &lt;/Attributes&gt;
   &lt;/sys_console_0&gt;
@@ -10865,7 +10954,7 @@
   &lt;sys_console_0 dnOrder=&quot;0&quot; id=&quot;SYS_CONSOLE_USB_CDC_SOURCE&quot;&gt;
     &lt;Attributes dnOrder=&quot;0&quot;&gt;
       &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
-        &lt;Value dnOrder=&quot;0&quot;&gt;false&lt;/Value&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
       &lt;/Boolean&gt;
     &lt;/Attributes&gt;
   &lt;/sys_console_0&gt;
@@ -10878,9 +10967,20 @@
   &lt;sys_console_0 dnOrder=&quot;0&quot; id=&quot;SYS_CONSOLE_USB_DEFINITIONS_HEADER&quot;&gt;
     &lt;Attributes dnOrder=&quot;0&quot;&gt;
       &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
-        &lt;Value dnOrder=&quot;0&quot;&gt;false&lt;/Value&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
       &lt;/Boolean&gt;
     &lt;/Attributes&gt;
+  &lt;/sys_console_0&gt;
+&lt;/sys_console_0&gt;
+</value>
+      </entry>
+      <entry>
+         <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="sys_console_0" name="SYS_CONSOLE_USB_DEVICE_SPEED"/>
+         <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;sys_console_0&gt;
+  &lt;sys_console_0 dnOrder=&quot;0&quot; id=&quot;SYS_CONSOLE_USB_DEVICE_SPEED&quot;&gt;
+    &lt;Values dnOrder=&quot;0&quot;&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;sys_console_0&quot; value=&quot;High Speed&quot;/&gt;
+    &lt;/Values&gt;
   &lt;/sys_console_0&gt;
 &lt;/sys_console_0&gt;
 </value>
@@ -10891,7 +10991,7 @@
   &lt;sys_console_0 dnOrder=&quot;0&quot; id=&quot;SYS_CONSOLE_USB_HEADER&quot;&gt;
     &lt;Attributes dnOrder=&quot;0&quot;&gt;
       &lt;Boolean dnOrder=&quot;0&quot; id=&quot;enabled&quot;&gt;
-        &lt;Value dnOrder=&quot;0&quot;&gt;false&lt;/Value&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
       &lt;/Boolean&gt;
     &lt;/Attributes&gt;
   &lt;/sys_console_0&gt;
@@ -14365,20 +14465,7 @@
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="uart1" name="!@#harmonyAttachmentState"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;uart1&gt;
-  &lt;uart1 dnOrder=&quot;0&quot;&gt;
-    &lt;Attachments dnOrder=&quot;0&quot;&gt;
-      &lt;DirectCapability dnOrder=&quot;0&quot; id=&quot;UART1_UART&quot;&gt;
-        &lt;Attributes dnOrder=&quot;0&quot;&gt;
-          &lt;String dnOrder=&quot;0&quot; id=&quot;targetComponentID&quot;&gt;
-            &lt;Value dnOrder=&quot;0&quot;&gt;sys_console_0&lt;/Value&gt;
-          &lt;/String&gt;
-          &lt;String dnOrder=&quot;1&quot; id=&quot;targetAttachmentID&quot;&gt;
-            &lt;Value dnOrder=&quot;0&quot;&gt;sys_console_UART_dependency&lt;/Value&gt;
-          &lt;/String&gt;
-        &lt;/Attributes&gt;
-      &lt;/DirectCapability&gt;
-    &lt;/Attachments&gt;
-  &lt;/uart1&gt;
+  &lt;uart1 dnOrder=&quot;0&quot;/&gt;
 &lt;/uart1&gt;
 </value>
       </entry>
@@ -14391,7 +14478,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;uart1&gt;
   &lt;uart1 dnOrder=&quot;0&quot; id=&quot;BAUD_RATE&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;User dnOrder=&quot;0&quot; value=&quot;500000&quot;/&gt;
+      &lt;User dnOrder=&quot;0&quot; value=&quot;1000000&quot;/&gt;
     &lt;/Values&gt;
   &lt;/uart1&gt;
 &lt;/uart1&gt;
@@ -14402,7 +14489,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;uart1&gt;
   &lt;uart1 dnOrder=&quot;0&quot; id=&quot;BRG_VALUE&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;uart1&quot; value=&quot;49&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;uart1&quot; value=&quot;24&quot;/&gt;
     &lt;/Values&gt;
   &lt;/uart1&gt;
 &lt;/uart1&gt;
@@ -14490,7 +14577,7 @@
   &lt;uart1 dnOrder=&quot;0&quot; id=&quot;UART_HEADER&quot;&gt;
     &lt;Attributes dnOrder=&quot;0&quot;&gt;
       &lt;String dnOrder=&quot;0&quot; id=&quot;source&quot;&gt;
-        &lt;Value dnOrder=&quot;0&quot;&gt;../peripheral/uart_00734/templates/plib_uart_ring_buffer.h.ftl&lt;/Value&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;../peripheral/uart_00734/templates/plib_uart.h.ftl&lt;/Value&gt;
       &lt;/String&gt;
     &lt;/Attributes&gt;
   &lt;/uart1&gt;
@@ -14541,11 +14628,12 @@
   &lt;uart1 dnOrder=&quot;0&quot; id=&quot;UART_OPERATING_MODE&quot;&gt;
     &lt;Attributes dnOrder=&quot;0&quot;&gt;
       &lt;Boolean dnOrder=&quot;0&quot; id=&quot;readOnly&quot;&gt;
-        &lt;Value dnOrder=&quot;0&quot;&gt;true&lt;/Value&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;false&lt;/Value&gt;
       &lt;/Boolean&gt;
     &lt;/Attributes&gt;
     &lt;Values dnOrder=&quot;1&quot;&gt;
       &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;uart1&quot; value=&quot;2&quot;/&gt;
+      &lt;User dnOrder=&quot;1&quot; value=&quot;1&quot;/&gt;
     &lt;/Values&gt;
   &lt;/uart1&gt;
 &lt;/uart1&gt;
@@ -14574,7 +14662,7 @@
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;uart1&gt;
   &lt;uart1 dnOrder=&quot;0&quot; id=&quot;UART_RING_BUFFER_MODE_ENABLE&quot;&gt;
     &lt;Values dnOrder=&quot;0&quot;&gt;
-      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;uart1&quot; value=&quot;true&quot;/&gt;
+      &lt;Dynamic dnOrder=&quot;0&quot; id=&quot;uart1&quot; value=&quot;false&quot;/&gt;
     &lt;/Values&gt;
   &lt;/uart1&gt;
 &lt;/uart1&gt;
@@ -14620,7 +14708,7 @@
   &lt;uart1 dnOrder=&quot;0&quot; id=&quot;UART_SOURCE&quot;&gt;
     &lt;Attributes dnOrder=&quot;0&quot;&gt;
       &lt;String dnOrder=&quot;0&quot; id=&quot;source&quot;&gt;
-        &lt;Value dnOrder=&quot;0&quot;&gt;../peripheral/uart_00734/templates/plib_uart_ring_buffer.c.ftl&lt;/Value&gt;
+        &lt;Value dnOrder=&quot;0&quot;&gt;../peripheral/uart_00734/templates/plib_uart.c.ftl&lt;/Value&gt;
       &lt;/String&gt;
     &lt;/Attributes&gt;
   &lt;/uart1&gt;
@@ -15155,7 +15243,20 @@
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="usb_device_cdc_0" name="!@#harmonyAttachmentState"/>
          <value>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;usb_device_cdc_0&gt;
-  &lt;usb_device_cdc_0 dnOrder=&quot;0&quot;/&gt;
+  &lt;usb_device_cdc_0 dnOrder=&quot;0&quot;&gt;
+    &lt;Attachments dnOrder=&quot;0&quot;&gt;
+      &lt;DirectCapability dnOrder=&quot;0&quot; id=&quot;USB Device&quot;&gt;
+        &lt;Attributes dnOrder=&quot;0&quot;&gt;
+          &lt;String dnOrder=&quot;0&quot; id=&quot;targetComponentID&quot;&gt;
+            &lt;Value dnOrder=&quot;0&quot;&gt;sys_console_0&lt;/Value&gt;
+          &lt;/String&gt;
+          &lt;String dnOrder=&quot;1&quot; id=&quot;targetAttachmentID&quot;&gt;
+            &lt;Value dnOrder=&quot;0&quot;&gt;sys_console_USB_DEVICE_CDC_dependency&lt;/Value&gt;
+          &lt;/String&gt;
+        &lt;/Attributes&gt;
+      &lt;/DirectCapability&gt;
+    &lt;/Attachments&gt;
+  &lt;/usb_device_cdc_0&gt;
 &lt;/usb_device_cdc_0&gt;
 </value>
       </entry>
@@ -15295,11 +15396,11 @@
       </entry>
       <entry>
          <file>..\src\config\default\configuration.h</file>
-         <hash>1a62fc2f24f3e2772cd4290c31fd423732b46beb24f56225a96260ae7f811f99</hash>
+         <hash>c8ebad222f643dedacc66b7aa495e172f975caf87ba48cf2a9a0998ac08e329a</hash>
       </entry>
       <entry>
          <file>..\src\config\default\definitions.h</file>
-         <hash>bf510a2014d0f4633b45b500671d8fff6570c3f26fd0e057564e8a63e758b8aa</hash>
+         <hash>21c9f0991b98927773fc94c6060cf355d9a21e9c99f8cba3cdaf848a4bb95dac</hash>
       </entry>
       <entry>
          <file>..\src\config\default\device.h</file>
@@ -15359,51 +15460,51 @@
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\drv_usb.h</file>
-         <hash>dce0fe53973e23d87ee16fec7ef65f171b537ac80e14eaa2ca43962156f1c6e7</hash>
+         <hash>ee59efb38b1cf87e1c4bb6e833a9c9be0c106005daa6c1ccd90fca9fb5c17b44</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\drv_usb_external_dependencies.h</file>
-         <hash>9c425976fc28dee4877b6dc97e3d85c69d99a3bbacf7813ea324948a6c9e8431</hash>
+         <hash>347035feb1b3460c279e58f4210d0e22e5d1505ec60a69f78375ac81db5e95e8</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\drv_usbhs.h</file>
-         <hash>ea20385860f87e0230dfa8cd817e0a75d5b8dcf45ed2f7252afdc0b4efbd4b33</hash>
+         <hash>2906c429e4e541636c5aca82255dae7749aa6183e34607ea250b9ba47fe7c7af</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\drv_usbhs.c</file>
-         <hash>f5147fc7770ea0dec2aae746c8b2dcd186a6f932315fe05b6a6aa54d9f7ba9c7</hash>
+         <hash>bdf270cdca30dc6a62c526ad68dba89bf7fbc6d5299a354bfe994c8785141ca5</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\drv_usbhs_device.c</file>
-         <hash>faa2890234533643224a975bb2683abced0e44764bee26cdd1a8215e06469a7c</hash>
+         <hash>be31c4f5085392596fb2fd31cbe64b48f1c7ec5c29ab58b9da7f3ee3b56f50c8</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\drv_usbhs_local.h</file>
-         <hash>5c885a480c066676c67358712baa36212fcc8ac458dc96f63393bec79262b99f</hash>
+         <hash>916c65ef94b6274edca945e1ad3b6d3bb5cecc4b21f46f46bc7588f7c5e1a8a8</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\drv_usbhs_variant_mapping.h</file>
-         <hash>f98f282a75aebe13394779dd861129c5830103a7f78c17dd00d1e812838710a1</hash>
+         <hash>978bb7258d638ada80aed2954412c1eb03ff6d6ea1aa74ba3dbb7c440d0c868c</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\plib_usbhs.h</file>
-         <hash>b61043760e34adffa2eba2f8cf7d55b6eef4587e8bf3d9878576e8fa6ed20cd5</hash>
+         <hash>7de72f32d75c943e3dc9b8ec2c5d4d849d5cdd3a60fb652be2772a4fa297e181</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\plib_usbhs_header.h</file>
-         <hash>e9bc8ecabb0efeaea9b79b6d5346282f0c8a4f2ccbc38ea565f65e7535480e11</hash>
+         <hash>a2c09cc89364f9aec37915b7d91af0cff3aa16aa93930851be7a8914e84f5582</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_ClockResetControl_Default.h</file>
-         <hash>1aa938d7a36abd3bea5a5e4a0ded3456873a1e623859f020a2f23390f37c2caa</hash>
+         <hash>fdb755cd7d8659fe511ca8a1d92dcd639c7ffc19340657b028b6d8266d0bc3c5</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_ClockResetControl_Unsupported.h</file>
-         <hash>934a802cf8025b76b4584c8ca1b81f8e71875eca0ecb26dba750211b3131e142</hash>
+         <hash>f831cd8453bbe95a0963c201a8da4fe9415c6bd759ec6d4b587089e6b69e6438</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_EP0Status_Default.h</file>
-         <hash>d241b498c81d46baa28adcb11732c5981bd3b390d7370029ecbf23d78126dcb1</hash>
+         <hash>509aab9c53a1764a14d4e2a8470d0fdbd1666ddcd4893b1ef25fb1f8e592cd56</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_EP0Status_Unsupported.h</file>
@@ -15411,7 +15512,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_EndpointFIFO_Default.h</file>
-         <hash>59c25e4cffa3b6b573f234f1a9f92a09115b002128b0d0e2d134597e41d84777</hash>
+         <hash>a7ced8a6a2fa7cfcf5655bcecb7f5122678f5db5acc636a887b0ea678dc82d72</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_EndpointFIFO_Unsupported.h</file>
@@ -15419,7 +15520,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_EndpointOperations_Default.h</file>
-         <hash>2704733a9b412c30bb61bbaeb8da8ba32c9a8be442135a5d35076bce1be71958</hash>
+         <hash>dfe224ff24bdb928851b5892580e9eb30d0d2d4f0ea3a553c20f558c2eddf3e8</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_EndpointOperations_Unsupported.h</file>
@@ -15427,7 +15528,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_HighSpeedSupport_Default.h</file>
-         <hash>4d9f663b50559aa8afc0414516038afeabb3e3fa442680b2a7cc7b818d178411</hash>
+         <hash>1484421abdf6c9c63bbbe10c6638c570cf9c540956667aebc69cc9f2b0eeb94f</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_HighSpeedSupport_Unsupported.h</file>
@@ -15435,7 +15536,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_Interrupts_Default.h</file>
-         <hash>0e3b55388e580e84e626fb3ca758ab5b0c8c311a75e42bde1299ee20ba9354e0</hash>
+         <hash>9c3740f018477896165399bf4a52f8e75c25b6cc16c82b63eb3684906f57b47a</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_Interrupts_Unsupported.h</file>
@@ -15443,7 +15544,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_ModuleControl_Default.h</file>
-         <hash>3d208254b9f7c372cb8f03c87c16247ad49b5dbc7d936404b0b45348f9d5f0b9</hash>
+         <hash>a776868766a386a7735ab72c17ed185bbe8345a1654224099ac43716c97e7a09</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_ModuleControl_Unsupported.h</file>
@@ -15451,7 +15552,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_RxEPStatus_Default.h</file>
-         <hash>1b26b72504bfabb293102e7aba78b26e903f9fcbccf51ba93edfa5400281733c</hash>
+         <hash>bfeefb28fa5d571b8f441396d5d3389551cae9f25730d8fd0f0dcb1447b59dd1</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_RxEPStatus_Unsupported.h</file>
@@ -15459,7 +15560,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_SoftReset_Default.h</file>
-         <hash>5e1baf9fa7277957bf05bbbd96dfa44c983aeaf2ca25dc581e477c0f21d6b4ee</hash>
+         <hash>41629735b751c4da7215d78f1880ec16006ffb1d9d08cfaee8699912a950fd3b</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_SoftReset_Unsupported.h</file>
@@ -15467,7 +15568,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_TxEPStatus_Default.h</file>
-         <hash>bd9510257a05e11b643ef86410402e5c320922ef719e5bc278593cd52fd0db99</hash>
+         <hash>2a6ae2ca489b97607e357ee2dccb350e7ca61e9822aa86af0b1e8cdb10bf69ad</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_TxEPStatus_Unsupported.h</file>
@@ -15475,7 +15576,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_USBIDControl_Default.h</file>
-         <hash>e18a2f4f80fa2d0e0143071983ed16c291d7644fc8a2edbbe7c1bf624b5ab7c9</hash>
+         <hash>e47f163ea0424fa5b0c63218b87710718f666010a60a8eeec37a734c9ac16401</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_USBIDControl_Unsupported.h</file>
@@ -15483,7 +15584,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\templates\usbhs_registers.h</file>
-         <hash>dca21eb5e97077812a59dd32044166135e5ff40152c9532b77ea7227ba31d988</hash>
+         <hash>92152a207d36207062a056c22c112a9656fc2df21461f3c41fdb9afe8ba91347</hash>
       </entry>
       <entry>
          <file>..\src\config\default\driver\usb\usbhs\src\usbhs_registers.h</file>
@@ -15503,7 +15604,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\initialization.c</file>
-         <hash>6997115c0be6196fa10af888dcf0067b8be024f66715e89459153abd50e949fc</hash>
+         <hash>100d05b444c3d13e6c7a470d8e0645f54728056dbfb59680be836e9ccfb8500a</hash>
       </entry>
       <entry>
          <file>..\src\config\default\interrupts.c</file>
@@ -15703,11 +15804,11 @@
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\uart\plib_uart1.c</file>
-         <hash>4456c83955833a81c26625435d51409917d70ea99878d92c213f79963f51f6ae</hash>
+         <hash>ef5b1319e8e69eb1660de5d7c07f1f96884a41392eae13f8b49632eae29ad0d6</hash>
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\uart\plib_uart1.h</file>
-         <hash>f6725b015f87425815e91b2b86b6a5baedef19d163f51616fabe72a43da79aad</hash>
+         <hash>1bc1519ec203acf53853b525b6a79d8e2f6690af0deeee51c1ae969f8cc6d911</hash>
       </entry>
       <entry>
          <file>..\src\config\default\peripheral\uart\plib_uart_common.h</file>
@@ -15746,20 +15847,20 @@
          <hash>024a0b50ea2fea72b964b8209fb256b5df6693badd320485821e7912c5eebb25</hash>
       </entry>
       <entry>
-         <file>..\src\config\default\system\console\src\sys_console_uart.c</file>
-         <hash>ff3d1854f469e4fc41d96adce6f7ec38afad5d1b076c295eb4777936777673d0</hash>
+         <file>..\src\config\default\system\console\src\sys_console_usb_cdc.c</file>
+         <hash>a841978f6234c7fc7e5c0fa8dd03425ef103a75bf44371c6c0cea81c3b2afc4b</hash>
       </entry>
       <entry>
-         <file>..\src\config\default\system\console\src\sys_console_uart.h</file>
-         <hash>690c74d55c9204f3e3d621635257df1de1c89f097671a678c359f5e24461589a</hash>
+         <file>..\src\config\default\system\console\src\sys_console_usb_cdc.h</file>
+         <hash>a8af18238daf32c58e7ec78adf255e18e9ac62f9d959120e1c600f2c3f1216f0</hash>
       </entry>
       <entry>
-         <file>..\src\config\default\system\console\src\sys_console_uart_definitions.h</file>
-         <hash>bf403c11673266a5a861fd99253c377030c1a7f9e912eef446101e416b4f8c9a</hash>
+         <file>..\src\config\default\system\console\src\sys_console_usb_cdc_definitions.h</file>
+         <hash>5e457fc9eecf5825b04d2c2ff3ab8b8cc1ae52231b8856a2213b8b9762673bf9</hash>
       </entry>
       <entry>
          <file>..\src\config\default\system\console\sys_console.h</file>
-         <hash>cc82ba93f8d69bf31a9dfcfe1e425de3924bcf9e4e4b31f7efad9c2d062dcbf6</hash>
+         <hash>359158d1b9c3d3c6ff27965f2d49ff84c2835a4cb248fa82686a1a01bbc06670</hash>
       </entry>
       <entry>
          <file>..\src\config\default\system\debug\src\sys_debug.c</file>
@@ -15891,7 +15992,7 @@
       </entry>
       <entry>
          <file>..\src\config\default\tasks.c</file>
-         <hash>4eb46569869deea93469cb5c8b5a3f98fa15895309986755f25ef9021b9e6017</hash>
+         <hash>2a1fb9549af4a36ae595a81370d3802b3958e81b4e8bd19133948d0ddab81e21</hash>
       </entry>
       <entry>
          <file>..\src\config\default\toolchain_specifics.h</file>
@@ -15899,75 +16000,75 @@
       </entry>
       <entry>
          <file>..\src\config\default\usb\src\usb_device.c</file>
-         <hash>e2299e7132aaf91acd6857a827520f8bd5ecdc40d8ba2e6c4018b8441064a6cb</hash>
+         <hash>14543b5fdeb97f5cbf15e9f4c58c237795d97bd5d60e7a6109f2af85cc550d1b</hash>
       </entry>
       <entry>
          <file>..\src\config\default\usb\src\usb_device_cdc.c</file>
-         <hash>8d2bbe72cbdac846fe67f991978595ae014683d8bdbf9880d0d8a8994fea05c2</hash>
+         <hash>a78a4b87ca84d6c608567815a30da424b34610701aef90d26dc1ebaa8b1c8185</hash>
       </entry>
       <entry>
          <file>..\src\config\default\usb\src\usb_device_cdc_acm.c</file>
-         <hash>76af018a4cba362f2b85062c78e33fdd26afb0e5fa7243a8ede98a7c13645d63</hash>
+         <hash>5dc1329306d46c91fbcfb2876f274e10346a2cbcf6b2352cbe2dff7f9759463c</hash>
       </entry>
       <entry>
          <file>..\src\config\default\usb\src\usb_device_cdc_local.h</file>
-         <hash>037e4e110e0620e39d144ec4b348481c7460a9dc44a6170c95a25e41c2c936bb</hash>
+         <hash>b064eea84ddac7d6fc20c711ef1059da0de3e4a1e02d420d555deca4a44b1c6b</hash>
       </entry>
       <entry>
          <file>..\src\config\default\usb\src\usb_device_function_driver.h</file>
-         <hash>5d7b7287898c95485fbfc37840b9bb3e6ace46ef7333413493137d0e40e50bec</hash>
+         <hash>4c01cbdadca6973294d599811f0e06f51b4e6980fac4de25ccafd2742f6a5dd2</hash>
       </entry>
       <entry>
          <file>..\src\config\default\usb\src\usb_device_local.h</file>
-         <hash>3dc9e27b535edb31aa97aae04a0ce9ac12e5092ed3bae7ef6fd203bc1520ef33</hash>
+         <hash>ebaab2a0356b25ac168e71f5ca84b8a0854a40de6efa8267d04aee1ca878a85e</hash>
       </entry>
       <entry>
          <file>..\src\config\default\usb\src\usb_device_mapping.h</file>
-         <hash>3a5eee6b064c49fd7a495f574736eaec5838e63f7de457ff688d70aa80432ce6</hash>
+         <hash>c73881cf22375ff35c1290a2e40055cb8e1d955610d11c904914ff347d5b753d</hash>
       </entry>
       <entry>
          <file>..\src\config\default\usb\src\usb_external_dependencies.h</file>
-         <hash>5110f718908d8f79253ce5b4b44172288cc179ff61d18e387f9e90ae9afbb1b6</hash>
+         <hash>b12fd8f239e37735d34cbd777cd98b448b9ad8bc4fde516bf6ca8a5c1120163f</hash>
       </entry>
       <entry>
          <file>..\src\config\default\usb\usb_cdc.h</file>
-         <hash>8d8e17f16340e1400d60e6552273d11b5ea1ede1d80faf220d6a4dacc5b41634</hash>
+         <hash>7156ab509a99e1532639ce0826dd8cde6c77581bbe07951e71ec17428deca6c3</hash>
       </entry>
       <entry>
          <file>..\src\config\default\usb\usb_chapter_9.h</file>
-         <hash>86a258d763c7f0f563122ccd4ec0bbef422fd4e2f523402bb89be10568cecf3f</hash>
+         <hash>3d61e683d79bb62694e1133023063da31853e924dd3a2f27abda159876cd6b9e</hash>
       </entry>
       <entry>
          <file>..\src\config\default\usb\usb_common.h</file>
-         <hash>fc9f44df7ab465084d1522901685e5bfad10548e44563a7460d7e089e6276ded</hash>
+         <hash>62970f187809ea73ea9bc418b9101ccc0ab77a47cb11149c778e06a49a83bb51</hash>
       </entry>
       <entry>
          <file>..\src\config\default\usb\usb_device.h</file>
-         <hash>06a4f4c06b4b32ab90474b522ddbfc4922fbad93ccf6975240148f1ce4b71b46</hash>
+         <hash>44c976f44c00f873133cd722cdd9565a87f5db68fa7d867ca9d1f717949aa81e</hash>
       </entry>
       <entry>
          <file>..\src\config\default\usb\usb_device_cdc.h</file>
-         <hash>3348d3b5fafae4f7a5213f7e81b21ec30584eedaecc374349727faff40f68650</hash>
+         <hash>cd7f2dee131b1ef8d3cd4bc65094c9e06668ecc6329af8bc26f3cc5844c5ce0b</hash>
       </entry>
       <entry>
          <file>..\src\config\default\usb\usb_host.h</file>
-         <hash>4ec16dee42ae6b1bad8a7199b44750ccf0c5fa3aee5e44766e7b6dffc9979e83</hash>
+         <hash>56c248da571d1a46c5d6b5b34e28a978b30b40ee1fb04fa4f2efdcb8a5a1039b</hash>
       </entry>
       <entry>
          <file>..\src\config\default\usb\usb_host_client_driver.h</file>
-         <hash>999717236876c88cfbb582f50c8b6429396a0e6696aba8a74556c25862070e8d</hash>
+         <hash>274e72a8e34ccc3012d2bb4a100cec9d54ffd296091b35c0f7ec45b528cb34ac</hash>
       </entry>
       <entry>
          <file>..\src\config\default\usb\usb_host_hub_interface.h</file>
-         <hash>9db9028cdb085f4ed90d06c8d0013e5b9d300be9b49f0933094c373552193645</hash>
+         <hash>bcd95afaa026ab8559047e85ac157597452ab0ceee4e96612e5273ec324f1ef9</hash>
       </entry>
       <entry>
          <file>..\src\config\default\usb\usb_hub.h</file>
-         <hash>f07eb653a11355424adb96ff0fec6796f6b95c8924ac93fb9207f888d130bc7d</hash>
+         <hash>66a9362619640002d6c8fe6335e044dd7c9cd4fe834d1b2487aa172a08af644b</hash>
       </entry>
       <entry>
          <file>..\src\config\default\usb_device_init_data.c</file>
-         <hash>7b821024b054b0e9dfee713ad09779d5e293a4a5f07b51a3678774afb3356d2b</hash>
+         <hash>125e86211326217d004dbe67239052ee31036a5f7a2e0b935c41372a15dfb415</hash>
       </entry>
       <entry>
          <file>..\src\config\default\user.h</file>
